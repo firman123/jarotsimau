@@ -3,6 +3,7 @@
 <?php
 $mode = $this->uri->segment(3);
 
+
 if ($mode == "edt" || $mode == "act_edt") {
     $act = "act_edt";
     $no_uji = $datpil['no_uji'];
@@ -11,7 +12,10 @@ if ($mode == "edt" || $mode == "act_edt") {
     $alamat = $datpil['alamat'];
     $no_mesin = $datpil['no_mesin'];
     $no_chasis = $datpil['no_chasis'];
-    $jenis = $datpil['sifat'];
+    $sifat = $datpil['sifat'];
+    $value_jenis = $datpil['jenis_angkutan'];
+    $value_trayek = $datpil['id_trayek'];
+    $perusahaan = $datpil['id_perusahaan'];
 } else {
     $act = "act_add";
     $no_uji = $kode;
@@ -20,13 +24,16 @@ if ($mode == "edt" || $mode == "act_edt") {
     $alamat = "";
     $no_mesin = "";
     $no_chasis = "";
-    $jenis = "";
+    $sifat = "";
+    $value_jenis = "";
+    $value_trayek = "";
+    $perusahaan = "";
 }
 ?>
 <div class="navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header">
-            <span class="navbar-brand" href="#">Input Kendaraan</span>
+            <span class="navbar-brand" href="#">Data Kendaraan</span>
         </div>
     </div><!-- /.container -->
 </div><!-- /.navbar -->
@@ -61,17 +68,51 @@ if ($mode == "edt" || $mode == "act_edt") {
                             <select name="sifat" class="form-control" required>
                                 <option></option>
                                 //<?php
-                                foreach ($data_jenis as $value) {
+                                foreach ($data_sifat as $value) {
                                     ?>
-                                    <option value="<?php echo $value; ?>" <?php if ($value == $jenis) { ?> selected="selected" <?php } ?>><?php echo $value; ?></option>
-                                    <!--echo '<option value='.$value.' if('.$value.'=='.$jenis_select.'){selected="selected">}'.$value.'</option>';-->
+                                    <option value="<?php echo $value; ?>" <?php if ($value == $sifat) { ?> selected="selected" <?php } ?>><?php echo $value; ?></option>
+                                    <!--echo '<option value='.$value.' if('.$value.'=='.$sifat_select.'){selected="selected">}'.$value.'</option>';-->
                                     <?php
                                 }
 //                                
                                 ?>
-                                <!--                                <option value="Umum">Umum</option>
-                                                                <option value="Tidak Umum">Tidak Umum</option>
-                                                                <option value="Coba Jalan">Coba Jalan</option>-->
+                            </select>
+                        </b></td></tr>
+             
+                <tr><td>Jenis Angkutan</td><td><b>
+                         
+                            <select name="jenis_angkutan" class="form-control" required>
+                                <option></option>
+                                <?php
+                           
+                                  foreach ($jenis_kendaraan as $value) {
+                                    ?>
+                                <option value="<?php echo trim($value); ?>" <?php if (trim($value) == trim($value_jenis)) { ?> selected="selected" <?php } ?>><?php echo $value; ?></option>
+                                    <!--echo '<option value='.$value.' if('.$value.'=='.$sifat_select.'){selected="selected">}'.$value.'</option>';-->
+                                    <?php
+                                }           
+                                ?>
+                            </select>
+                        </b></td></tr>
+                
+                <tr><td>Perusahaan</td><td><b>                                
+                            <input type="text" placeholder="Nama Perusahaan" name="perusahaan" id="perusahaan" class="form-control" required value="<?php echo $perusahaan;?>"/>
+
+                        </b></td></tr>
+                
+                <tr><td>Trayek</td><td><b>                                
+                            <select name="trayek" class="form-control" required>
+                                <option></option>
+                                <?php
+                                
+                                                                print_r(trayek);
+                                foreach ($trayek as $value) {
+                                    ?>
+                                    <option value="<?php echo $value['id_trayek']; ?>" <?php if ($value['id_trayek'] == $value_trayek) { ?> selected="selected" <?php } ?>><?php echo $value['lintasan_trayek']; ?></option>
+                                    <!--echo '<option value='.$value.' if('.$value.'=='.$jenis_select.'){selected="selected">}'.$value.'</option>';-->
+                                    <?php
+                                }           
+                                ?>
                             </select>
                         </b></td></tr>
             </table>	
