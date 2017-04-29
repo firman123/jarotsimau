@@ -41,6 +41,19 @@ class M_trayek extends CI_Model{
             return array();
         }
     }
+    
+    
+     public function get_trayek_lintasan($params) {
+        $sql = "SELECT * FROM tbl_trayek where kd_trayek LIKE '%$params%'";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $result = $query->result_array();
+            $query->free_result();
+            return $result;
+        } else {
+            return array();
+        }
+    }
 
 
     // insert

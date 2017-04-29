@@ -13,8 +13,8 @@
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right">
-				<form class="navbar-form navbar-left" method="post" action="<?php base_URL()?>admin/perusahaan/cari">
-					<input type="text" class="form-control" name="q" style="width: 200px" placeholder="Kata kunci pencarian ..." required>
+				<form class="navbar-form navbar-left" method="post" action="<?php echo base_URL();?>index.php/master_data/perusahaan/cari">
+					<input type="text" class="form-control" name="q" style="width: 200px" placeholder="Nama Perusahaan ..." required>
 					<button type="submit" class="btn btn-danger"><i class="icon-search icon-white"> </i> Cari</button>
 				</form>
 			</ul>
@@ -63,7 +63,7 @@
 
 		?>
 		
-			<tr>
+            <tr style="background-color: #fff;">
 			<td><center><?php echo $no; ?></center></td>
 			<td><?php echo $b->nama_perusahaan;"<br><i>"."</i>"; ?></td>
 			<td><?php echo $b->alamat_perusahaan;?></td>

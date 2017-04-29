@@ -55,7 +55,7 @@ if ($mode == "edt" || $mode == "act_edt") {
 
                             <tr><td colspan="2">
                                     <br><button type="submit" class="btn btn-success">Simpan</button>
-                                    <a href="<?php echo base_URL(); ?>admin/surat_masuk" class="btn btn-primary">Kembali</a>
+                                    <a href="<?php echo base_URL(); ?>index.php/master_data/kendaraan" class="btn btn-primary">Kembali</a>
                                 </td></tr>
             </table>
         </div>

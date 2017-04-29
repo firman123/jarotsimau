@@ -13,8 +13,8 @@
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
-                            <form class="navbar-form navbar-left" method="post" action="<?php base_URL() ?>admin/trayek/cari">
-                                <input type="text" class="form-control" name="q" style="width: 200px" placeholder="Kata kunci pencarian ..." required>
+                            <form class="navbar-form navbar-left" method="post" action="<?php echo base_URL(); ?>index.php/master_data/trayek/cari">
+                                <input type="text" class="form-control" name="q" style="width: 200px" placeholder="Lintasan trayek ..." required>
                                 <button type="submit" class="btn btn-danger"><i class="icon-search icon-white"> </i> Cari</button>
                             </form>
                         </ul>
@@ -46,7 +46,7 @@
                 foreach ($data as $b) {
                     ?>
 
-                    <tr>
+                   <tr style="background-color: #fff;">
                         <td><center><?php echo $no; ?></center></td>
                 <td><?php echo $b->kd_trayek; ?></td>
                 <td><?php echo $b->lintasan_trayek; ?></td>

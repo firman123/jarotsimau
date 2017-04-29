@@ -65,11 +65,11 @@ class master_data extends CI_Controller {
         $cari = addslashes($this->input->post('q'));
 
         if ($mau_ke == "del") {
-            $this->db->query("DELETE FROM t_surat_masuk WHERE id = '$idu'");
+            $this->db->query("DELETE FROM tbl_kendaraan WHERE no_uji = '$idu'");
             $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been deleted </div>");
             redirect('admin/kendaraan/surat_masuk');
         } else if ($mau_ke == "cari") {
-            $a['data'] = $this->db->query("SELECT * FROM t_surat_masuk WHERE isi_ringkas LIKE '%$cari%' ORDER BY id DESC")->result();
+            $a['data'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE nama_pemilik LIKE '%$cari%'")->result();
             $a['page'] = "kendaraan/list";
         } else if ($mau_ke == "add") {
             $a['kode'] = $this->m_kendaraan->buat_kode();
@@ -101,14 +101,6 @@ class master_data extends CI_Controller {
             } else {
                 $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Data failed to update. </div>");
             }
-//            if ($this->upload->do_upload('file_surat')) {
-//                $up_data = $this->upload->data();
-//
-//                $this->db->query("UPDATE t_surat_masuk SET kode = '$kode', no_agenda = '$no_agenda', indek_berkas = '$indek_berkas', isi_ringkas = '$uraian', dari = '$dari', no_surat = '$no_surat', tgl_surat = '$tgl_surat', keterangan = '$ket', file = '" . $up_data['file_name'] . "' WHERE id = '$idp'");
-//            } else {
-//                $this->db->query("UPDATE t_surat_masuk SET kode = '$kode', no_agenda = '$no_agenda', indek_berkas = '$indek_berkas', isi_ringkas = '$uraian', dari = '$dari', no_surat = '$no_surat', tgl_surat = '$tgl_surat', keterangan = '$ket' WHERE id = '$idp'");
-//            }
-//            $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been updated. " . $this->upload->display_errors() . "</div>");
             redirect('master_data/kendaraan');
         } else {
             $a['data'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji LIKE 'SIMAU%' LIMIT $akhir OFFSET $awal ")->result();
@@ -159,13 +151,12 @@ class master_data extends CI_Controller {
             redirect('master_data/perusahaan');
         } else if ($mau_ke == "cari") {
             $a['data'] = $this->db->query("SELECT * FROM tbl_perusahaan WHERE nama_perusahaan LIKE '%$cari%' ORDER BY id DESC")->result();
-            $a['page'] = "admin/perusahaan/list";
+            $a['page'] = "perusahaan/list";
         } else if ($mau_ke == "add") {
             $a['page'] = "perusahaan/input";
         } else if ($mau_ke == "edt") {
             $a['datpil'] = $this->m_perusahaan->get_detail_perusahaan_by_id($idu);
             $a['page'] = "perusahaan/input";
-//            $a['datpil'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji = '$idu'")->row();
         } else if ($mau_ke == "act_add") {
             $save_data = $this->m_perusahaan->insert($data);
             if ($save_data) {
@@ -173,30 +164,18 @@ class master_data extends CI_Controller {
             } else {
                 $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Data failed. </div>");
             }
-
-
             redirect('master_data/perusahaan');
         } else if ($mau_ke == "act_edt") {
-
             if ($this->m_perusahaan->update($data, $this->input->post('id'))) {
                 $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been updated. </div>");
             } else {
                 $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Data failed to update. </div>");
             }
-//            if ($this->upload->do_upload('file_surat')) {
-//                $up_data = $this->upload->data();
-//
-//                $this->db->query("UPDATE t_surat_masuk SET kode = '$kode', no_agenda = '$no_agenda', indek_berkas = '$indek_berkas', isi_ringkas = '$uraian', dari = '$dari', no_surat = '$no_surat', tgl_surat = '$tgl_surat', keterangan = '$ket', file = '" . $up_data['file_name'] . "' WHERE id = '$idp'");
-//            } else {
-//                $this->db->query("UPDATE t_surat_masuk SET kode = '$kode', no_agenda = '$no_agenda', indek_berkas = '$indek_berkas', isi_ringkas = '$uraian', dari = '$dari', no_surat = '$no_surat', tgl_surat = '$tgl_surat', keterangan = '$ket' WHERE id = '$idp'");
-//            }
-//            $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been updated. " . $this->upload->display_errors() . "</div>");
             redirect('master_data/perusahaan');
         } else {
             $a['data'] = $this->db->query("SELECT * FROM tbl_perusahaan ORDER BY id DESC LIMIT $akhir OFFSET $awal ")->result();
             $a['page'] = "perusahaan/list";
         }
-
         $this->load->view('admin/dashboard', $a);
     }
 
@@ -236,7 +215,7 @@ class master_data extends CI_Controller {
             redirect('master_data/trayek');
         } else if ($mau_ke == "cari") {
             $a['data'] = $this->db->query("SELECT * FROM tbl_trayek WHERE lintasan_trayek LIKE '%$cari%' ORDER BY id_trayek DESC")->result();
-            $a['page'] = "admin/trayek/list";
+            $a['page'] = "trayek/list";
         } else if ($mau_ke == "add") {
             $a['page'] = "trayek/input";
         } else if ($mau_ke == "edt") {
@@ -273,9 +252,14 @@ class master_data extends CI_Controller {
         $nama_perusahaan = $this->input->post('perusahaan');
 
         $data = $this->m_perusahaan->getPerusahaanByName($nama_perusahaan);
+        
+      
+        
         $hasil_data = array();
 
+        
         foreach ($data as $d) {
+           
             $json_array = array();
             $json_array['value'] = $d['id'];
             $json_array['label'] = $d['nama_perusahaan'] . " - " . $d['nama_pimpinan'];

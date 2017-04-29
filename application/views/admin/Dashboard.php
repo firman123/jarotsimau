@@ -4,11 +4,7 @@
     <head>
         <title>SIMAU BALIKPAPAN</title>
         <link rel="stylesheet" href="<?php echo base_url(); ?>aset/css/bootstrap.css" media="screen">
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-          <script src="../bower_components/bootstrap/assets/js/html5shiv.js"></script>
-          <script src="../bower_components/bootstrap/assets/js/respond.min.js"></script>
-        <![endif]-->
+
         <link rel="stylesheet" href="<?php echo base_url(); ?>aset/js/jquery/jquery-ui.css" />
 
         <script src="<?php echo base_url(); ?>aset/js/jquery.min.js"></script>
@@ -23,7 +19,7 @@
                         source: function(request, response) {
                             $.ajax({
                                 url: "<?php echo site_url('master_data/get_perusahaan'); ?>",
-                                data: {nama_perusahaan: $("#perusahaan").val()},
+                                data: {nama_perusahaan: $("#perusahaan").val()}, //nama_object bebass
                                 dataType: "json",
                                 type: "POST",
                                 success: function(data) {
@@ -35,17 +31,60 @@
                 });
 
                 $(function() {
-                    $("#tgl_surat").datepicker({
+                    $("#kendaraan").autocomplete({
+                        source: function(request, response) {
+                            $.ajax({
+                                url: "<?php echo site_url('ijin_trayek_operasi/cari_kendaraan'); ?>",
+                                data: {no_chasis: $("#kendaraan").val()}, //parameter yang dikirim
+                                dataType: "json",
+                                type: "POST",
+                                success: function(data) {
+                                    response(data);
+                                }
+                            });
+                        },
+                    });
+                });
+
+                $(function() {
+                    $("#trayek").autocomplete({
+                        source: function(request, response) {
+                            $.ajax({
+                                url: "<?php echo site_url('ijin_trayek_operasi/cari_trayek'); ?>",
+                                data: {kd_trayek: $("#trayek").val()}, //parameter yang dikirim ke url
+                                dataType: "json",
+                                type: "POST",
+                                success: function(data) {
+                                    response(data);
+                                }
+                            });
+                        },
+                    });
+                });
+
+
+                $(function() {
+                    $("#tanggal_berlaku").datepicker({
                         changeMonth: true,
                         changeYear: true,
                         dateFormat: 'yy-mm-dd'
                     });
                 });
+
+                $(function() {
+                    $("#tanggal_berakhir").datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: 'yy-mm-dd'
+                    });
+                });
+
+
             });
             // ]]>
         </script>
 
-       
+
     </head>
 
     <body style="">
@@ -69,9 +108,25 @@
                                 <li><a tabindex="-1" href="<?php echo site_url('master_data/kendaraan') ?>">Kendaraan</a></li>
                                 <li><a tabindex="-1" href="<?php echo site_url('master_data/perusahaan') ?>">Perusahaan</a></li>
                                 <li><a tabindex="-1" href="<?php echo site_url('master_data/trayek') ?>">Trayek</a></li>
+
+                            </ul>
+                        </li> 
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes"><i class="icon-th-list icon-white"> </i>Perizinan<span class="caret"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="themes">
+                                <li><a tabindex="-1" href="<?php echo site_url('ijin_usaha/angkutan_barang') ?>">Angkutan Barang</a></li>
+                                <li><a tabindex="-1" href="<?php echo site_url('ijin_usaha/angkutan_penumpang') ?>">Angkutan Penumpang</a></li>
+                                <li><a tabindex="-1" href="<?php echo site_url('ijin_trayek_operasi/ijin_trayek') ?>">Ijin Trayek</a></li>
                             </ul>
                         </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes"><i class="icon-th-list icon-white"> </i>Verifikasi<span class="caret"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="themes">
+                                <li><a href="<?php echo site_url('ijin_usaha/angkutan_barang') ?>">Ijin Angkutan Barang</a></li>
 
+                                <li><a tabindex="-1" href="<?php echo site_url('ijin_usaha/angkutan_penumpang') ?>">Angkutan Penumpang</a></li>
+                            </ul>
+                        </li>
 
                         <li class="dropdown">
 
