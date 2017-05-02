@@ -57,9 +57,7 @@ class master_data extends CI_Controller {
             "no_chasis" => $this->input->post("no_chasis"),
             "no_mesin" => $this->input->post("no_mesin"),
             "sifat" => $this->input->post("sifat"),
-            "id_perusahaan" => $this->input->post("perusahaan"),
-            "id_trayek" => $this->input->post("trayek"),
-            "jenis_angkutan" => $this->input->post("jenis_angkutan")
+            "id_trayek" => $this->input->post("trayek")
         );
         //ambil variabel Postingan
         $cari = addslashes($this->input->post('q'));
@@ -140,7 +138,9 @@ class master_data extends CI_Controller {
             "nama_pimpinan" => $this->input->post("nama_pimpinan"),
             "alamat" => $this->input->post("alamat"),
             "no_ktp" => $this->input->post("no_ktp"),
-            "no_telpon" => $this->input->post("no_telpon")
+            "no_telpon" => $this->input->post("no_telpon"),
+            "masa_berlaku" => $this->input->post("masa_berlaku"),
+            "jenis" => $this->input->post("jenis")
         );
         //ambil variabel Postingan
         $cari = addslashes($this->input->post('q'));
@@ -153,8 +153,10 @@ class master_data extends CI_Controller {
             $a['data'] = $this->db->query("SELECT * FROM tbl_perusahaan WHERE nama_perusahaan LIKE '%$cari%' ORDER BY id DESC")->result();
             $a['page'] = "perusahaan/list";
         } else if ($mau_ke == "add") {
+            $a['jenis_perusahaan'] = array("Barang", "Penumpang");
             $a['page'] = "perusahaan/input";
         } else if ($mau_ke == "edt") {
+            $a['jenis_perusahaan'] = array("Barang", "Penumpang");
             $a['datpil'] = $this->m_perusahaan->get_detail_perusahaan_by_id($idu);
             $a['page'] = "perusahaan/input";
         } else if ($mau_ke == "act_add") {
@@ -252,14 +254,14 @@ class master_data extends CI_Controller {
         $nama_perusahaan = $this->input->post('perusahaan');
 
         $data = $this->m_perusahaan->getPerusahaanByName($nama_perusahaan);
-        
-      
-        
+
+
+
         $hasil_data = array();
 
-        
+
         foreach ($data as $d) {
-           
+
             $json_array = array();
             $json_array['value'] = $d['id'];
             $json_array['label'] = $d['nama_perusahaan'] . " - " . $d['nama_pimpinan'];

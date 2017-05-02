@@ -11,7 +11,7 @@
  *
  * @author Ihtiyar
  */
-class m_ijin_operasi extends CI_Model {
+class m_kartu_pengawas extends CI_Model {
     //put your code here
     
     public function __construct() {
@@ -70,9 +70,7 @@ class m_ijin_operasi extends CI_Model {
             $kode = 1;
         }
         $kodemax = str_pad($kode, 6, "0", STR_PAD_LEFT);
-        $tahun = date('Y');
-        $subs_tahun = substr($tahun, 2);
-        $kodejadi = "KPIO".$subs_tahun. $kodemax;
+        $kodejadi = "IJOP" . $kodemax;
         return $kodejadi;
     }
 
@@ -102,19 +100,19 @@ class m_ijin_operasi extends CI_Model {
 
     // insert
     public function insert($data_field) {
-        return $this->db->insert('tbl_ijin_operasi', $data_field);
+        return $this->db->insert('tbl_kartu_pengawasan', $data_field);
     }
 
     // update
     public function update($data_field, $id) {
-        $this->db->where("id_ijin_operasi", $id);
-        return $this->db->update('tbl_ijin_operasi', $data_field);
+        $this->db->where("id", $id);
+        return $this->db->update('tbl_kartu_pengawasan', $data_field);
     }
 
     // delete
     public function delete($id) {
-        $this->db->where("id_ijin_operasi", $id);
-        return $this->db->delete('tbl_ijin_operasi');
+        $this->db->where("id", $id);
+        return $this->db->delete('tbl_kartu_pengawasan');
     }
 
 }

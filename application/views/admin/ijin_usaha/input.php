@@ -8,16 +8,15 @@ if ($mode == "edt" || $mode == "act_edt") {
     $act = "act_edt";
     $id_ijin = $datpil['id_ijin'];
     $id_perusahaan = $datpil['id_perusahaan'];
-    $tanggal_berlaku = $datpil['tanggal_berlaku'];
-    $tanggal_berakhir = $datpil['tanggal_berakhir'];
     $verifikasi = $datpil['verifikasi'];
+    $jns = trim($jenis_angkutan);
 } else {
     $act = "act_add";
     $id_ijin = "";
     $id_perusahaan = "";
-    $tanggal_berlaku = "";
-    $tanggal_berakhir = "";
     $verifikasi = 0;
+    
+    $jns = trim($jenis_angkutan);
 }
 ?>
 
@@ -41,10 +40,7 @@ if ($mode == "edt" || $mode == "act_edt") {
 
         <div class="col-lg-6">
             <table  class="table-form">
-            
-                <tr><td width="20%">Id. Perusahaan</td><td><b><input type="text" name="id_perusahaan" placeholder="Ketik Nama Perusahaan" required value="<?php echo $id_perusahaan; ?>" id="perusahaan" style="width: 400px" class="form-control"/></b></td></tr>		
-                <tr><td width="20%">Tanggal Berlaku</td><td><b><input type="text" name="tanggal_berlaku" required value="<?php echo $tanggal_berlaku; ?>" style="width: 300px" class="form-control" id="tanggal_berlaku"/></td></tr>	
-                <tr><td width="20%">Tanggal Berakhir</td><td><b><input type="text" name="tanggal_berakhir" required value="<?php echo $tanggal_berakhir; ?>" style="width: 300px" class="form-control" id="tanggal_berakhir"/></td></tr>	
+                <tr><td width="20%">Id. Perusahaan</td><td><b><input type="text" name="id_perusahaan" placeholder="Ketik Nama Perusahaan" required value="<?php echo $id_perusahaan; ?>" id="<?php echo $jns; ?>" style="width: 400px" class="form-control"/></b></td></tr>		
                 <input type="hidden" name="jenis_angkutan" value="<?php echo $jenis_angkutan; ?>" />
                 <input type="hidden" name="verifikasi" value="<?php echo $verifikasi; ?>" />            
                             

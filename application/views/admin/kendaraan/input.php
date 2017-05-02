@@ -79,26 +79,6 @@ if ($mode == "edt" || $mode == "act_edt") {
                             </select>
                         </b></td></tr>
              
-                <tr><td>Jenis Angkutan</td><td><b>
-                         
-                            <select name="jenis_angkutan" class="form-control" required>
-                                <option></option>
-                                <?php
-                           
-                                  foreach ($jenis_kendaraan as $value) {
-                                    ?>
-                                <option value="<?php echo trim($value); ?>" <?php if (trim($value) == trim($value_jenis)) { ?> selected="selected" <?php } ?>><?php echo $value; ?></option>
-                                    <!--echo '<option value='.$value.' if('.$value.'=='.$sifat_select.'){selected="selected">}'.$value.'</option>';-->
-                                    <?php
-                                }           
-                                ?>
-                            </select>
-                        </b></td></tr>
-                
-                <tr><td>Perusahaan</td><td><b>                                
-                            <input type="text" placeholder="Nama Perusahaan" name="perusahaan" id="perusahaan" class="form-control" required value="<?php echo $perusahaan;?>"/>
-
-                        </b></td></tr>
                 
                 <tr><td>Trayek</td><td><b>                                
                             <select name="trayek" class="form-control" required>

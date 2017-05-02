@@ -5,16 +5,16 @@
             <div class="navbar navbar-inverse">
                 <div class="container">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="#">Ijin Trayek</a>
+                        <a class="navbar-brand" href="#"><?php echo $label; ?></a>
                     </div>
                     <div class="navbar-collapse collapse navbar-inverse-collapse" style="margin-right: -20px">
                         <ul class="nav navbar-nav">
-                            <li><a href="<?php echo site_url("ijin_trayek_operasi/ijin_trayek/add"); ?>" class="btn-info"><i class="icon-plus-sign icon-white"> </i> Tambah Data</a></li>
+                            <li><a href="<?php echo base_URL() ?>index.php/kartu_pengawasan/<?php echo $path; ?>/add" class="btn-info"><i class="icon-plus-sign icon-white"> </i> Tambah Data</a></li>
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
-                            <form class="navbar-form navbar-left" method="post" action="<?php echo base_URL(); ?>index.php/ijin_trayek_operasi/ijin_trayek/cari">
-                                <input type="text" class="form-control" name="q" style="width: 200px" placeholder="Masukan Nomor Kendaraan ..." required>
+                            <form class="navbar-form navbar-left" method="post" action="<?php echo base_URL(); ?>index.php/master_data/kendaraan/cari">
+                                <input type="text" class="form-control" name="q" style="width: 200px" placeholder="Masukan nama pemilik ..." required>
                                 <button type="submit" class="btn btn-danger"><i class="icon-search icon-white"> </i> Cari</button>
                             </form>
                         </ul>
@@ -42,14 +42,13 @@
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
-                <th width="5%">Nomor</th>
-                 <th width="15%">No. KP</th>
-                <th width="15%">No. Kendaraan</th>
-                <th width="20%">Nama Pemilik</th>
-                <th>No. Trayek</th>
-                <th>No. Uji</th>
-                <th>Status Verifikasi</th>
-                <th width="20%"></th>
+                <th width="5%">No</th>
+                <th width="10%">ID KP</th>
+                <th width="10%">ID Kendaraan</th>
+                <th width="15%">Nomor KTP</th>
+                <th width="25%">Nama Pengemudi</th>
+                <th width="15%">Foto</th>
+                <th></th>
             </tr>
         </thead>
 
@@ -64,24 +63,16 @@
 
                     <tr style="background-color: #fff;">
                         <td><center><?php echo $no; ?></center></td>
-                        <td><?php echo $b->id_ijin_trayek; ?></td>
-                        <td><?php echo $b->no_kendaraan; ?></td>
-                        <td><?php echo $b->nama_pemilik; ?></td>
-                        <td><?php echo $b->kd_trayek; ?></td>
-                        <td><?php echo $b->no_uji; ?></td>
-                          <td><?php 
-                                if($b->verifikasi == 0) {
-                                  echo 'Belum Dibaca';  
-                                } else if($b->verifikasi == 1 ) {
-                                    echo 'Disetujui';
-                                } else { 
-                                    echo 'ditolak'; 
-                                    
-                                }?></td>
+                <td><?php echo $b->id_kp;
+            "<br><i>" . "</i>"; ?></td>
+                <td><?php echo $b->id_kendaraan; ?></td>
+                <td><?php echo $b->no_ktp; ?></td>
+                <td><?php echo $b->nama_pengemudi; ?></td>
+                <td><?php echo $b->foto; ?></td>
                 <td class="ctr">
                     <div class="btn-group">
-                        <a href="<?php echo base_URL() ?>index.php/ijin_trayek_operasi/ijin_trayek/edt/<?php echo $b->id_ijin_trayek; ?>" class="btn btn-success btn-sm" title="Edit Data"><i class="icon-edit icon-white"> </i> Edt</a>		
-                        <a href="<?php echo base_URL() ?>index.php/ijin_trayek_operasi/ijin_trayek/del/<?php echo $b->id_ijin_trayek; ?>" class="btn btn-warning btn-sm" title="Hapus Data" onclick="return confirm('Anda Yakin..?')"><i class="icon-trash icon-remove">  </i> Del</a>	
+                        <a href="<?php echo base_URL() ?>index.php/kartu_pengawasan/<?php echo $path; ?>/edt/<?php echo $b->id; ?>" class="btn btn-success btn-sm" title="Edit Data"><i class="icon-edit icon-white"> </i> Edt</a>	                                   
+                        <a href="<?php echo base_URL() ?>index.php/kartu_pengawasan/<?php echo $path; ?>/del/<?php echo $b->id; ?>" class="btn btn-warning btn-sm" title="Hapus Data" onclick="return confirm('Anda Yakin..?')"><i class="icon-trash icon-remove">  </i> Del</a>
                     </div>	
 
                 </td>

@@ -43,7 +43,8 @@
 	<thead>
 		<tr>
 			<th width="5%">No</th>
-			<th width="10%">Nomor Kendaraan</th>
+			<th width="10%">Nomor Uji</th>
+                        <th width="10%">Nomor Kendaraan</th>
 			<th width="10%">Nama Pemilik</th>
 			<th>Alamat</th>
 			<th>Nomor Rangka</th>
@@ -66,7 +67,8 @@
 		
 			<tr style="background-color: #fff;">
 			<td><center><?php echo $no; ?></center></td>
-			<td><?php echo $b->no_uji;"<br><i>"."</i>"; ?></td>
+			<td><?php echo $b->no_uji; ?></td>
+                        <td><?php echo $b->no_kendaraan; ?></td>
 			<td><?php echo $b->nama_pemilik;?></td>
                         <td><?php echo $b->alamat; ?></td>
                         <td><?php echo $b->no_chasis; ?></td>

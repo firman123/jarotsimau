@@ -34,7 +34,8 @@ class ijin_usaha extends CI_Controller {
         $jenis_kendaraan = 'barang';
 
         /* pagination */
-        $total_row = $this->m_ijin_usaha->total_surat_ijin($jenis_kendaraan);
+        $total_row = $this->db->query("select a.*, b.* from tbl_perusahaan a join tbl_ijin_usaha b on a.id = b.id_perusahaan"
+                            . "                     where b.jenis_angkutan = '" . $jenis_kendaraan . "'")->num_rows();
         $per_page = 10;
 
         $awal = $this->uri->segment(4);
@@ -53,8 +54,6 @@ class ijin_usaha extends CI_Controller {
 
         $data = array(
             "id_perusahaan" => $this->input->post("id_perusahaan"),
-            "tanggal_berlaku" => $this->input->post("tanggal_berlaku"),
-            "tanggal_berakhir" => $this->input->post("tanggal_berakhir"),
             "jenis_angkutan" => $this->input->post("jenis_angkutan"),
             "verifikasi" => $this->input->post("verifikasi")
         );
@@ -86,9 +85,7 @@ class ijin_usaha extends CI_Controller {
             $a['page'] = "ijin_usaha/input";
             $a['path'] = "angkutan_barang";
 //            $a['datpil'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji = '$idu'")->row();
-        } else if ($mau_ke == "act_add") {
-            $nomor_surat = $this->m_ijin_usaha->create_nomor_surat_ijin();
-            $data['nomor_surat'] = $nomor_surat + 1;
+        } else if ($mau_ke == "act_add") {         
             $save_data = $this->m_ijin_usaha->insert($data);
             if ($save_data) {
                 $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been added. </div>");
@@ -159,7 +156,9 @@ class ijin_usaha extends CI_Controller {
         $jenis_kendaraan = 'penumpang';
 
         /* pagination */
-        $total_row = $this->m_ijin_usaha->total_surat_ijin($jenis_kendaraan);
+         $total_row = $this->db->query("select a.*, b.* from tbl_perusahaan a join tbl_ijin_usaha b on a.id = b.id_perusahaan"
+                            . "                     where b.jenis_angkutan = '" . $jenis_kendaraan . "'")->num_rows();
+     
         $per_page = 10;
 
         $awal = $this->uri->segment(4);
@@ -178,11 +177,11 @@ class ijin_usaha extends CI_Controller {
 
         $data = array(
             "id_perusahaan" => $this->input->post("id_perusahaan"),
-            "tanggal_berlaku" => $this->input->post("tanggal_berlaku"),
-            "tanggal_berakhir" => $this->input->post("tanggal_berakhir"),
             "jenis_angkutan" => $this->input->post("jenis_angkutan"),
             "verifikasi" => $this->input->post("verifikasi")
         );
+        
+  
         //ambil variabel Postingan
         $cari = addslashes($this->input->post('q'));
 

@@ -59,8 +59,7 @@ class m_ijin_usaha extends CI_Model {
     }
     
     public function get_detail_ijin_usaha_by_kendaraan($params) {
-        $sql = "SELECT a.* FROM tbl_kendaraan a JOIN tbl_perusahaan b ON a.id_perusahaan = b.id"
-                . " JOIN tbl_ijin_usaha c ON b.id = c.id_perusahaan  WHERE a.no_uji = ? AND c.verifikasi = 1 ";
+        $sql = "SELECT * from tbl_ijin_usaha  WHERE id_perusahaan = ? AND c.verifikasi = 1 ";
         $query = $this->db->query($sql, $params);
         if ($query->num_rows() > 0) {
             $result = $query->row_array();

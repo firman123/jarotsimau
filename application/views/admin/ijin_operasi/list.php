@@ -5,16 +5,16 @@
             <div class="navbar navbar-inverse">
                 <div class="container">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="#">Ijin Trayek</a>
+                        <a class="navbar-brand" href="#">Ijin Operasi</a>
                     </div>
                     <div class="navbar-collapse collapse navbar-inverse-collapse" style="margin-right: -20px">
                         <ul class="nav navbar-nav">
-                            <li><a href="<?php echo site_url("ijin_trayek_operasi/ijin_trayek/add"); ?>" class="btn-info"><i class="icon-plus-sign icon-white"> </i> Tambah Data</a></li>
+                            <li><a href="<?php echo site_url("ijin_trayek_operasi/ijin_operasi/add"); ?>" class="btn-info"><i class="icon-plus-sign icon-white"> </i> Tambah Data</a></li>
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
-                            <form class="navbar-form navbar-left" method="post" action="<?php echo base_URL(); ?>index.php/ijin_trayek_operasi/ijin_trayek/cari">
-                                <input type="text" class="form-control" name="q" style="width: 200px" placeholder="Masukan Nomor Kendaraan ..." required>
+                            <form class="navbar-form navbar-left" method="post" action="<?php echo base_URL(); ?>index.php/ijin_trayek_operasi/ijin_operasi/cari">
+                                <input type="text" class="form-control" name="q" style="width: 200px" placeholder="Masukan nama perusahaan ..." required>
                                 <button type="submit" class="btn btn-danger"><i class="icon-search icon-white"> </i> Cari</button>
                             </form>
                         </ul>
@@ -46,7 +46,7 @@
                  <th width="15%">No. KP</th>
                 <th width="15%">No. Kendaraan</th>
                 <th width="20%">Nama Pemilik</th>
-                <th>No. Trayek</th>
+    
                 <th>No. Uji</th>
                 <th>Status Verifikasi</th>
                 <th width="20%"></th>
@@ -64,14 +64,14 @@
 
                     <tr style="background-color: #fff;">
                         <td><center><?php echo $no; ?></center></td>
-                        <td><?php echo $b->id_ijin_trayek; ?></td>
+                        <td><?php echo $b->id_ijin_operasi; ?></td>
                         <td><?php echo $b->no_kendaraan; ?></td>
                         <td><?php echo $b->nama_pemilik; ?></td>
-                        <td><?php echo $b->kd_trayek; ?></td>
+     
                         <td><?php echo $b->no_uji; ?></td>
                           <td><?php 
                                 if($b->verifikasi == 0) {
-                                  echo 'Belum Dibaca';  
+                                  echo 'Pending';  
                                 } else if($b->verifikasi == 1 ) {
                                     echo 'Disetujui';
                                 } else { 
@@ -80,8 +80,8 @@
                                 }?></td>
                 <td class="ctr">
                     <div class="btn-group">
-                        <a href="<?php echo base_URL() ?>index.php/ijin_trayek_operasi/ijin_trayek/edt/<?php echo $b->id_ijin_trayek; ?>" class="btn btn-success btn-sm" title="Edit Data"><i class="icon-edit icon-white"> </i> Edt</a>		
-                        <a href="<?php echo base_URL() ?>index.php/ijin_trayek_operasi/ijin_trayek/del/<?php echo $b->id_ijin_trayek; ?>" class="btn btn-warning btn-sm" title="Hapus Data" onclick="return confirm('Anda Yakin..?')"><i class="icon-trash icon-remove">  </i> Del</a>	
+                        <a href="<?php echo base_URL() ?>index.php/ijin_trayek_operasi/ijin_operasi/edt/<?php echo $b->id_ijin_operasi; ?>" class="btn btn-success btn-sm" title="Edit Data"><i class="icon-edit icon-white"> </i> Edt</a>		
+                        <a href="<?php echo base_URL() ?>index.php/ijin_trayek_operasi/ijin_operasi/del/<?php echo $b->id_ijin_operasi; ?>" class="btn btn-warning btn-sm" title="Hapus Data" onclick="return confirm('Anda Yakin..?')"><i class="icon-trash icon-remove">  </i> Del</a>
                     </div>	
 
                 </td>

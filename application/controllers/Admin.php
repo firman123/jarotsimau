@@ -28,7 +28,7 @@ class Admin extends CI_Controller {
 
         $a['page'] = "home";
 
-        $this->load->view('admin/dashboard', $a);
+        $this->load->view('admin/dashboard_menu', $a);
     }
 
     public function login() {
@@ -60,6 +60,11 @@ class Admin extends CI_Controller {
             $this->session->set_flashdata("message", "<div id=\"alert\" class=\"alert alert-error\">username or password is not valid</div>");
             redirect('admin/login');
         }
+    }
+    
+    public function logout(){
+        $this->session->sess_destroy();
+		redirect('admin/login');
     }
 
 }
