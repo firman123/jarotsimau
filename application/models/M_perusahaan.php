@@ -21,7 +21,7 @@ class M_perusahaan extends CI_Model {
 
     public function get_detail_perusahaan_by_id($params) {
         $sql = "SELECT * FROM tbl_perusahaan WHERE id = ? ";
-        $query = $this->db->query($sql, $params);
+        $query = $this->db->query($sql, trim($params));
         if ($query->num_rows() > 0) {
             $result = $query->row_array();
             $query->free_result();

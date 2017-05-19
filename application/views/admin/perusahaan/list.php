@@ -43,12 +43,13 @@
         <thead>
             <tr>
                 <th width="5%">No</th>
-                <th width="10%">Nama Perusahaan</th>
+                <th>NO. Surat Ijin</th>
+                <th width="15%">Nama Perusahaan</th>
                 <th width="20%">Alamat Perusahaan</th>
 
                 <th>Nama Pimpinan</th>
                 <th>Nomor Telpon</th>
-                <th width="15%">Jenis</th>
+                <th width="10%">Jenis</th>
                 <th width="15%"></th>
             </tr>
         </thead>
@@ -64,6 +65,7 @@
 
                     <tr style="background-color: #fff;">
                         <td><center><?php echo $no; ?></center></td>
+                <td><?php echo $b->no_surat_ijin; ?></td>
                 <td><?php echo $b->nama_perusahaan; ?></td>
                 <td><?php echo $b->alamat_perusahaan; ?></td>
                 <td><?php echo $b->nama_pimpinan; ?></td>

@@ -56,7 +56,6 @@ class Admin extends CI_Controller {
             $this->session->set_userdata($data);
             redirect('admin');
         } else {
-            print_r("dddd");
             $this->session->set_flashdata("message", "<div id=\"alert\" class=\"alert alert-error\">username or password is not valid</div>");
             redirect('admin/login');
         }

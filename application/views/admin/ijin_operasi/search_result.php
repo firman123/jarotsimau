@@ -28,6 +28,11 @@ if ($mode == "edt" || $mode == "act_edt") {
     $kp_operasi = $kode;
 }
 ?>
+
+
+<?php echo $this->session->flashdata("message"); ?>
+
+<?php echo $this->session->flashdata("message_cari"); ?>
 <div class="navbar navbar-inverse" style="position: static;">
     <div class="container">
         <div class="navbar-header">
@@ -37,16 +42,15 @@ if ($mode == "edt" || $mode == "act_edt") {
 </div><!-- /.navbar -->
 
 
-<?php echo $this->session->flashdata("message"); ?>
 
     <div class="row-fluid well" style="overflow: hidden">
 
         <div class="col-lg-12">
             <table  class="table-form">
                 <!--<tr><td width="20%">No. Ijin Operasi</td><td><b>-->
-               <form action="<?php echo site_url("ijin_trayek_operasi/ijin_operasi/cari_nomer_kendaraan"); ?>" method="post" accept-charset="utf-8">
+                <form action="<?php echo site_url("ijin_trayek_operasi/ijin_operasi/cari_nomer_kendaraan"); ?>" method="post" accept-charset="utf-8">
 
-                <tr><td width="20%">No. Uji Kendaraan</td><td><b><input type="text" name="no_kendaraan" required value="<?php echo $id_kendaraan; ?>"  style="width: 300px" class="form-control"></b>
+                <tr><td width="20%">No. Kendaraan</td><td><b><input type="text" name="no_kendaraan" required value="<?php echo $id_kendaraan; ?>"  style="width: 300px" class="form-control" placeholder="contoh  : BK 8640 CG"></b>
                     </td><td><button type=submit class="btn btn-danger" id="search_kendaraan_button"><i class="icon-search icon-white"> </i> Cari</button></td></tr>		
                 </form>
                 <form action="<?php echo site_url("ijin_trayek_operasi/ijin_operasi/" . $act); ?>" method="post" accept-charset="utf-8">
@@ -55,7 +59,8 @@ if ($mode == "edt" || $mode == "act_edt") {
                 <input type="hidden" name="id_ijin_operasi" required value="<?php echo $id_ijin_operasi; ?>" style="width: 200px" class="form-control" readonly>
                 <!--</b></td></tr>-->
 
-                <tr><td width="20%">Id. Kendaraan</td><td><b><input type="text" name="id_kendaraan" required value="<?php echo $id_kendaraan; ?>" id="kendaraan" style="width: 300px" class="form-control" readonly=""></b>
+                <tr><td width="20%">Id. Kendaraan</td><td><b><input type="text" name="id_kendaraan" required value="<?php echo $kendaraan['no_uji']; ?>" id="kendaraan" style="width: 300px" class="form-control" readonly=""></b>
+                        <tr><td width="20%">No. Kendaraan</td><td><b><input type="text" required value="<?php echo $kendaraan['no_kendaraan']; ?>" id="kendaraan" style="width: 300px" class="form-control" readonly=""></b>
                     </td></tr>	
                 <tr><td width="20%">Id. Perusahaan</td><td><b>
                             <select name="id_perusahaan" class="form-control" id="id_perusahaan" required style="width: 40%">

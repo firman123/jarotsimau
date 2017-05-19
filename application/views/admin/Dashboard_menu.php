@@ -298,16 +298,7 @@
                 <div class="tile-container">
                     
                     <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
-                    <a href="<?php echo site_url('ijin_usaha/angkutan_penumpang') ?>" class="tile bg-cyan fg-white" data-role="tile">
-                        <div class="tile-content">
-                            <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 10px;"><h4>Ijin Usaha Angkutan Penumpang</h4></div>
-                        </div>
-                    </a>
-                     <a href="<?php echo site_url('ijin_usaha/angkutan_barang') ?>" class="tile bg-blue fg-white" data-role="tile">
-                        <div class="tile-content">
-                            <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 10px;"><h4>Ijin Usaha Angkutan Barang</h4></div>
-                        </div>
-                    </a>
+                    
                     
                     <a href="<?php echo site_url('ijin_trayek_operasi/ijin_operasi') ?>" class="tile bg-green fg-white" data-role="tile">
                         <div class="tile-content">

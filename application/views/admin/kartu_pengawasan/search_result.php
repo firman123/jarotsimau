@@ -53,7 +53,7 @@ if ($mode == "edt" || $mode == "act_edt") {
     </div><!-- /.container -->
 </div><!-- /.navbar -->
 
- <?php echo $this->session->flashdata("message"); ?>
+ <?php echo $this->session->flashdata("message_cari"); ?>
 
     <input type="hidden" name="id" value="<?php echo $id; ?>">
 
@@ -62,24 +62,24 @@ if ($mode == "edt" || $mode == "act_edt") {
 
         <div class="col-lg-6">
             <table  class="table-form">
-                 <form action="<?php echo site_url("kartu_pengawasan/".$path."/cari_nomer_kendaraan"); ?>" method="post" accept-charset="utf-8">
+                 <form action="<?php echo site_url("kartu_pengawasan/trayek/cari_nomer_kendaraan"); ?>" method="post" accept-charset="utf-8">
 
-                <tr><td width="20%">No. Kendaraan</td><td><b><input type="text" name="no_kendaraan" required id="kendaraan" style="width: 300px" class="form-control" placeholder="contoh  : BK 8640 CG"></b>
+                <tr><td width="20%">No. Kendaraan</td><td><b><input type="text" name="no_kendaraan" required value="<?php echo $kendaraan['no_kendaraan']; ?>" id="kendaraan" style="width: 300px" class="form-control" placeholder="contoh  : BK 8640 CG"></b>
                     </td><td><button type=submit class="btn btn-danger" id="search_kendaraan_button"><i class="icon-search icon-white"> </i> Cari</button></td></tr>		
                 </form>
                 <form action="<?php echo site_url("kartu_pengawasan/" .$path . "/" . $act); ?>" method="post" accept-charset="utf-8" enctype="multipart/form-data">
 
-                <input type="hidden" name="no_uji" value="<?php echo $no_uji; ?>" id="no_uji" />
-                <input type="hidden" name="no_ktp_lama" value="<?php echo $no_ktp_lama; ?>" id="no_uji" />
-               
-                <tr><td style="width: 50%;">NO. KP</td><td style="width: 50%;"><b><input type="text" name="no_kp" required value="<?php echo $no_kp; ?>" id="kartu_pengawasan" style="width: 300px" class="form-control" readonly=""/></b></td></tr>
+                <input type="hidden" name="no_uji" value="<?php echo $kendaraan['no_uji']; ?>" id="no_uji" />
+                <input type="hidden" name="no_ktp_lama" value="<?php echo $kendaraan['no_ktp']; ?>" id="no_uji" />
+                <input type="hidden" name="no_kendaraan"  required value="<?php echo $kendaraan['no_kendaraan'] ; ?>" style="width: 400px" id="no_kendaraan" class="form-control"  />
+                <tr><td style="width: 50%;">NO. KP</td><td style="width: 50%;"><b><input type="text" name="no_kp" required value="<?php echo $kendaraan['kp_ijin_trayek']; ?>" id="kartu_pengawasan" style="width: 300px" class="form-control" readonly=""/></b></td></tr>
                 	
-                <tr><td width="20%">Masa Belaku KP</td><td><b><input type="text" name="masa_berlaku" required value="<?php echo $masa_berlaku; ?>" id="masa_berlaku" style="width: 300px" class="form-control" readonly /></td></tr>	
-                <tr><td width="20%">No. Trayek</td><td><b><input type="text" name="no_trayek" required value="<?php echo $no_trayek; ?>" id="no_trayek" style="width: 300px" class="form-control" readonly /></td></tr>		
-                <tr><td width="20%">Nama Pemilik</td><td><b><input type="text" name="nama_pemilik" required value="<?php echo $nama_pemilik; ?>" id="nama_pemilik" style="width: 300px" class="form-control" readonly /></td></tr>	
-                <tr><td width="20%">Alamat</td><td><b><input type="text" name="alamat_pemilik" required value="<?php echo $alamat_pemilik; ?>" id="alamat_pemilik" style="width: 300px" class="form-control" readonly/></td></tr>	
-                <tr><td width="20%">Nama Perusahaan</td><td><b><input type="text" name="nama_perusahaan" required value="<?php echo $nama_perusahaan; ?>" id="nama_perusahaan" style="width: 300px" class="form-control" readonly/></td></tr>	
-                <tr><td width="20%">Masa Berlaku Ijin Trayek</td><td><b><input type="text" name="masa_berlaku_ijin_trayek" required value="<?php echo $masa_berlaku_ijin_trayek; ?>" style="width: 300px" id="masa_berlaku_ijin_trayek" class="form-control" readonly /></td></tr>	
+                <tr><td width="20%">Masa Belaku KP</td><td><b><input type="text" name="masa_berlaku" required value="<?php echo $kendaraan['masa_berlaku']; ?>" id="masa_berlaku" style="width: 300px" class="form-control" readonly /></td></tr>	
+                <tr><td width="20%">No. Trayek</td><td><b><input type="text" name="no_trayek" required value="<?php echo $kendaraan['id_trayek']; ?>" id="no_trayek" style="width: 300px" class="form-control" readonly /></td></tr>		
+                <tr><td width="20%">Nama Pemilik</td><td><b><input type="text" name="nama_pemilik" required value="<?php echo $kendaraan['nama_pemilik']; ?>" id="nama_pemilik" style="width: 300px" class="form-control" readonly /></td></tr>	
+                <tr><td width="20%">Alamat</td><td><b><input type="text" name="alamat_pemilik" required value="<?php echo $kendaraan['alamat']; ?>" id="alamat_pemilik" style="width: 300px" class="form-control" readonly/></td></tr>	
+                <tr><td width="20%">Nama Perusahaan</td><td><b><input type="text" name="nama_perusahaan" required value="<?php echo $kendaraan['nama_perusahaan']; ?>" id="nama_perusahaan" style="width: 300px" class="form-control" readonly/></td></tr>	
+                <tr><td width="20%">Masa Berlaku Ijin Trayek</td><td><b><input type="text" name="masa_berlaku_ijin_trayek" required value="<?php echo $kendaraan['masa_berlaku']; ?>" style="width: 300px" id="masa_berlaku_ijin_trayek" class="form-control" readonly /></td></tr>	
 
                             <tr><td colspan="2">
                                     <br><button type="submit" class="btn btn-success">Simpan</button>
@@ -96,9 +96,9 @@ if ($mode == "edt" || $mode == "act_edt") {
                 <tr><td width="20%">Foto</td><td><b> <input type="file" name="foto" /></b></td></tr>
                 <tr><td colspan="2"><hr style="border-width: 1px; border-style: inset; display: block; margin-bottom: -10px;"></td></tr>
                 <tr><td colspan="2"><b>Catatan Pelanggaran</td></tr>
-                <tr><td width="20%">Catatan</td><td><b><input type="text" name="catatan" id="catatan" required value="<?php echo $catatan; ?>" style="width: 300px" class="form-control" readonly></b></td></tr>
-                <tr><td width="20%">Pelapor</td><td><b><input type="text" name="last_update" id="last_update" required value="<?php echo $last_update; ?>" style="width: 300px" class="form-control" readonly></b></td></tr>
-                <tr><td width="20%">Tanggal</td><td><b><input type="text" name="post_by" id="post_by" required value="<?php echo $post_by; ?>" style="width: 300px" class="form-control" readonly></b></td></tr>
+                <tr><td width="20%">Catatan</td><td><b><input type="text" name="catatan" id="catatan" required value="<?php echo $kendaraan['catatan']; ?>" style="width: 300px" class="form-control" readonly></b></td></tr>
+                <tr><td width="20%">Pelapor</td><td><b><input type="text" name="last_update" id="last_update" required value="<?php echo $kendaraan['masa_berlaku']; ?>" style="width: 300px" class="form-control" readonly></b></td></tr>
+                <tr><td width="20%">Tanggal</td><td><b><input type="text" name="post_by" id="post_by" required value="<?php echo $kendaraan['post_by']; ?>" style="width: 300px" class="form-control" readonly></b></td></tr>
             </table>	
         </div>
 

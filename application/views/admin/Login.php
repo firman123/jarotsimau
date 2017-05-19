@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <!-- saved from url=(0029)http://bootswatch.com/amelia/ -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Aplikasi Management Surat</title>
+        <title>SIMAU - Balikpapan</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="utf-8">
         <style type="text/css">
@@ -42,7 +42,7 @@
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <span class="navbar-brand"><strong style="font-family: verdana; margin-left: -50px">APLIKASI Management Surat</strong></span>
+                    <span class="navbar-brand"><strong style="font-family: verdana; margin-left: -50px">Sistem Informasi Angkutan Umum</strong></span>
                     <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -65,7 +65,7 @@
                 <div class="row-fluid">
                     <div style="width: 400px; margin: 0 auto">
                         <div class="well well-sm">
-                            <img src="<?php echo base_url(); ?>upload/<?php echo $q_instansi->logo; ?>" class="thumbnail span3" style="display: inline; float: left; margin-right: 20px; width: 80px; height: 80px">
+                            <img src="<?php echo base_url(); ?>aset/img/logo_balikpapan.png" class="thumbnail span3" style="display: inline; float: left; margin-right: 20px; width: 80px; height: 80px">
                             <h3 style="margin: 5px 0 0.4em 0; font-size: 21px; color: #000; font-weight: bold"><?php echo $q_instansi->nama; ?></h3>
                             <div style="color: #000; font-size: 13px" class="clearfix"><?php echo $q_instansi->alamat; ?></div>
                         </div>

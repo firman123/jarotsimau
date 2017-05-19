@@ -58,11 +58,12 @@ class Kartu_pengawasan extends CI_Controller {
         $this->load->library('upload', $config);
 
         $data = array(
-            "id_kp" => $this->input->post("id_kp"),
+            "id_kp" => $this->input->post("no_kp"),
             "id_kendaraan" => $this->input->post("no_uji"),
             "no_ktp" => $this->input->post("no_ktp"),
             "nama_pengemudi" => $this->input->post("nama_pengemudi"),
-            "alamat" => $this->input->post("alamat")
+            "alamat" => $this->input->post("alamat"),
+            "masa_berlaku" => $this->input->post("masa_berlaku")
         );
         //ambil variabel Postingan
         $cari = addslashes($this->input->post('q'));
@@ -74,6 +75,21 @@ class Kartu_pengawasan extends CI_Controller {
         } else if ($mau_ke == "cari") {
             $a['data'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE nama_pemilik LIKE '%$cari%'")->result();
             $a['page'] = "kendaraan/list";
+        } else if ($mau_ke == "cari_nomer_kendaraan") {
+            $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
+            $a['label'] = "Kartu Pengawasan Trayek";
+            $a['action'] = "search_kendaraan";
+            $a['path'] = "trayek";
+            $no_kendaraan = $this->input->post("no_kendaraan");
+            $trim_nokendaraan = trim($no_kendaraan);
+            $rawl_nokendaraan = rawurldecode($trim_nokendaraan);
+            $a['kendaraan'] = $this->db->query("SELECT A.*, B.*, C.* FROM tbl_kendaraan A JOIN tbl_perusahaan B ON A.id_perusahaan = B.id "
+                            . "  LEFT JOIN tb_note_kendaraan C ON a.no_uji=c.id_kendaraan WHERE A.kp_ijin_trayek != '' AND A.no_kendaraan = '$rawl_nokendaraan'")->row_array();
+            if (empty($a['kendaraan'])) {
+
+                $this->session->set_flashdata("message_cari", "<div class=\"alert alert-error\" id=\"alert\">Data Tidak ditemukan</div>");
+            }
+            $a['page'] = "kartu_pengawasan/search_result";
         } else if ($mau_ke == "add") {
             $a['label'] = "Kartu Pengawasan Trayek";
             $a['type'] = "Trayek";
@@ -86,16 +102,14 @@ class Kartu_pengawasan extends CI_Controller {
             $id_kendaraan = $this->db->query("SELECT id_kendaraan FROM tbl_kartu_pengawasan WHERE id = '$idu'")->row();
 
             $no_uji = trim($id_kendaraan->id_kendaraan);
+            $no_uji2 = rawurldecode($no_uji);
 
-            $a['data_kendaraan'] = $this->db->query("SELECT a.*, a.alamat as alamat_pemilik, b.* , c.*, d.*, e.* FROM tbl_kendaraan a JOIN tbl_ijin_trayek b"
-                            . " ON a.no_uji = b.id_kendaraan JOIN tbl_perusahaan c ON b.id_perusahaan = c.id "
-                            . " JOIN tbl_trayek e ON b.id_trayek = e.id_trayek "
-                            . " LEFT JOIN tb_note_kendaraan d ON a.no_uji  = d.id_kendaraan "
-                            . " WHERE a.no_uji = '$no_uji'")->row_array();
-
+            $a['data_kendaraan'] = $this->db->query("SELECT A.*, A.alamat as alamat_pemilik, B.*, B.masa_berlaku as masa_berlaku_ijin , C.* FROM tbl_kendaraan A JOIN tbl_perusahaan B ON A.id_perusahaan = B.id "
+                            . "  LEFT JOIN tb_note_kendaraan C ON a.no_uji=c.id_kendaraan WHERE A.no_uji = '$no_uji2'")->row_array();
+            $a['label'] = "Trayek";
 //            print_r($no_uji);
 //            print_r($a['data_kendaraan']);
-            $a['page'] = "kartu_pengawasan/input";
+            $a['page'] = "kartu_pengawasan/view_kp";
         } else if ($mau_ke == "act_add") {
             $id_kendaraan = $this->input->post("no_uji");
             $no_ktp = $this->input->post("no_ktp");
@@ -109,9 +123,11 @@ class Kartu_pengawasan extends CI_Controller {
                 if ($ktp_available > 0) {
                     $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Gagal!, KTP Sudah digunakan </div>");
                 } else {
+                    $data['create_date'] = date("Y-m-d");
+
                     if ($this->upload->do_upload('foto')) {
                         $up_data = $this->upload->data();
-                        $data['create_date'] = date("Y-m-d");
+
                         $data['foto'] = $up_data['file_name'];
 
                         $save_data = $this->m_kartu_pengawas->insert($data);
@@ -126,17 +142,36 @@ class Kartu_pengawasan extends CI_Controller {
                     }
                 }
             }
-            redirect('kartu_pengawasan/trayek');
+            redirect('kartu_pengawasan/trayek/add');
         } else if ($mau_ke == "act_edt") {
             $id_kendaraan = $this->input->post("no_uji");
+
             $no_ktp = $this->input->post("no_ktp");
+            $no_ktp_lama = $this->input->post("no_ktp_lama");
+
             $jumlah_sopir = $this->db->query("SELECT a.* FROM tbl_kartu_pengawasan a JOIN tbl_ijin_trayek b ON a.id_kp = b.id_ijin_trayek WHERE a.id_kendaraan = '$id_kendaraan'")->num_rows();
 
-            $ktp_available = $this->db->query("SELECT * FROM tbl_kartu_pengawasan WHERE no_ktp = '$no_ktp'")->num_rows();
+            if (trim(trim($no_ktp) != trim($no_ktp_lama))) {
+                $ktp_available = $this->db->query("SELECT * FROM tbl_kartu_pengawasan WHERE no_ktp = '$no_ktp'")->num_rows();
+                if ($ktp_available > 0) {
+                    $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Gagal!, KTP Sudah digunakan </div>");
+                } else {
+                    if ($this->upload->do_upload('foto')) {
+                        $up_data = $this->upload->data();
+                        $data['create_date'] = date("Y-m-d");
+                        $data['foto'] = $up_data['file_name'];
 
+                        $save_data = $this->m_kartu_pengawas->update($data, $this->input->post("id"));
+                    } else {
+                        $save_data = $this->m_kartu_pengawas->update($data, $this->input->post("id"));
+                    }
 
-            if ($ktp_available > 0) {
-                $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Gagal!, KTP Sudah digunakan </div>");
+                    if ($save_data) {
+                        $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been added. </div>");
+                    } else {
+                        $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Data failed. </div>");
+                    }
+                }
             } else {
                 if ($this->upload->do_upload('foto')) {
                     $up_data = $this->upload->data();
@@ -155,11 +190,13 @@ class Kartu_pengawasan extends CI_Controller {
                 }
             }
 
+
             redirect('kartu_pengawasan/trayek');
         } else {
             $a['path'] = "trayek";
             $a['label'] = "Kartu Pengawasan Trayek";
             $a['type'] = "Trayek";
+//            $a['data'] = $this->db->query("SELECT * FROM tbl_kartu_pengawasan WHERE id_kp LIKE 'KPIT%' ORDER BY id DESC LIMIT $akhir OFFSET $awal ")->result();
             $a['data'] = $this->db->query("SELECT * FROM tbl_kartu_pengawasan WHERE id_kp LIKE 'KPIT%' ORDER BY id DESC LIMIT $akhir OFFSET $awal ")->result();
             $a['page'] = "kartu_pengawasan/list";
         }
@@ -200,10 +237,12 @@ class Kartu_pengawasan extends CI_Controller {
         $this->load->library('upload', $config);
 
         $data = array(
+            "id_kp" => $this->input->post("no_kp"),
             "id_kendaraan" => $this->input->post("no_uji"),
             "no_ktp" => $this->input->post("no_ktp"),
             "nama_pengemudi" => $this->input->post("nama_pengemudi"),
-            "alamat" => $this->input->post("alamat")
+            "alamat" => $this->input->post("alamat"),
+            "masa_berlaku" => $this->input->post("masa_berlaku")
         );
         //ambil variabel Postingan
         $cari = addslashes($this->input->post('q'));
@@ -215,32 +254,49 @@ class Kartu_pengawasan extends CI_Controller {
         } else if ($mau_ke == "cari") {
             $a['data'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE nama_pemilik LIKE '%$cari%'")->result();
             $a['page'] = "kendaraan/list";
+        } else if ($mau_ke == "cari_nomer_kendaraan") {
+            $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
+            $a['label'] = "Kartu Pengawasan Trayek";
+            $a['action'] = "search_kendaraan";
+            $a['path'] = "trayek";
+            $no_kendaraan = $this->input->post("no_kendaraan");
+            $trim_nokendaraan = trim($no_kendaraan);
+            $rawl_nokendaraan = rawurldecode($trim_nokendaraan);
+            $a['kendaraan'] = $this->db->query("SELECT A.*, B.*, C.* FROM tbl_kendaraan A JOIN tbl_perusahaan B ON A.id_perusahaan = B.id "
+                            . "  LEFT JOIN tb_note_kendaraan C ON a.no_uji=c.id_kendaraan WHERE  A.kp_ijin_operasi !='' AND A.no_kendaraan = '$rawl_nokendaraan'")->row_array();
+
+            if (empty($a['kendaraan'])) {
+
+                $this->session->set_flashdata("message_cari", "<div class=\"alert alert-error\" id=\"alert\">Data Tidak ditemukan</div>");
+            }
+            $a['page'] = "kartu_pengawasan/search_result_operasi";
         } else if ($mau_ke == "add") {
             $a['label'] = "Kartu Pengawasan Trayek";
-            $a['type'] = "Trayek";
-            $a['path'] = "trayek";
+            $a['type'] = "Operasi";
+            $a['path'] = "operasi";
             $a['page'] = "kartu_pengawasan/input_operasi";
         } else if ($mau_ke == "edt") {
-            $a['path'] = "trayek";
+            $a['path'] = "operasi";
             $a['datpil'] = $this->db->query("SELECT * FROM tbl_kartu_pengawasan WHERE id = '$idu'")->row_array();
 
             $id_kendaraan = $this->db->query("SELECT id_kendaraan FROM tbl_kartu_pengawasan WHERE id = '$idu'")->row();
 
             $no_uji = trim($id_kendaraan->id_kendaraan);
 
-            $a['data_kendaraan'] = $this->db->query("SELECT a.*, a.alamat as alamat_pemilik, b.* , c.*, d.*, e.* FROM tbl_kendaraan a JOIN tbl_ijin_trayek b"
-                            . " ON a.no_uji = b.id_kendaraan JOIN tbl_perusahaan c ON b.id_perusahaan = c.id "
-                            . " JOIN tbl_trayek e ON b.id_trayek = e.id_trayek "
-                            . " LEFT JOIN tb_note_kendaraan d ON a.no_uji  = d.id_kendaraan "
-                            . " WHERE a.no_uji = '$no_uji'")->row_array();
-
+//            $a['data_kendaraan'] = $this->db->query("SELECT A.*, B.*, C.* FROM tbl_kendaraan A JOIN tbl_perusahaan B ON A.id_perusahaan = B.id "
+//                            . " LEFT JOIN tb_note_kendaraan C ON a.no_uji=c.id_kendaraan WHERE lower(A.kp_ijin_operasi) "
+//                            . " WHERE A.no_uji = '$no_uji'")->row_array();
+            $a['data_kendaraan'] = $this->db->query("SELECT A.*, A.alamat as alamat_pemilik, B.*, B.masa_berlaku as masa_berlaku_ijin , C.* FROM tbl_kendaraan A JOIN tbl_perusahaan B ON A.id_perusahaan = B.id "
+                            . "  LEFT JOIN tb_note_kendaraan C ON a.no_uji=c.id_kendaraan WHERE A.no_uji = '$no_uji'")->row_array();
+            $a['label'] = "Operasi";
 //            print_r($no_uji);
 //            print_r($a['data_kendaraan']);
-            $a['page'] = "kartu_pengawasan/input_operasi";
+            $a['page'] = "kartu_pengawasan/view_kp";
         } else if ($mau_ke == "act_add") {
             $id_kendaraan = $this->input->post("no_uji");
+            $id_kendaraan_trim = trim($id_kendaraan);
             $no_ktp = $this->input->post("no_ktp");
-            $jumlah_sopir = $this->db->query("SELECT a.* FROM tbl_kartu_pengawasan a JOIN tbl_ijin_trayek b ON a.id_kp = b.id_ijin_trayek WHERE a.id_kendaraan = '$id_kendaraan'")->num_rows();
+            $jumlah_sopir = $this->db->query("SELECT a.* FROM tbl_kartu_pengawasan a JOIN tbl_ijin_trayek b ON a.id_kp = b.id_ijin_trayek WHERE a.id_kendaraan = '$id_kendaraan_trim'")->num_rows();
 
             $ktp_available = $this->db->query("SELECT * FROM tbl_kartu_pengawasan WHERE no_ktp = '$no_ktp'")->num_rows();
 
@@ -267,7 +323,7 @@ class Kartu_pengawasan extends CI_Controller {
                     }
                 }
             }
-            redirect('kartu_pengawasan/operasi');
+            redirect('kartu_pengawasan/operasi/add');
         } else if ($mau_ke == "act_edt") {
             $id_kendaraan = $this->input->post("no_uji");
             $no_ktp = $this->input->post("no_ktp");

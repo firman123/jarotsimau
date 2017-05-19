@@ -52,33 +52,33 @@ if ($mode == "edt" || $mode == "act_edt") {
     </div><!-- /.container -->
 </div><!-- /.navbar -->
 
-<?php echo $this->session->flashdata("message"); ?>
+<?php echo $this->session->flashdata("message_cari"); ?>
 
 
 <div class="row-fluid well" style="overflow: hidden">
 
     <div class="col-lg-6">
         <table  class="table-form">
-            <form action="<?php echo site_url("kartu_pengawasan/" . $path . "/cari_nomer_kendaraan"); ?>" method="post" accept-charset="utf-8">
+            <form action="<?php echo site_url("kartu_pengawasan/operasi/cari_nomer_kendaraan"); ?>" method="post" accept-charset="utf-8">
 
-                <tr><td width="20%">No. Kendaraan</td><td><b><input type="text" name="no_kendaraan" required id="kendaraan" style="width: 300px" class="form-control" placeholder="contoh  : BK 8640 CG"></b>
+                <tr><td width="20%">No. Kendaraan</td><td><b><input type="text" name="no_kendaraan" value="<?php echo $kendaraan['no_kendaraan']; ?>" required id="kendaraan" style="width: 300px" class="form-control" placeholder="contoh  : BK 8640 CG"></b>
                     </td><td><button type=submit class="btn btn-danger" id="search_kendaraan_button"><i class="icon-search icon-white"> </i> Cari</button></td></tr>		
-            </form>
+            </form> 
             <form action="<?php echo site_url("kartu_pengawasan/" . $path . "/" . $act); ?>" method="post" accept-charset="utf-8" enctype="multipart/form-data">
 
                 <input type="hidden" name="id" value="<?php echo $id; ?>">
 
-                <input type="hidden" name="no_uji" value="<?php echo $no_uji; ?>" id="no_uji" />
+                <input type="hidden" name="no_uji" value="<?php echo $kendaraan['no_uji']; ?>" id="no_uji" />
                 <input type="hidden" name="no_ktp_lama" value="<?php echo $no_ktp_lama; ?>" id="no_uji" />
-                <input type="hidden" name="no_kendaraan"  required value="<?php echo $no_kendaraan; ?>" style="width: 400px" id="no_kendaraan_operasi" class="form-control"  />
-                <tr><td style="width: 50%;">NO. KP</td><td style="width: 50%;"><b><input type="text" name="no_kp" required value="<?php echo $no_kp; ?>" id="kartu_pengawasan_operasi" style="width: 300px" class="form-control" readonly=""/></b></td></tr>
+                <tr><td width="20%">No. Kendaraan</td><td><b><input type="text" name="no_kendaraan"  required value="<?php echo $kendaraan['no_kendaraan']; ?>" style="width: 400px" id="no_kendaraan_operasi" class="form-control"  /></b></td></tr>
+                <tr><td style="width: 50%;">NO. KP</td><td style="width: 50%;"><b><input type="text" name="no_kp" required value="<?php echo $kendaraan['kp_ijin_operasi']; ?>" id="kartu_pengawasan_operasi" style="width: 300px" class="form-control"/></b></td></tr>
 
-                <tr><td width="20%">Masa Belaku KP</td><td><b><input type="text" name="masa_berlaku" required value="<?php echo $masa_berlaku; ?>" id="masa_berlaku" style="width: 300px" class="form-control" readonly /></td></tr>	
+                <tr><td width="20%">Masa Belaku KP</td><td><b><input type="text" name="masa_berlaku" required value="<?php echo $kendaraan['tgl_mati_uji']; ?>" id="masa_berlaku" style="width: 300px" class="form-control" readonly /></td></tr>	
 
-                <tr><td width="20%">Nama Pemilik</td><td><b><input type="text" name="nama_pemilik" required value="<?php echo $nama_pemilik; ?>" id="nama_pemilik" style="width: 300px" class="form-control" readonly /></td></tr>	
-                <tr><td width="20%">Alamat</td><td><b><input type="text" name="alamat_pemilik" required value="<?php echo $alamat_pemilik; ?>" id="alamat_pemilik" style="width: 300px" class="form-control" readonly/></td></tr>	
-                <tr><td width="20%">Nama Perusahaan</td><td><b><input type="text" name="nama_perusahaan" required value="<?php echo $nama_perusahaan; ?>" id="nama_perusahaan" style="width: 300px" class="form-control" readonly/></td></tr>	
-                <tr><td width="20%">Masa Berlaku Ijin Operasi</td><td><b><input type="text" name="masa_berlaku_ijin_operasi" required value="<?php echo $masa_berlaku_ijin_operasi; ?>" style="width: 300px" id="masa_berlaku_ijin_trayek" class="form-control" readonly /></td></tr>	
+                <tr><td width="20%">Nama Pemilik</td><td><b><input type="text" name="nama_pemilik" required value="<?php echo $kendaraan['nama_pemilik']; ?>" id="nama_pemilik" style="width: 300px" class="form-control" readonly /></td></tr>	
+                <tr><td width="20%">Alamat</td><td><b><input type="text" name="alamat_pemilik" required value="<?php echo $kendaraan['alamat']; ?>" id="alamat_pemilik" style="width: 300px" class="form-control" readonly/></td></tr>	
+                <tr><td width="20%">Nama Perusahaan</td><td><b><input type="text" name="nama_perusahaan" required value="<?php echo $kendaraan['nama_perusahaan']; ?>" id="nama_perusahaan" style="width: 300px" class="form-control" readonly/></td></tr>	
+                <tr><td width="20%">Masa Berlaku Ijin Operasi</td><td><b><input type="text" name="masa_berlaku_ijin_operasi" required value="<?php echo $kendaraan['masa_berlaku']; ?>" style="width: 300px" id="masa_berlaku_ijin_trayek" class="form-control" readonly /></td></tr>	
 
                 <tr><td colspan="2">
                         <br><button type="submit" class="btn btn-success">Simpan</button>

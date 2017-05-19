@@ -32,7 +32,7 @@ class master_data extends CI_Controller {
         }
 
         /* pagination */
-        $total_row = $this->db->query("SELECT * FROM tbl_kendaraan where no_uji LIKE 'SIMAU%'")->num_rows();
+        $total_row = $this->db->query("SELECT * FROM tbl_kendaraan ORDER BY no_uji DESC")->num_rows();
         $per_page = 10;
 
         $awal = $this->uri->segment(4);
@@ -56,8 +56,7 @@ class master_data extends CI_Controller {
             "alamat" => $this->input->post("alamat"),
             "no_chasis" => $this->input->post("no_chasis"),
             "no_mesin" => $this->input->post("no_mesin"),
-            "sifat" => $this->input->post("sifat"),
-            "id_trayek" => $this->input->post("trayek")
+            "sifat" => $this->input->post("sifat")
         );
         //ambil variabel Postingan
         $cari = addslashes($this->input->post('q'));
@@ -69,7 +68,7 @@ class master_data extends CI_Controller {
         } else if ($mau_ke == "cari") {
             $a['data'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE nama_pemilik LIKE '%$cari%'")->result();
             $a['page'] = "kendaraan/list";
-        } else if ($mau_ke == "add") {
+        }  else if ($mau_ke == "add") {
             $a['kode'] = $this->m_kendaraan->buat_kode();
             $a['data_sifat'] = array("Umum", "Tidak Umum", "Coba Jalan");
             $a['jenis_kendaraan'] = array("Barang", "Penumpang");
@@ -79,7 +78,11 @@ class master_data extends CI_Controller {
             $a['data_sifat'] = array("Umum", "Tidak Umum", "Coba Jalan");
             $a['jenis_kendaraan'] = array("Barang", "Penumpang");
             $a['trayek'] = $this->m_trayek->get_all_trayek();
-            $a['datpil'] = $this->m_kendaraan->get_detail_kendaraan_by_id($idu);
+            $id_kendaraan = rawurldecode($idu);
+            $a['datpil'] = $this->m_kendaraan->get_detail_kendaraan_by_id($id_kendaraan);
+//            $a['datpil'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji = '$idu'")->row();
+           
+//            print_r($a['datpil']);
             $a['page'] = "kendaraan/input";
 //            $a['datpil'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji = '$idu'")->row();
         } else if ($mau_ke == "act_add") {
@@ -101,7 +104,7 @@ class master_data extends CI_Controller {
             }
             redirect('master_data/kendaraan');
         } else {
-            $a['data'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji LIKE 'SIMAU%' LIMIT $akhir OFFSET $awal ")->result();
+            $a['data'] = $this->db->query("SELECT * FROM tbl_kendaraan ORDER BY no_uji DESC LIMIT $akhir OFFSET $awal ")->result();
             $a['page'] = "kendaraan/list";
         }
 
@@ -132,6 +135,7 @@ class master_data extends CI_Controller {
         $cari = addslashes($this->input->post('q'));
 
         $data = array(
+            "no_surat_ijin" => $this->input->post("no_surat_ijin"),
             "nama_perusahaan" => $this->input->post("nama_perusahaan"),
             "alamat_perusahaan" => $this->input->post("alamat_perusahaan"),
             "npwp" => $this->input->post("npwp"),

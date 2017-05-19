@@ -23,8 +23,8 @@ class m_kendaraan extends CI_Model {
     }
 
     public function get_detail_kendaraan_by_id($params) {
-        $sql = "SELECT * FROM tbl_kendaraan WHERE no_uji = ? ";
-        $query = $this->db->query($sql, $params);
+        $sql = "SELECT * FROM tbl_kendaraan WHERE no_uji = '$params' ";
+        $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             $result = $query->row_array();
             $query->free_result();
@@ -60,7 +60,7 @@ class m_kendaraan extends CI_Model {
 
     // update
     public function update($data_field, $no_uji) {
-        $this->db->where("no_uji", $no_uji);
+        $this->db->where("no_uji", rawurldecode($no_uji));
         return $this->db->update('tbl_kendaraan', $data_field);
     }
 

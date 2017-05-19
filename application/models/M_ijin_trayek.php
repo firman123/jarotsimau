@@ -68,10 +68,11 @@ class m_ijin_trayek extends CI_Model {
     }
     
     function buat_kode() {
-        $this->db->select('RIGHT(tbl_ijin_trayek.id_ijin_trayek,6) as kode', FALSE);
-        $this->db->order_by('id_ijin_trayek', 'DESC');
+        $this->db->select('RIGHT(tbl_kendaraan.kp_ijin_trayek,6) as kode', FALSE);
+        $this->db->like('kp_ijin_trayek', 'KPIT', 'after');
+        $this->db->order_by('kp_ijin_trayek', 'DESC');
         $this->db->limit(1);
-        $query = $this->db->get('tbl_ijin_trayek');      //cek dulu apakah ada sudah ada kode di tabel.    
+        $query = $this->db->get('tbl_kendaraan');      //cek dulu apakah ada sudah ada kode di tabel.    
         if ($query->num_rows() <> 0) {
             //jika kode ternyata sudah ada.      
             $data = $query->row();
@@ -88,26 +89,38 @@ class m_ijin_trayek extends CI_Model {
         return $kodejadi;
     }
     
-//    function buat_kode() {
-//        $this->db->select('RIGHT(tbl_ijin_trayek.id_ijin_trayek,6) as kode', FALSE);
-//        $this->db->order_by('id_ijin_trayek', 'DESC');
-//        $this->db->limit(1);
-//        $query = $this->db->get('tbl_ijin_trayek');      //cek dulu apakah ada sudah ada kode di tabel.    
-//        if ($query->num_rows() <> 0) {
-//            //jika kode ternyata sudah ada.      
-//            $data = $query->row();
-//            $kode = intval($data->kode) + 1;
-//        } else {
-//            //jika kode belum ada      
-//            $kode = 1;
-//        }
-//        $kodemax = str_pad($kode, 6, "0", STR_PAD_LEFT);
-//        $kodejadi = "IJTR" . $kodemax;
-//        return $kodejadi;
-//    }
+    function kode_ijin_trayek() {
+        $this->db->select('RIGHT(tbl_ijin_trayek.id_ijin_trayek,6) as kode', FALSE);
+        $this->db->order_by('id_ijin_trayek', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get('tbl_ijin_trayek');      //cek dulu apakah ada sudah ada kode di tabel.    
+        if ($query->num_rows() <> 0) {
+            //jika kode ternyata sudah ada.      
+            $data = $query->row();
+            $kode = intval($data->kode) + 1;
+        } else {
+            //jika kode belum ada      
+            $kode = 1;
+        }
+        $kodemax = str_pad($kode, 6, "0", STR_PAD_LEFT);
+        $kodejadi = "IJTR" . $kodemax;
+        return $kodejadi;
+    }
 
-    public function get_detail_ijin_trayek($params) {
-        $sql = "SELECT a.*, b.* FROM tbl_ijin_trayek a join tbl_perusahaan b on a.id_perusahaan = b.id WHERE a.id_ijin_trayek = ? ";
+//    public function get_detail_ijin_trayek($params) {
+//        $sql = "SELECT a.*, b.* FROM tbl_ijin_trayek a join tbl_perusahaan b on a.id_perusahaan = b.id WHERE a.id_ijin_trayek = ? ";
+//        $query = $this->db->query($sql, $params);
+//        if ($query->num_rows() > 0) {
+//            $result = $query->row_array();
+//            $query->free_result();
+//            return $result;
+//        } else {
+//            return array();
+//        }
+//    }
+    
+     public function ijin_trayek_by_id($params) {
+        $sql = "SELECT * FROM tbl_ijin_trayek WHERE id_ijin_trayek = ? ";
         $query = $this->db->query($sql, $params);
         if ($query->num_rows() > 0) {
             $result = $query->row_array();
@@ -123,6 +136,20 @@ class m_ijin_trayek extends CI_Model {
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             $result = $query->result_array();
+            $query->free_result();
+            return $result;
+        } else {
+            return array();
+        }
+    }
+    
+    public function get_detail_ijin_trayek($params) {
+        $sql = "SELECT a.*, b.* , c.*, d.* FROM tbl_ijin_trayek a join tbl_kendaraan b on a.id_perusahaan = b.id_perusahaan "
+                . " JOIN tbl_perusahaan c ON c.id = a.id_perusahaan  "
+                . " JOIN tbl_trayek d ON b.id_trayek = d.id_trayek WHERE b.no_uji = ? ";
+        $query = $this->db->query($sql, rawurldecode($params));
+        if ($query->num_rows() > 0) {
+            $result = $query->row_array();
             $query->free_result();
             return $result;
         } else {

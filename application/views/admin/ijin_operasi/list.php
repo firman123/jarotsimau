@@ -13,8 +13,19 @@
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
-                            <form class="navbar-form navbar-left" method="post" action="<?php echo base_URL(); ?>index.php/ijin_trayek_operasi/ijin_operasi/cari">
-                                <input type="text" class="form-control" name="q" style="width: 200px" placeholder="Masukan nama perusahaan ..." required>
+                                <a class="navbar-brand" href="#">Cari Kendaraan</a>
+                            <form class="navbar-form navbar-left" method="post" action="<?php echo base_URL(); ?>index.php/ijin_trayek_operasi/ijin_operasi/cari_kendaraan">
+                                <select name="id_perusahaan" class="form-control" id="id_perusahaan" required style="width: 70%">
+                                    <option></option>
+                                    <?php
+                                    foreach ($list_perusahaan as $value) {
+                                        ?>
+                                        <option value="<?php echo $value->id; ?>"><?php echo $value->nama_perusahaan; ?></option>
+                                        <!--echo '<option value='.$value.' if('.$value.'=='.$sifat_select.'){selected="selected">}'.$value.'</option>';-->
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
                                 <button type="submit" class="btn btn-danger"><i class="icon-search icon-white"> </i> Cari</button>
                             </form>
                         </ul>
@@ -25,7 +36,6 @@
         </div>
     </div>
 
-    <?php echo $this->session->flashdata("message"); ?>
 
     <!--	
     <div class="alert alert-dismissable alert-success">
@@ -43,13 +53,14 @@
         <thead>
             <tr>
                 <th width="5%">Nomor</th>
-                 <th width="15%">No. KP</th>
-                <th width="15%">No. Kendaraan</th>
-                <th width="20%">Nama Pemilik</th>
+                 <th width="10%">No. Ijin Operasi</th>
+                 <th width="10%">No. KP</th>
+                <th width="10%">No. Kendaraan</th>
+                <th width="17%">Nama Pemilik</th>
     
                 <th>No. Uji</th>
                 <th>Status Verifikasi</th>
-                <th width="20%"></th>
+                <th width="15%"></th>
             </tr>
         </thead>
 
@@ -65,6 +76,7 @@
                     <tr style="background-color: #fff;">
                         <td><center><?php echo $no; ?></center></td>
                         <td><?php echo $b->id_ijin_operasi; ?></td>
+                        <td><?php echo $b->kp_ijin_operasi; ?></td>
                         <td><?php echo $b->no_kendaraan; ?></td>
                         <td><?php echo $b->nama_pemilik; ?></td>
      
@@ -80,8 +92,8 @@
                                 }?></td>
                 <td class="ctr">
                     <div class="btn-group">
-                        <a href="<?php echo base_URL() ?>index.php/ijin_trayek_operasi/ijin_operasi/edt/<?php echo $b->id_ijin_operasi; ?>" class="btn btn-success btn-sm" title="Edit Data"><i class="icon-edit icon-white"> </i> Edt</a>		
-                        <a href="<?php echo base_URL() ?>index.php/ijin_trayek_operasi/ijin_operasi/del/<?php echo $b->id_ijin_operasi; ?>" class="btn btn-warning btn-sm" title="Hapus Data" onclick="return confirm('Anda Yakin..?')"><i class="icon-trash icon-remove">  </i> Del</a>
+                        <a href="<?php echo base_URL() ?>index.php/ijin_trayek_operasi/ijin_operasi/edt/<?php echo $b->no_uji; ?>" class="btn btn-success btn-sm" title="Edit Data"><i class="icon-edit icon-white"> </i> View</a>		
+                        <a href="<?php echo base_URL() ?>index.php/ijin_trayek_operasi/ijin_operasi/del/<?php echo $b->no_uji; ?>" class="btn btn-warning btn-sm" title="Hapus Data" onclick="return confirm('Anda Yakin..?')"><i class="icon-trash icon-remove">  </i> Del</a>
                     </div>	
 
                 </td>

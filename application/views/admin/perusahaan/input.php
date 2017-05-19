@@ -6,6 +6,7 @@ $mode = $this->uri->segment(3);
 if ($mode == "edt" || $mode == "act_edt") {
     $act = "act_edt";
     $id = $datpil['id'];
+    $no_surat_ijin = $datpil['no_surat_ijin'];
     $nama_perusahaan = $datpil['nama_perusahaan'];
     $alamat_perusahaan = $datpil['alamat_perusahaan'];
     $npwp = $datpil['npwp'];
@@ -18,6 +19,7 @@ if ($mode == "edt" || $mode == "act_edt") {
 } else {
     $act = "act_add";
     $id = "";
+    $no_surat_ijin = "";
     $nama_perusahaan = "";
     $alamat_perusahaan = "";
     $npwp = "";
@@ -47,6 +49,7 @@ if ($mode == "edt" || $mode == "act_edt") {
 
         <div class="col-lg-6">
             <table  class="table-form">
+                <tr><td width="20%">NO. Surat Ijin</td><td><b><input type="text" name="no_surat_ijin" required value="<?php echo $no_surat_ijin; ?>" style="width: 200px" class="form-control"></b></td></tr>    
                 <tr><td width="20%">Nama Perusahaan</td><td><b><input type="text" name="nama_perusahaan" required value="<?php echo $nama_perusahaan; ?>" style="width: 200px" class="form-control"></b></td></tr>             
                 <tr><td>Jenis Angkutan</td><td><b>
 
