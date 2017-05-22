@@ -14,7 +14,7 @@
 
                         <ul class="nav navbar-nav navbar-right">
                             <a class="navbar-brand" href="#">Cari Kendaraan</a>
-                            <form class="navbar-form navbar-left" method="post" action="<?php echo base_URL(); ?>index.php/ijin_trayek_operasi/ijin_trayek/cari_kendaraan">
+                            <form class="navbar-form navbar-left" method="post" action="<?php echo base_URL(); ?>index.php/ijin_trayek_operasi/ijin_operasi/cari_kendaraan">
                                 <select name="id_perusahaan" class="form-control" id="id_perusahaan" required style="width: 70%">
                                     <option></option>
                                     <?php
@@ -85,7 +85,7 @@
                 <td><?php echo $b->sifat; ?></td>
                 <td class="ctr">
                     <div class="btn-group">
-                        <a href="<?php echo base_URL() ?>index.php/ijin_trayek_operasi/ijin_operasi/del_kendaraan/<?php echo $b->no_uji; ?>/<?php echo $b->id_perusahaan; ?>" class="btn btn-warning btn-sm" onclick="return confirm('Anda Yakin..?')" title="Del Data"><i class="icon-trash icon-remove"> </i> Del</a>		
+                        <a href="<?php echo base_URL() ?>index.php/ijin_trayek_operasi/ijin_operasi/del_kendaraan/<?php echo $b->no_uji; ?>/<?php echo trim($b->id_ijin_operasi); ?>/<?php echo $b->id_perusahaan; ?>" class="btn btn-warning btn-sm" onclick="return confirm('Anda Yakin..?')" title="Del Data"><i class="icon-trash icon-remove"> </i> Del</a>		
                     </div>	
 
                 </td>

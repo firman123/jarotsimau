@@ -64,7 +64,7 @@ if ($mode == "edt" || $mode == "act_edt") {
             <table  class="table-form">
                  <form action="<?php echo site_url("kartu_pengawasan/".$path."/cari_nomer_kendaraan"); ?>" method="post" accept-charset="utf-8">
 
-                <tr><td width="20%">No. Kendaraan</td><td><b><input type="text" name="no_kendaraan" required id="kendaraan" style="width: 300px" class="form-control" placeholder="contoh  : BK 8640 CG"></b>
+                <tr><td width="20%">No. Kendaraan</td><td><b><input type="text" name="no_kendaraan" required id="kendaraan" style="width: 300px" class="form-control"></b>
                     </td><td><button type=submit class="btn btn-danger" id="search_kendaraan_button"><i class="icon-search icon-white"> </i> Cari</button></td></tr>		
                 </form>
                 <form action="<?php echo site_url("kartu_pengawasan/" .$path . "/" . $act); ?>" method="post" accept-charset="utf-8" enctype="multipart/form-data">

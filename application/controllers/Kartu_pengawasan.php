@@ -156,9 +156,9 @@ class Kartu_pengawasan extends CI_Controller {
                 if ($ktp_available > 0) {
                     $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Gagal!, KTP Sudah digunakan </div>");
                 } else {
+                    $data['create_date'] = date("Y-m-d");
                     if ($this->upload->do_upload('foto')) {
-                        $up_data = $this->upload->data();
-                        $data['create_date'] = date("Y-m-d");
+                        $up_data = $this->upload->data();              
                         $data['foto'] = $up_data['file_name'];
 
                         $save_data = $this->m_kartu_pengawas->update($data, $this->input->post("id"));
@@ -306,11 +306,10 @@ class Kartu_pengawasan extends CI_Controller {
                 if ($ktp_available > 0) {
                     $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Gagal!, KTP Sudah digunakan </div>");
                 } else {
+                     $data['create_date'] = date("Y-m-d");
                     if ($this->upload->do_upload('foto')) {
-                        $up_data = $this->upload->data();
-                        $data['create_date'] = date("Y-m-d");
+                        $up_data = $this->upload->data();                       
                         $data['foto'] = $up_data['file_name'];
-
                         $save_data = $this->m_kartu_pengawas->insert($data);
                     } else {
                         $save_data = $this->m_kartu_pengawas->insert($data);
@@ -335,9 +334,9 @@ class Kartu_pengawasan extends CI_Controller {
             if ($ktp_available > 0) {
                 $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Gagal!, KTP Sudah digunakan </div>");
             } else {
+                $data['create_date'] = date("Y-m-d");
                 if ($this->upload->do_upload('foto')) {
-                    $up_data = $this->upload->data();
-                    $data['create_date'] = date("Y-m-d");
+                    $up_data = $this->upload->data();                   
                     $data['foto'] = $up_data['file_name'];
 
                     $save_data = $this->m_kartu_pengawas->update($data, $this->input->post("id"));

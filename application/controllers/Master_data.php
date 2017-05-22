@@ -66,7 +66,7 @@ class master_data extends CI_Controller {
             $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been deleted </div>");
             redirect('admin/kendaraan/surat_masuk');
         } else if ($mau_ke == "cari") {
-            $a['data'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE nama_pemilik LIKE '%$cari%'")->result();
+            $a['data'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji LIKE '%$cari%'")->result();
             $a['page'] = "kendaraan/list";
         }  else if ($mau_ke == "add") {
             $a['kode'] = $this->m_kendaraan->buat_kode();

@@ -74,6 +74,14 @@ class ijin_trayek_operasi extends CI_Controller {
                 "kp_ijin_operasi" => ""
             );
 
+            $id_ijin_operasi = $this->uri->segment(5);
+            $jml_data = $this->db->query("SELECT A.* FROM tbl_kendaraan A join tbl_perusahaan B ON A.id_perusahaan = b.id "
+                            . " JOIN tbl_ijin_operasi C on B.id = C.id_perusahaan WHERE C.id_ijin_operasi = '$id_ijin_operasi' AND A.kp_ijin_operasi != ''")->num_rows();
+
+            if ($jml_data == 1) {
+                $this->m_ijin_operasi->delete($id_ijin_operasi);
+            }
+
             if ($this->m_kendaraan->update($data_kendaraan_del, $idu)) {
                 $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been delete. </div>");
             } else {
@@ -83,8 +91,17 @@ class ijin_trayek_operasi extends CI_Controller {
 //            $this->db->query("DELETE FROM tbl_ijin_operasi WHERE id_ijin_operasi = '$idu'");
 //            $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been deleted </div>");
             redirect('ijin_trayek_operasi/ijin_operasi');
-        }  else if ($mau_ke == "del_kendaraan") {
-            $id_kendaraan = $this->uri->segment(4);          
+        } else if ($mau_ke == "del_kendaraan") {
+            $id_kendaraan = $this->uri->segment(4);
+
+            $id_ijin_operasi = $this->uri->segment(5);
+            $jml_data = $this->db->query("SELECT A.* FROM tbl_kendaraan A join tbl_perusahaan B ON A.id_perusahaan = b.id "
+                            . " JOIN tbl_ijin_operasi C on B.id = C.id_perusahaan WHERE C.id_ijin_operasi = '$id_ijin_operasi' AND LENGTH(A.kp_ijin_operasi) > 0 ")->num_rows();
+
+            if ($jml_data == 1) {
+                $this->m_ijin_operasi->delete($id_ijin_operasi);
+            }
+
             $data_delete = array(
                 "id_perusahaan" => 0
             );
@@ -94,18 +111,20 @@ class ijin_trayek_operasi extends CI_Controller {
             } else {
                 $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Data failed. </div>");
             }
-            
-            $id_perusahaan = $this->uri->segment(5);
+
+            $id_perusahaan = $this->uri->segment(6);
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
-            $a['data'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE id_perusahaan = $id_perusahaan")->result();
+            $a['data'] = $this->db->query("SELECT a.*, c.* FROM tbl_kendaraan a JOIN tbl_perusahaan b "
+                            . " ON a.id_perusahaan = b.id JOIN tbl_ijin_operasi c ON b.id = c.id_perusahaan WHERE a.id_perusahaan = $id_perusahaan AND LENGTH(a.kp_ijin_operasi) > 0")->result();
             $a['page'] = "ijin_operasi/list_kendaraan_perusahaan";
         } else if ($mau_ke == "cari") {
             $a['data'] = $this->db->query("select a.*, b.* from tbl_ijin_operasi a join tbl_kendaraan b on a.id_kendaraan = b.no_uji WHERE LOWER(b.no_kendaraan) LIKE '%$cari%'")->result();
             $a['page'] = "ijin_operasi/list";
-        }  else if ($mau_ke == "cari_kendaraan") {
+        } else if ($mau_ke == "cari_kendaraan") {
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
             $id_perusahaan = $this->input->post('id_perusahaan');
-            $a['data'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE id_perusahaan = $id_perusahaan")->result();
+            $a['data'] = $this->db->query("SELECT a.*, c.* FROM tbl_kendaraan a JOIN tbl_perusahaan b "
+                            . " ON a.id_perusahaan = b.id JOIN tbl_ijin_operasi c ON b.id = c.id_perusahaan WHERE a.id_perusahaan = $id_perusahaan AND LENGTH(a.kp_ijin_operasi) > 0")->result();
             $a['page'] = "ijin_operasi/list_kendaraan_perusahaan";
         } else if ($mau_ke == "cari_nomer_kendaraan") {
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
@@ -115,7 +134,7 @@ class ijin_trayek_operasi extends CI_Controller {
             $no_kendaraan = $this->input->post("no_kendaraan");
             $trim_nokendaraan = trim($no_kendaraan);
             $rawl_nokendaraan = rawurldecode($trim_nokendaraan);
-            $a['kendaraan'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji = '$rawl_nokendaraan'")->row_array();
+            $a['kendaraan'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji = '$rawl_nokendaraan' AND (LENGTH(kp_ijin_operasi) = 0 OR kp_ijin_operasi = '' OR kp_ijin_operasi isnull) ")->row_array();
 
             if (empty($a['kendaraan'])) {
                 $this->session->set_flashdata("message_cari", "<div class=\"alert alert-error\" id=\"alert\">Data Tidak ditemukan</div>");
@@ -141,9 +160,14 @@ class ijin_trayek_operasi extends CI_Controller {
             $a['datpil'] = $this->m_ijin_operasi->get_detail_ijin_operasi($idu);
             $a['page'] = "ijin_operasi/view_ijin_operasi";
         } else if ($mau_ke == "act_add") {
-            $save_data = $this->m_ijin_operasi->insert($data);
             $id_perusahaan = $this->input->post("id_perusahaan");
+            $cari_ijin_trayek = $this->db->query("SELECT * FROM tbl_ijin_operasi WHERE id_perusahaan = '$id_perusahaan'")->num_rows();
+            if ($cari_ijin_trayek == 0) {
+                $save_data = $this->m_ijin_operasi->insert($data);
+            }
 
+
+            $id_perusahaan = $this->input->post("id_perusahaan");
             $total_kendaraan = $this->db->query("SELECT * FROM tbl_kendaraan WHERE id_perusahaan = '$id_perusahaan'")->num_rows();
             if ($total_kendaraan == 0) {
                 $data_kendaraan['id_perusahaan'] = $id_perusahaan;
@@ -183,8 +207,9 @@ class ijin_trayek_operasi extends CI_Controller {
             $this->load->view('admin/cetak/ijin_usaha');
         } else {
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
-            $a['data'] = $this->db->query("select a.*, b.* from tbl_ijin_operasi a join tbl_kendaraan b on a.id_perusahaan = b.id_perusahaan"
-                            . " WHERE b.kp_ijin_operasi != '' "
+            $a['data'] = $this->db->query("select a.*, b.*, c.* from tbl_ijin_operasi a join tbl_perusahaan b on a.id_perusahaan = b.id "
+                            . " JOIN tbl_kendaraan c ON c.id_perusahaan = b.id "
+                            . " WHERE c.kp_ijin_operasi != '' "
                             . " ORDER BY a.id_ijin_operasi DESC "
                             . " LIMIT $akhir OFFSET $awal ")->result();
             $a['page'] = "ijin_operasi/list";
@@ -199,9 +224,9 @@ class ijin_trayek_operasi extends CI_Controller {
         }
 
         /* pagination */
-        $total_row = $this->db->query("select a.*, b.* from tbl_kendaraan a "
-                        . " JOIN tbl_trayek b ON a.id_trayek = b.id_trayek "
-                        . " WHERE a.kp_ijin_trayek != ''")->num_rows();
+        $total_row = $this->db->query("select a.*, b.*, c.* from tbl_ijin_trayek a join tbl_kendaraan b on a.id_perusahaan = b.id_perusahaan"
+                        . " JOIN tbl_trayek c ON b.id_trayek = c.id_trayek "
+                        . " WHERE b.kp_ijin_trayek != ''")->num_rows();
         $per_page = 10;
 
         $awal = $this->uri->segment(4);
@@ -239,6 +264,14 @@ class ijin_trayek_operasi extends CI_Controller {
                 "id_trayek" => 0,
                 "kp_ijin_trayek" => ""
             );
+            
+            $id_ijin_trayek = $this->uri->segment(5);
+            $jml_data = $this->db->query("SELECT A.* FROM tbl_kendaraan A join tbl_perusahaan B ON A.id_perusahaan = b.id "
+                            . " JOIN tbl_ijin_trayek C on B.id = C.id_perusahaan WHERE C.id_ijin_trayek = '$id_ijin_trayek' AND A.kp_ijin_trayek != ''")->num_rows();
+
+            if ($jml_data == 1) {
+                $this->m_ijin_trayek->delete($id_ijin_trayek);
+            }
 
             if ($this->m_kendaraan->update($data_kendaraan_del, $idu)) {
                 $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been delete. </div>");
@@ -250,20 +283,30 @@ class ijin_trayek_operasi extends CI_Controller {
 //            $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been deleted </div>");
             redirect('ijin_trayek_operasi/ijin_trayek');
         } else if ($mau_ke == "del_kendaraan") {
-            $id_kendaraan = $this->uri->segment(4);          
+            $id_kendaraan = $this->uri->segment(4);
             $data_delete = array(
                 "id_perusahaan" => 0
             );
+            
+            $id_ijin_trayek = $this->uri->segment(5);
+            $jml_data = $this->db->query("SELECT A.* FROM tbl_kendaraan A join tbl_perusahaan B ON A.id_perusahaan = b.id "
+                            . " JOIN tbl_ijin_trayek C on B.id = C.id_perusahaan WHERE C.id_ijin_trayek = '$id_ijin_trayek' AND LENGTH(A.kp_ijin_trayek) > 0 ")->num_rows();
+            if ($jml_data == 1) {
+                $this->m_ijin_trayek->delete($id_ijin_trayek);
+            }
+
 
             if ($this->m_kendaraan->update($data_delete, $id_kendaraan)) {
                 $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been delete. </div>");
             } else {
                 $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Data failed. </div>");
             }
-            
-            $id_perusahaan = $this->uri->segment(5);
+
+            $id_perusahaan = $this->uri->segment(6);
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
-            $a['data'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE id_perusahaan = $id_perusahaan")->result();
+             $a['data'] = $this->db->query("SELECT a.*, c.* FROM tbl_kendaraan a JOIN tbl_perusahaan b "
+                            . " ON a.id_perusahaan = b.id JOIN tbl_ijin_trayek c ON b.id = c.id_perusahaan WHERE a.id_perusahaan = $id_perusahaan AND LENGTH(a.kp_ijin_trayek) > 0")->result();
+           
             $a['page'] = "ijin_trayek/list_kendaraan_perusahaan";
         } else if ($mau_ke == "cari") {
             $a['data'] = $this->db->query("select a.*, b.*, c.* from tbl_ijin_trayek a join tbl_kendaraan b on a.id_kendaraan = b.no_uji "
@@ -272,7 +315,11 @@ class ijin_trayek_operasi extends CI_Controller {
         } else if ($mau_ke == "cari_kendaraan") {
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
             $id_perusahaan = $this->input->post('id_perusahaan');
-            $a['data'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE id_perusahaan = $id_perusahaan")->result();
+//            $a['data'] = $this->db->query("SELECT * from tbl_kendaraan where kp_ijin_trayek != '' AND id_perusahaan = $id_perusahaan")->result();
+            
+            $a['data'] = $this->db->query("SELECT a.*, c.* FROM tbl_kendaraan a JOIN tbl_perusahaan b "
+                            . " ON a.id_perusahaan = b.id JOIN tbl_ijin_trayek c ON b.id = c.id_perusahaan WHERE a.id_perusahaan = $id_perusahaan AND LENGTH(a.kp_ijin_trayek) > 0")->result();
+          
             $a['page'] = "ijin_trayek/list_kendaraan_perusahaan";
         } else if ($mau_ke == "cari_nomer_kendaraan") {
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
@@ -284,7 +331,7 @@ class ijin_trayek_operasi extends CI_Controller {
             $no_kendaraan = $this->input->post("no_kendaraan");
             $trim_nokendaraan = trim($no_kendaraan);
             $rawl_nokendaraan = rawurldecode($trim_nokendaraan);
-            $a['kendaraan'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji = '$rawl_nokendaraan'")->row_array();
+            $a['kendaraan'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji = '$rawl_nokendaraan' AND (LENGTH(kp_ijin_trayek) = 0 OR kp_ijin_trayek = '' OR kp_ijin_trayek isnull)")->row_array();
             if (empty($a['kendaraan'])) {
                 $this->session->set_flashdata("message_cari", "<div class=\"alert alert-error\" id=\"alert\">Data Tidak ditemukan</div>");
             }
@@ -313,7 +360,13 @@ class ijin_trayek_operasi extends CI_Controller {
             $a['datpil'] = $this->m_ijin_trayek->get_detail_ijin_trayek($idu);
             $a['page'] = "ijin_trayek/view_ijin_trayek";
         } else if ($mau_ke == "act_add") {
-            $save_data = $this->m_ijin_trayek->insert($data);
+             $id_perusahaan = $this->input->post("id_perusahaan");
+            $cari_ijin_trayek = $this->db->query("SELECT * FROM tbl_ijin_trayek WHERE id_perusahaan = '$id_perusahaan'")->num_rows();
+            if ($cari_ijin_trayek == 0) {
+                 $save_data = $this->m_ijin_trayek->insert($data);
+            }
+            
+           
             $save_data = $this->m_kendaraan->update($data_kendaraan, $this->input->post("id_kendaraan"));
             if ($save_data) {
                 $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been added. </div>");
@@ -350,9 +403,17 @@ class ijin_trayek_operasi extends CI_Controller {
             $this->load->view('admin/cetak/ijin_usaha');
         } else {
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
-            $a['data'] = $this->db->query("select a.*, b.*, c.* from tbl_ijin_trayek a join tbl_kendaraan b on a.id_perusahaan = b.id_perusahaan"
-                            . " JOIN tbl_trayek c ON b.id_trayek = c.id_trayek "
-                            . " WHERE b.kp_ijin_trayek != '' "
+//            $a['data'] = $this->db->query("select a.*, b.*, c.* from tbl_ijin_trayek a join tbl_kendaraan b on a.id_perusahaan = b.id_perusahaan"
+//                            . " JOIN tbl_trayek c ON b.id_trayek = c.id_trayek "
+//                            . " WHERE b.kp_ijin_trayek != '' "
+//                            . " ORDER BY a.id_ijin_trayek DESC "
+//                            . " LIMIT $akhir OFFSET $awal ")->result();
+
+
+            $a['data'] = $this->db->query("select a.*, b.*, c.*, d.* from tbl_ijin_trayek a join tbl_perusahaan b on a.id_perusahaan = b.id "
+                            . " JOIN tbl_kendaraan c ON c.id_perusahaan = b.id "
+                            . " JOIN tbl_trayek d ON d.id_trayek = c.id_trayek "
+                            . " WHERE c.kp_ijin_trayek != '' "
                             . " ORDER BY a.id_ijin_trayek DESC "
                             . " LIMIT $akhir OFFSET $awal ")->result();
 

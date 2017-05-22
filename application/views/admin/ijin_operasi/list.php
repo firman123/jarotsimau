@@ -93,7 +93,7 @@
                 <td class="ctr">
                     <div class="btn-group">
                         <a href="<?php echo base_URL() ?>index.php/ijin_trayek_operasi/ijin_operasi/edt/<?php echo $b->no_uji; ?>" class="btn btn-success btn-sm" title="Edit Data"><i class="icon-edit icon-white"> </i> View</a>		
-                        <a href="<?php echo base_URL() ?>index.php/ijin_trayek_operasi/ijin_operasi/del/<?php echo $b->no_uji; ?>" class="btn btn-warning btn-sm" title="Hapus Data" onclick="return confirm('Anda Yakin..?')"><i class="icon-trash icon-remove">  </i> Del</a>
+                        <a href="<?php echo base_URL() ?>index.php/ijin_trayek_operasi/ijin_operasi/del/<?php echo $b->no_uji; ?>/<?php echo $b->id_ijin_operasi; ?>" class="btn btn-warning btn-sm" title="Hapus Data" onclick="return confirm('Anda Yakin..?')"><i class="icon-trash icon-remove">  </i> Del</a>
                     </div>	
 
                 </td>

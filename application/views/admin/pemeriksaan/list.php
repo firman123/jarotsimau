@@ -5,18 +5,18 @@
 	<div class="navbar navbar-inverse">
 		<div class="container">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Kendaraan</a>
+				<a class="navbar-brand" href="#">Daftar Kendaraan</a>
 			</div>
 		<div class="navbar-collapse collapse navbar-inverse-collapse" style="margin-right: -20px">
 			<ul class="nav navbar-nav">
-                            <li><a href="<?php echo site_url("master_data/kendaraan/add"); ?>" class="btn-info"><i class="icon-plus-sign icon-white"> </i> Tambah Data</a></li>
+                            <li><a href="<?php echo site_url("pemeriksaan/input"); ?>" class="btn-info"><i class="icon-plus-sign icon-white"> </i> Tambah Data</a></li>
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right">
-                            <form class="navbar-form navbar-left" method="post" action="<?php echo base_URL(); ?>index.php/master_data/kendaraan/cari">
-					<input type="text" class="form-control" name="q" style="width: 200px" placeholder="Masukan Nomor Uji ..." required>
+<!--                            <form class="navbar-form navbar-left" method="post" action="<?php echo base_URL(); ?>index.php/master_data/kendaraan/cari">
+					<input type="text" class="form-control" name="q" style="width: 200px" placeholder="Masukan nama pemilik ..." required>
 					<button type="submit" class="btn btn-danger"><i class="icon-search icon-white"> </i> Cari</button>
-				</form>
+				</form>-->
 			</ul>
 		</div><!-- /.nav-collapse -->
 		</div><!-- /.container -->
