@@ -48,7 +48,7 @@ if ($mode == "edt" || $mode == "act_edt") {
 <div class="navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header">
-            <span class="navbar-brand" href="#">Kartu Pengawasan Trayek</span>
+            <span class="navbar-brand" href="#">Daftar Pengemudi</span>
         </div>
     </div><!-- /.container -->
 </div><!-- /.navbar -->
@@ -74,7 +74,7 @@ if ($mode == "edt" || $mode == "act_edt") {
                 <input type="hidden" name="no_kendaraan"  required value="<?php echo $kendaraan['no_kendaraan'] ; ?>" style="width: 400px" id="no_kendaraan" class="form-control"  />
                 <tr><td style="width: 50%;">NO. KP</td><td style="width: 50%;"><b><input type="text" name="no_kp" required value="<?php echo $kendaraan['kp_ijin_trayek']; ?>" id="kartu_pengawasan" style="width: 300px" class="form-control" readonly=""/></b></td></tr>
                 	
-                <tr><td width="20%">Masa Belaku KP</td><td><b><input type="text" name="masa_berlaku" required value="<?php echo $kendaraan['masa_berlaku']; ?>" id="masa_berlaku" style="width: 300px" class="form-control" readonly /></td></tr>	
+                <tr><td width="20%">Masa Belaku KP</td><td><b><input type="text" name="masa_berlaku" required value="<?php echo $kendaraan['tgl_mati_uji']; ?>" id="masa_berlaku" style="width: 300px" class="form-control" readonly /></td></tr>	
                 <tr><td width="20%">No. Trayek</td><td><b><input type="text" name="no_trayek" required value="<?php echo $kendaraan['id_trayek']; ?>" id="no_trayek" style="width: 300px" class="form-control" readonly /></td></tr>		
                 <tr><td width="20%">Nama Pemilik</td><td><b><input type="text" name="nama_pemilik" required value="<?php echo $kendaraan['nama_pemilik']; ?>" id="nama_pemilik" style="width: 300px" class="form-control" readonly /></td></tr>	
                 <tr><td width="20%">Alamat</td><td><b><input type="text" name="alamat_pemilik" required value="<?php echo $kendaraan['alamat']; ?>" id="alamat_pemilik" style="width: 300px" class="form-control" readonly/></td></tr>	
@@ -97,8 +97,8 @@ if ($mode == "edt" || $mode == "act_edt") {
                 <tr><td colspan="2"><hr style="border-width: 1px; border-style: inset; display: block; margin-bottom: -10px;"></td></tr>
                 <tr><td colspan="2"><b>Catatan Pelanggaran</td></tr>
                 <tr><td width="20%">Catatan</td><td><b><input type="text" name="catatan" id="catatan" required value="<?php echo $kendaraan['catatan']; ?>" style="width: 300px" class="form-control" readonly></b></td></tr>
-                <tr><td width="20%">Pelapor</td><td><b><input type="text" name="last_update" id="last_update" required value="<?php echo $kendaraan['masa_berlaku']; ?>" style="width: 300px" class="form-control" readonly></b></td></tr>
-                <tr><td width="20%">Tanggal</td><td><b><input type="text" name="post_by" id="post_by" required value="<?php echo $kendaraan['post_by']; ?>" style="width: 300px" class="form-control" readonly></b></td></tr>
+                <tr><td width="20%">Tanggal</td><td><b><input type="text" name="last_update" id="last_update" required value="<?php echo $kendaraan['last_update']; ?>" style="width: 300px" class="form-control" readonly></b></td></tr>
+                <tr><td width="20%">Pelapor</td><td><b><input type="text" name="post_by" id="post_by" required value="<?php echo $kendaraan['post_by']; ?>" style="width: 300px" class="form-control" readonly></b></td></tr>
             </table>	
         </div>
 

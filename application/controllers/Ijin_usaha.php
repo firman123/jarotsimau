@@ -133,8 +133,8 @@ class ijin_usaha extends CI_Controller {
     public function cetak_surat_ijin() {
         ob_start();
         $idu = $this->uri->segment(3);
-        $a['datpil'] = $this->db->query("select a.*, b.* from tbl_perusahaan a join tbl_ijin_usaha b on a.id = b.id_perusahaan"
-                        . "                     where b.id_ijin = '$idu'")->row();
+//        $a['datpil'] = $this->db->query("select a.*, b.* from tbl_perusahaan a join tbl_ijin_usaha b on a.id = b.id_perusahaan"
+//                        . "                     where b.id_ijin = '$idu'")->row();
         $a['date_manipulation'] = $this->datetimemanipulation;
 //        $this->load->view('admin/cetak/surat_ijin_usaha/ijin_usaha', $a);
         

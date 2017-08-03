@@ -19,6 +19,10 @@ class Kartu_pengawasan extends CI_Controller {
     public function __construct() {
         parent::__construct();
 
+        $this->load->library('ciqrcode');
+        $this->load->library('fpdf');
+
+
         $this->load->model('m_kendaraan');
         $this->load->model('m_perusahaan');
         $this->load->model('m_trayek');
@@ -63,7 +67,7 @@ class Kartu_pengawasan extends CI_Controller {
             "no_ktp" => $this->input->post("no_ktp"),
             "nama_pengemudi" => $this->input->post("nama_pengemudi"),
             "alamat" => $this->input->post("alamat"),
-            "masa_berlaku" => $this->input->post("masa_berlaku")
+            "masa_berlaku" => $this->input->post("masa_berlaku_ijin_trayek")
         );
         //ambil variabel Postingan
         $cari = addslashes($this->input->post('q'));
@@ -113,7 +117,7 @@ class Kartu_pengawasan extends CI_Controller {
         } else if ($mau_ke == "act_add") {
             $id_kendaraan = $this->input->post("no_uji");
             $no_ktp = $this->input->post("no_ktp");
-            $jumlah_sopir = $this->db->query("SELECT a.* FROM tbl_kartu_pengawasan a JOIN tbl_ijin_trayek b ON a.id_kp = b.id_ijin_trayek WHERE a.id_kendaraan = '$id_kendaraan'")->num_rows();
+            $jumlah_sopir = $this->db->query("SELECT * FROM tbl_kartu_pengawasan  WHERE id_kendaraan = '$id_kendaraan'")->num_rows();
 
             $ktp_available = $this->db->query("SELECT * FROM tbl_kartu_pengawasan WHERE no_ktp = '$no_ktp'")->num_rows();
 
@@ -124,6 +128,7 @@ class Kartu_pengawasan extends CI_Controller {
                     $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Gagal!, KTP Sudah digunakan </div>");
                 } else {
                     $data['create_date'] = date("Y-m-d");
+                    
 
                     if ($this->upload->do_upload('foto')) {
                         $up_data = $this->upload->data();
@@ -158,7 +163,7 @@ class Kartu_pengawasan extends CI_Controller {
                 } else {
                     $data['create_date'] = date("Y-m-d");
                     if ($this->upload->do_upload('foto')) {
-                        $up_data = $this->upload->data();              
+                        $up_data = $this->upload->data();
                         $data['foto'] = $up_data['file_name'];
 
                         $save_data = $this->m_kartu_pengawas->update($data, $this->input->post("id"));
@@ -197,7 +202,8 @@ class Kartu_pengawasan extends CI_Controller {
             $a['label'] = "Kartu Pengawasan Trayek";
             $a['type'] = "Trayek";
 //            $a['data'] = $this->db->query("SELECT * FROM tbl_kartu_pengawasan WHERE id_kp LIKE 'KPIT%' ORDER BY id DESC LIMIT $akhir OFFSET $awal ")->result();
-            $a['data'] = $this->db->query("SELECT * FROM tbl_kartu_pengawasan WHERE id_kp LIKE 'KPIT%' ORDER BY id DESC LIMIT $akhir OFFSET $awal ")->result();
+            $a['data'] = $this->db->query("SELECT a.* , b.* FROM tbl_kendaraan a join tbl_kartu_pengawasan b "
+                            . " ON a.no_uji = b.id_kendaraan WHERE b.id_kp LIKE 'KPIT%' ORDER BY b.id DESC LIMIT $akhir OFFSET $awal ")->result();
             $a['page'] = "kartu_pengawasan/list";
         }
 
@@ -242,7 +248,7 @@ class Kartu_pengawasan extends CI_Controller {
             "no_ktp" => $this->input->post("no_ktp"),
             "nama_pengemudi" => $this->input->post("nama_pengemudi"),
             "alamat" => $this->input->post("alamat"),
-            "masa_berlaku" => $this->input->post("masa_berlaku")
+            "masa_berlaku" => $this->input->post("masa_berlaku_ijin_operasi")
         );
         //ambil variabel Postingan
         $cari = addslashes($this->input->post('q'));
@@ -258,11 +264,11 @@ class Kartu_pengawasan extends CI_Controller {
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
             $a['label'] = "Kartu Pengawasan Trayek";
             $a['action'] = "search_kendaraan";
-            $a['path'] = "trayek";
+            $a['path'] = "operasi";
             $no_kendaraan = $this->input->post("no_kendaraan");
             $trim_nokendaraan = trim($no_kendaraan);
             $rawl_nokendaraan = rawurldecode($trim_nokendaraan);
-            $a['kendaraan'] = $this->db->query("SELECT A.*, B.*, C.* FROM tbl_kendaraan A JOIN tbl_perusahaan B ON A.id_perusahaan = B.id "
+            $a['kendaraan'] = $this->db->query("SELECT A.*, B.*, C.* FROM tbl_kendaraan A LEFT JOIN tbl_perusahaan B ON A.id_perusahaan = B.id "
                             . "  LEFT JOIN tb_note_kendaraan C ON a.no_uji=c.id_kendaraan WHERE  A.kp_ijin_operasi !='' AND A.no_kendaraan = '$rawl_nokendaraan'")->row_array();
 
             if (empty($a['kendaraan'])) {
@@ -306,9 +312,9 @@ class Kartu_pengawasan extends CI_Controller {
                 if ($ktp_available > 0) {
                     $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Gagal!, KTP Sudah digunakan </div>");
                 } else {
-                     $data['create_date'] = date("Y-m-d");
+                    $data['create_date'] = date("Y-m-d");
                     if ($this->upload->do_upload('foto')) {
-                        $up_data = $this->upload->data();                       
+                        $up_data = $this->upload->data();
                         $data['foto'] = $up_data['file_name'];
                         $save_data = $this->m_kartu_pengawas->insert($data);
                     } else {
@@ -336,7 +342,7 @@ class Kartu_pengawasan extends CI_Controller {
             } else {
                 $data['create_date'] = date("Y-m-d");
                 if ($this->upload->do_upload('foto')) {
-                    $up_data = $this->upload->data();                   
+                    $up_data = $this->upload->data();
                     $data['foto'] = $up_data['file_name'];
 
                     $save_data = $this->m_kartu_pengawas->update($data, $this->input->post("id"));
@@ -356,11 +362,48 @@ class Kartu_pengawasan extends CI_Controller {
             $a['path'] = "operasi";
             $a['label'] = "Kartu Pengawasan Operasi";
             $a['type'] = "Operasi";
-            $a['data'] = $this->db->query("SELECT * FROM tbl_kartu_pengawasan WHERE id_kp LIKE 'KPIO%' ORDER BY id DESC LIMIT $akhir OFFSET $awal ")->result();
+            $a['data'] = $this->db->query("SELECT a.*, b.* FROM tbl_kendaraan a join tbl_kartu_pengawasan b "
+                            . " ON a.no_uji = b.id_kendaraan WHERE b.id_kp LIKE 'KPIO%' ORDER BY b.id DESC LIMIT $akhir OFFSET $awal ")->result();
             $a['page'] = "kartu_pengawasan/list";
         }
 
         $this->load->view('admin/dashboard', $a);
+    }
+
+    public function cetak_kartu_pengemudi($id) {
+        define('FPDF_FONTPATH', $this->config->item('fonts_path'));
+        $SQL = "SELECT a.*, b.no_kendaraan, b.no_uji, c.nama_perusahaan, d.kd_trayek "
+                . " from tbl_kartu_pengawasan a JOIN tbl_kendaraan b ON a.id_kendaraan = b.no_uji "
+                . " left JOIN tbl_perusahaan c ON b.id_perusahaan = c.id "
+                . " LEFT JOIN tbl_trayek d ON d.id_trayek = b.id_trayek WHERE a.id = $id";
+        $a['datpil'] = $this->db->query($SQL)->row();
+
+        $data_gambar = $a['datpil']->foto;
+        if ($data_gambar==null) {
+//            $a['poto_sopir'] = getcwd() . '/upload/noimage.jpg';
+             $a['poto_sopir'] = base_url() . 'upload/noimage.jpg';
+        } else {
+            $foto_trim = trim($data_gambar);
+//            $a['poto_sopir'] = getcwd() . "/upload/kartu_pengawas/" . $foto_trim;
+            $a['poto_sopir'] = base_url() . "upload/kartu_pengawas/" . $foto_trim;
+        }
+
+//        print_r($a['poto_sopir']);
+
+
+        $data_qr = "http://integratesystem.id/display/info_pengemudi.php?no_uji=" . $a['datpil']->no_uji;
+        $qr['data'] = $data_qr;
+
+        $qr['level'] = 'H';
+        $qr['size'] = 10;
+        $qr['savename'] = FCPATH . 'qr.png';
+        $this->ciqrcode->generate($qr);
+
+        $this->load->view('admin/cetak/kartu_pengemudi/print_v2.php', $a);
+    }
+    
+    public function scan_kp() {
+        $this->load->view('admin/scan/scan_kp.php');
     }
 
 }

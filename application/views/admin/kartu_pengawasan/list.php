@@ -5,11 +5,13 @@
             <div class="navbar navbar-inverse">
                 <div class="container">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="#"><?php echo $label; ?></a>
+                        <a class="navbar-brand" href="#">Pengemudi</a>
                     </div>
                     <div class="navbar-collapse collapse navbar-inverse-collapse" style="margin-right: -20px">
                         <ul class="nav navbar-nav">
-                            <li><a href="<?php echo base_URL() ?>index.php/kartu_pengawasan/<?php echo $path; ?>/add" class="btn-info"><i class="icon-plus-sign icon-white"> </i> Tambah Data</a></li>
+                            <li><a href="<?php echo base_URL() ?>index.php/kartu_pengawasan/<?php echo $path; ?>/add" class="btn-info"><i class="icon-plus-sign icon-white"> </i> Daftar Pengemudi</a></li>
+
+                            <!--<li><a href="<?php echo base_URL() ?>index.php/pemeriksaan/index_<?php echo $path; ?>" class="btn-info"><i class="icon-plus-sign icon-white"> </i> Daftar Kendaraan</a></li>-->
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
@@ -43,11 +45,12 @@
         <thead>
             <tr>
                 <th width="5%">No</th>
+                <th width="7%">No Uji</th>
                 <th width="10%">ID KP</th>
                 <th width="10%">ID Kendaraan</th>
+                <th width="10%">No Kendaraan</th>
                 <th width="15%">Nomor KTP</th>
-                <th width="25%">Nama Pengemudi</th>
-                <th width="15%">Foto</th>
+                <th width="15%">Nama Pengemudi</th>
                 <th></th>
             </tr>
         </thead>
@@ -63,15 +66,17 @@
 
                     <tr style="background-color: #fff;">
                         <td><center><?php echo $no; ?></center></td>
-                <td><?php echo $b->id_kp;
-            "<br><i>" . "</i>"; ?></td>
+                <td><?php echo $b->no_uji; ?></td>
+                <td><?php echo $b->id_kp; ?></td>
                 <td><?php echo $b->id_kendaraan; ?></td>
+                <td><?php echo $b->no_kendaraan; ?></td>
                 <td><?php echo $b->no_ktp; ?></td>
                 <td><?php echo $b->nama_pengemudi; ?></td>
-                <td><?php echo $b->foto; ?></td>
                 <td class="ctr">
                     <div class="btn-group">
-                        <a href="<?php echo base_URL() ?>index.php/kartu_pengawasan/<?php echo $path; ?>/edt/<?php echo $b->id; ?>" class="btn btn-success btn-sm" title="Edit Data"><i class="icon-edit icon-white"> </i> View</a>	                                   
+
+                        <a href="<?php echo base_URL() ?>index.php/kartu_pengawasan/<?php echo $path; ?>/edt/<?php echo $b->id; ?>" class="btn btn-warning btn-sm" title="Edit Data"><i class="icon-edit icon-white"> </i> View</a>
+                        <a href="<?php echo base_URL() ?>index.php/kartu_pengawasan/cetak_kartu_pengemudi/<?php echo $b->id; ?>" target="_blank" class="btn btn-success btn-sm" title="Edit Data"><i class="icon-print icon-white"> </i> Kartu pengemudi</a>	
                         <a href="<?php echo base_URL() ?>index.php/kartu_pengawasan/<?php echo $path; ?>/del/<?php echo $b->id; ?>" class="btn btn-warning btn-sm" title="Hapus Data" onclick="return confirm('Anda Yakin..?')"><i class="icon-trash icon-remove">  </i> Del</a>
                     </div>	
 

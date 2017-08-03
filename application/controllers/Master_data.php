@@ -66,22 +66,21 @@ class master_data extends CI_Controller {
             $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been deleted </div>");
             redirect('admin/kendaraan/surat_masuk');
         } else if ($mau_ke == "cari") {
-            $a['data'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji LIKE '%$cari%'")->result();
+            $a['data'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_kendaraan LIKE '%$cari%'")->result();
             $a['page'] = "kendaraan/list";
-        }  else if ($mau_ke == "add") {
+        } else if ($mau_ke == "add") {
             $a['kode'] = $this->m_kendaraan->buat_kode();
-            $a['data_sifat'] = array("Umum", "Tidak Umum", "Coba Jalan");
+            $a['data_sifat'] = array("UMUM", "TIDAK UMUM", "COBA JALAN");
             $a['jenis_kendaraan'] = array("Barang", "Penumpang");
             $a['trayek'] = $this->m_trayek->get_all_trayek();
             $a['page'] = "kendaraan/input";
         } else if ($mau_ke == "edt") {
-            $a['data_sifat'] = array("Umum", "Tidak Umum", "Coba Jalan");
+            $a['data_sifat'] = array("UMUM", "TIDAK UMUM", "COBA JALAN");
             $a['jenis_kendaraan'] = array("Barang", "Penumpang");
             $a['trayek'] = $this->m_trayek->get_all_trayek();
             $id_kendaraan = rawurldecode($idu);
             $a['datpil'] = $this->m_kendaraan->get_detail_kendaraan_by_id($id_kendaraan);
 //            $a['datpil'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji = '$idu'")->row();
-           
 //            print_r($a['datpil']);
             $a['page'] = "kendaraan/input";
 //            $a['datpil'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji = '$idu'")->row();

@@ -48,7 +48,7 @@ if ($mode == "edt" || $mode == "act_edt") {
 <div class="navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header">
-            <span class="navbar-brand" href="#">Kartu Pengawasan Trayek</span>
+            <span class="navbar-brand" href="#">Daftar Pengemudi</span>
         </div>
     </div><!-- /.container -->
 </div><!-- /.navbar -->

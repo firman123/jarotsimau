@@ -21,6 +21,36 @@ class m_kendaraan extends CI_Model {
     function get_last_inserted_id() {
         return $this->db->insert_id();
     }
+    
+    public function total_kendaraan_rubah_sifat() {
+        $SQL = "SELECT count(*) as total from tbl_kendaraan "
+                . " where verifikasi_rubah_sifat = 1 OR  "
+                . " verifikasi_rubah_sifat = 2 ";
+        
+        $query = $this->db->query($SQL);
+        if($query->num_rows() > 0) {
+            $result = $query->row_array();
+            $query->free_result();
+            return $result['total'];
+        } else {
+            return 0;
+        }
+    }
+    
+    public function get_all_kendaraan_rubah_sifat($limit, $offset) {
+        $tanggal = date("Y-m-d");
+        $SQL = "SELECT * FROM tbl_kendaraan WHERE ( verifikasi_rubah_sifat = 1 "
+                . " OR verifikasi_rubah_sifat = 2 ) AND tanggal = '$tanggal' ORDER BY tanggal DESC "
+                . " LIMIT $limit OFFSET $offset ";
+        $query = $this->db->query($SQL);
+        if($query->num_rows() > 0) {
+            $result = $query->result();
+            $query->free_result();
+            return $result;
+        } else {
+            return array();
+        }
+    }
 
     public function get_detail_kendaraan_by_id($params) {
         $sql = "SELECT * FROM tbl_kendaraan WHERE no_uji = '$params' ";
