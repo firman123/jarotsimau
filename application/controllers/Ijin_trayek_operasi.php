@@ -60,12 +60,6 @@ class ijin_trayek_operasi extends CI_Controller {
             "verifikasi" => $this->input->post("verifikasi")
         );
 
-        $data = array(
-            "id_ijin_trayek" => $this->input->post("id_ijin_trayek"),
-            "id_perusahaan" => $this->input->post("id_perusahaan"),
-            "verifikasi" => $this->input->post("verifikasi")
-        );
-
 //        $tanggal = date("Y-m-d");
         $tahun = date("Y") + 5;
         $bulan = date("m");
@@ -351,7 +345,7 @@ class ijin_trayek_operasi extends CI_Controller {
             $no_kendaraan = $this->input->post("no_kendaraan");
             $trim_nokendaraan = trim($no_kendaraan);
             $rawl_nokendaraan = rawurldecode($trim_nokendaraan);
-            $a['kendaraan'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji = '$rawl_nokendaraan' AND (LENGTH(kp_ijin_trayek) = 0 OR kp_ijin_trayek = '' OR kp_ijin_trayek isnull)")->row_array();
+            $a['kendaraan'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE RTRIM(no_uji) = '$rawl_nokendaraan' AND (LENGTH(kp_ijin_trayek) = 0 OR kp_ijin_trayek = '' OR kp_ijin_trayek isnull)")->row_array();
             if (empty($a['kendaraan'])) {
                 $this->session->set_flashdata("message_cari", "<div class=\"alert alert-error\" id=\"alert\">Data Tidak ditemukan</div>");
             }
