@@ -7,19 +7,23 @@
  */
 
 class Hasil_pemeriksaan extends CI_Controller {
-
+    protected $com_user;
     public function __construct() {
         parent::__construct();
-
-        if ($this->session->userdata('admin_valid') == FALSE && $this->session->userdata('admin_user') == "") {
-            redirect("admin/login");
-        }
-
-        $this->load->model('m_pemeriksaan');
-
+        self::check_authority();
+        
         $this->load->library('ciqrcode');
         $this->load->library("datetimemanipulation");
         $this->load->library('fpdf');
+    }
+    
+     private function check_authority() {
+        $this->com_user = $this->session->userdata('session_admin');
+        if (!empty($this->com_user)) {
+            $this->load->model('m_pemeriksaan');
+        } else {
+            redirect("admin/login");
+        }
     }
 
     public function index() {

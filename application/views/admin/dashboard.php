@@ -314,7 +314,7 @@
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes"><i class="icon-user icon-white"></i> Administrator <span class="caret"></span></a>
                             <ul class="dropdown-menu" aria-labelledby="themes">
-                                <!--<li><a tabindex="-1" href="<?php echo base_url(); ?>admin/passwod">Rubah Password</a></li>-->
+                                <!--<li><a tabindex="-1" href="<?php echo base_url(); ?>index.php/admin/manage_admin">Manage Admin</a></li>-->
                                 <li><a tabindex="-1" href="<?php echo base_url(); ?>index.php/admin/logout">Logout</a></li>
 
                             </ul>

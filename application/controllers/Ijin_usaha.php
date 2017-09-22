@@ -20,17 +20,15 @@ class ijin_usaha extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-
+        if (empty($this->session->userdata('session_admin'))) {
+            redirect("admin/login");
+        }
         $this->load->model("m_ijin_usaha");
         
         $this->load->library("datetimemanipulation");
     }
 
     public function angkutan_barang() {
-        if ($this->session->userdata('admin_valid') == FALSE && $this->session->userdata('admin_user') == "") {
-            redirect("admin/login");
-        }
-
         $jenis_kendaraan = 'barang';
 
         /* pagination */
@@ -149,10 +147,6 @@ class ijin_usaha extends CI_Controller {
     }
 
     public function angkutan_penumpang() {
-        if ($this->session->userdata('admin_valid') == FALSE && $this->session->userdata('admin_user') == "") {
-            redirect("admin/login");
-        }
-
         $jenis_kendaraan = 'penumpang';
 
         /* pagination */

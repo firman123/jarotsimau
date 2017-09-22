@@ -1,139 +1,40 @@
-<html>
-    <head>
-        <style type="text/css" media="print">
-            #kotak {
-                background: url(<?php echo base_url(); ?>aset/img/kartu_pengemudi.jpg) no-repeat;
-                width: 209px;
-                border: solid 1px;
-            }
+<?php
 
+$this->load->library('fpdf');
+$this->fpdf->__construct("P", "cm", array(5.5, 8.6));
+// kita set marginnya dimulai dari kiri, atas, kanan. jika tidak diset, defaultnya 1 cm
+$this->fpdf->SetMargins(0, 4, 0);
+$this->fpdf->SetAutoPageBreak(false);
+/* AliasNbPages() merupakan fungsi untuk menampilkan total halaman
+  di footer, nanti kita akan membuat page number dengan format : number page / total page
+ */
 
+// AddPage merupakan fungsi untuk membuat halaman baru
+$this->fpdf->AddPage();
 
-            #poto {
-                text-align: center;
-                margin-left: auto;
-                margin-right: auto;
-                margin-top: 50px;
-            }
+$this->fpdf->Image(base_url() . 'aset/img/kartu_pengemudi.jpg', 0, 0, 5.5, 8.6, 'JPG');
+// Setting Font : String Family, String Style, Font size
+$this->fpdf->SetFont('Arial', 'B', 7);
 
-            #title {
-                font-family: Arial, Helvetica, sans-serif;
-                font-size: 15px;
-                font-style: normal;
-                font-weight: bold;
-                text-align: center;
-                margin-top: 10px;
-                margin-left: 10px;
-                margin-right: 10px;
-            }
+$this->fpdf->Image($poto_sopir, $poto_sopir.getWidth / 2, 1.3, 0, 2.5);
 
-            #title_kiri {
-                font-family: Arial, Helvetica, sans-serif;
-                font-size: 10px;
-                font-style: normal;
-                font-weight: bold;
-                text-align: left;
-                margin-top: 5px;
-                margin-left: 10px;
-                margin-right: 10px;
-            }
+//$this->fpdf->SetMargins(0, 4, 0);
+$this->fpdf->SetFont('Arial', 'B', 9);
+$nama = trim(rawurldecode($datpil->nama_pengemudi));
+$this->fpdf->Cell(5.6, 0.5,$nama, 0, 0, 'C');
+$this->fpdf->ln(0.5);
 
-            #qrcode {
-                float: left;
-                margin-left: 10px;
-                margin-top: 5px;
-            }
-
-            #trayek {
-               font-family: Arial, Helvetica, sans-serif;
-                font-size: 15px;
-                font-style: normal;
-                color: #fff;
-                font-weight: bold;
-                text-align: right;
-                margin-right:5px;
-                margin-bottom:5px;
-            }
-
-
-
-        </style>
-
-        <style type="text/css" media="screen">
-             #kotak {
-                background: url(<?php echo base_url(); ?>aset/img/kartu_pengemudi.jpg) no-repeat;
-                width: 209px;
-                border: solid 1px;
-            }
-
-
-
-            #poto {
-                text-align: center;
-                margin-left: auto;
-                margin-right: auto;
-                margin-top: 50px;
-            }
-
-            #title {
-                font-family: Arial, Helvetica, sans-serif;
-                font-size: 15px;
-                font-style: normal;
-                font-weight: bold;
-                text-align: center;
-                margin-top: 10px;
-                margin-left: 10px;
-                margin-right: 10px;
-            }
-
-            #title_kiri {
-                font-family: Arial, Helvetica, sans-serif;
-                font-size: 10px;
-                font-style: normal;
-                font-weight: bold;
-                text-align: left;
-                margin-top: 5px;
-                margin-left: 10px;
-                margin-right: 10px;
-            }
-
-            #qrcode {
-                float: left;
-                margin-left: 10px;
-                margin-top: 5px;
-            }
-
-            #trayek {
-                font-family: Arial, Helvetica, sans-serif;
-                font-size: 10px;
-                font-style: normal;
-                color: #fff;
-                font-weight: bold;
-                text-align: right;
-                margin-right: 10px;
-            }
-
-
-
-        </style>
-    </head>
-    <body onload="window.print()">
-        <div id="kotak">
-            <div id="poto">
-                <img src="<?php if(empty($datpil->foto)) { echo base_url();?>upload/nopoto.jpg; <?php } else { echo base_url(); ?>upload/kartu_pengawas/<?php echo $datpil->foto; }?>" style="height: 100px;" />
-            </div>
-            <div id="title">
-                <?php echo $datpil->nama_pengemudi; ?>
-            </div>
-            <div id="title_kiri" style="margin-top: 10px;"><?php echo $datpil->no_kendaraan; ?></div>
-            <div id="title_kiri"><?php echo $datpil->nama_perusahaan; ?></div>
-            <div id="qrcode" style="width: 100%;">
-                <img src="<?php echo base_url(); ?>qr.png" style="width: 60px; margin: auto;" />
-            </div>
-            <div id="trayek">
-                
-                <?php if(empty($datpil->kd_trayek)) { echo "0"; } else {echo $datpil->kd_trayek;}?>
-            </div>
-        </div>
-    </body>
-</html>
+$this->fpdf->SetFont('Arial', 'B', 8);
+$this->fpdf->SetLeftMargin(0.3);
+$this->fpdf->Cell(5.6, 0.4, $datpil->no_kendaraan, 0, 0, 'L');
+$this->fpdf->ln();
+$this->fpdf->Cell(5.6, 0.4, $datpil->nama_perusahaan, 0, 0, 'L');
+$this->fpdf->Image(base_url() . 'qr.png', 0.3, 5.6, 1.8, 1.8, 'PNG');
+$this->fpdf->ln(2);
+$this->fpdf->SetFont('Arial', 'B', 16);
+$this->fpdf->SetRightMargin(1.4);
+$this->fpdf->SetTextColor(2555, 255, 255);
+$this->fpdf->Cell(5, 1.5, trim($datpil->kd_trayek), 0, 0, 'R');
+// $this->fpdf->Line(1,3.5,30,3.5);
+$this->fpdf->Output("Output.pdf", "I");
+?>

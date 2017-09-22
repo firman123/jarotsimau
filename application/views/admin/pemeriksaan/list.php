@@ -9,7 +9,7 @@
 			</div>
 		<div class="navbar-collapse collapse navbar-inverse-collapse" style="margin-right: -20px">
 			<ul class="nav navbar-nav">
-                            <li><a href="<?php echo site_url("pemeriksaan/input/$path"); ?>" class="btn-info"><i class="icon-plus-sign icon-white"> </i> Tambah Data</a></li>
+                            <li><a href="<?php echo site_url("pemeriksaan/input/$path"); ?>" class="btn-info"><i class="icon-plus-sign icon-white"> </i> Daftar</a></li>
                             <li><a href="<?php echo site_url("hasil_pemeriksaan/index_$path"); ?>" class="btn-info"><i class="icon-print icon-white"> </i> Cetak</a></li>
 			</ul>
 			

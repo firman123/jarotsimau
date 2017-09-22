@@ -12,20 +12,25 @@
  * @author Ihtiyar
  */
 class Rubahsifat extends CI_Controller {
-
+    protected $com_user;
     //put your code here
 
     public function __construct() {
         parent::__construct();
-
-        if ($this->session->userdata('admin_valid') == FALSE && $this->session->userdata('admin_user') == "") {
-            redirect("admin/login");
-        }
-
-        $this->load->model("m_kendaraan");
-        $this->load->model("m_perusahaan");
+        self::check_authority();
+        
         $this->load->library("datetimemanipulation");
         $this->load->library('fpdf');
+    }
+    
+    private function check_authority() {
+        $this->com_user = $this->session->userdata('session_admin');
+        if (!empty($this->com_user)) {
+            $this->load->model("m_kendaraan");
+            $this->load->model("m_perusahaan");
+        } else {
+            redirect("admin/login");
+        }
     }
 
     public function index() {

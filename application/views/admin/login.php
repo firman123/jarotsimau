@@ -73,24 +73,12 @@
 
                     <div class="well" style="width: 400px; margin: 20px auto; border: solid 1px #d9d9d9; padding: 30px 20px; border-radius: 8px">
 
-                        <form action="<?php echo base_url() . "index.php/admin/do_login" ?>" method="post">
+                        <form action="<?php echo base_url() . "index.php/admin/login_process" ?>" method="post">
                             <legend>Login Admin</legend>	
                             <?php echo $this->session->flashdata("message") ?>
                             <table align="center" style="margin-bottom: 0" class="table-form" width="90%">
                                 <tr><td width="40%">Username</td><td><input type="text" name="u" required style="width: 200px" autofocus class="form-control"></td></tr>
                                 <tr><td>Password</td><td><input type="password" name="p" required style="width: 200px" class="form-control"></td></tr>
-        <!--			<tr><td>Tahun</td><td><select name="ta" class="form-control" required><option value="">--</option>
-                                <?php
-                                for ($i = 2012; $i <= (date('Y')); $i++) {
-                                    if (date('Y') == $i) {
-                                        echo "<option value='$i' selected>$i</option>";
-                                    } else {
-                                        echo "<option value='$i'>$i</option>";
-                                    }
-                                }
-                                ?>
-                                </select>
-                                </td></tr>-->
                                 <tr><td></td><td><input type="submit" class="btn btn-success" value="Login"></td></tr>
                             </table>
 

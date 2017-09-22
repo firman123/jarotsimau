@@ -9,10 +9,7 @@
 			</div>
 		<div class="navbar-collapse collapse navbar-inverse-collapse" style="margin-right: -20px">
 			<ul class="nav navbar-nav">
-<!--				<form class="navbar-form navbar-left" method="post" action="<?=base_URL()?>admin/manage_admin/cari">
-					<input type="text" class="form-control" name="q" style="width: 200px" placeholder="Kata kunci pencarian ..." required>
-					<button type="submit" class="btn btn-danger"><i class="icon-search icon-white"> </i> Cari</button>
-				</form>-->
+				<li><a href="<?php echo base_URL(); ?>index.php/admin/manage_admin/add" class="btn-info"><i class="icon-plus-sign icon-white"> </i> Tambah Data</a></li>
 			</ul>
 		</div><!-- /.nav-collapse -->
 		</div><!-- /.container -->
@@ -21,7 +18,7 @@
   </div>
 </div>
 
-<?php echo $this->session->flashdata("k");?>
+
 	
 <!--	
 <div class="alert alert-dismissable alert-success">
@@ -34,7 +31,7 @@
   <strong>Oh snap!</strong> <a href="http://bootswatch.com/amelia/#" class="alert-link">Change a few things up</a> and try submitting again.
 </div>	
 -->
-
+<?php echo $this->session->flashdata("message");?>
 <table class="table table-bordered table-hover">
 	<thead>
 		<tr>
@@ -59,8 +56,7 @@
 			<td><?=$b->otoritas?></td>
 			<td class="ctr">
 				<div class="btn-group">
-					<a href="<?=base_URL()?>admin/manage_admin/edt/<?=$b->user_name?>" class="btn btn-success btn-sm" title="Edit Data"><i class="icon-edit icon-white"> </i> Edt</a>
-					<a href="<?=base_URL()?>admin/manage_admin/del/<?=$b->user_name?>" class="btn btn-warning btn-sm" title="Hapus Data" onclick="return confirm('Anda Yakin..?')"><i class="icon-trash icon-remove">  </i> Del</a>			
+					<a href="<?php echo base_URL(); ?>index.php/admin/manage_admin/del/<?php echo $b->id?>" class="btn btn-warning btn-sm" title="Hapus Data" onclick="return confirm('Anda Yakin..?')"><i class="icon-trash icon-remove">  </i> Del</a>			
 				</div>					
 			</td>
 		</tr>

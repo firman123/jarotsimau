@@ -15,21 +15,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author Ihtiyar
  */
 class master_data extends CI_Controller {
-
+    protected $com_user;
     //put your code here
 
     public function __construct() {
         parent::__construct();
-
-        $this->load->model('m_kendaraan');
-        $this->load->model('m_perusahaan');
-        $this->load->model('m_trayek');
+        self::check_authority();
+    }
+    
+      private function check_authority() {
+	$this->com_user = $this->session->userdata('session_admin');
+	if (!empty($this->com_user)) {
+	  $this->load->model('m_kendaraan');
+          $this->load->model('m_perusahaan');
+          $this->load->model('m_trayek');
+	} else {
+	   redirect("admin/login");
+	}
     }
 
     public function kendaraan() {
-        if ($this->session->userdata('admin_valid') == FALSE && $this->session->userdata('admin_user') == "") {
-            redirect("admin/login");
-        }
 
         /* pagination */
         $total_row = $this->db->query("SELECT * FROM tbl_kendaraan ORDER BY no_uji DESC")->num_rows();
@@ -111,10 +116,6 @@ class master_data extends CI_Controller {
     }
 
     public function perusahaan() {
-        if ($this->session->userdata('admin_valid') == FALSE && $this->session->userdata('admin_user') == "") {
-            redirect("admin/login");
-        }
-
         /* pagination */
         $total_row = $this->db->query("SELECT * FROM tbl_perusahaan")->num_rows();
         $per_page = 10;
@@ -185,10 +186,6 @@ class master_data extends CI_Controller {
     }
 
     public function trayek() {
-        if ($this->session->userdata('admin_valid') == FALSE && $this->session->userdata('admin_user') == "") {
-            redirect("admin/login");
-        }
-
         /* pagination */
         $total_row = $this->db->query("SELECT * FROM tbl_trayek")->num_rows();
         $per_page = 10;

@@ -46,9 +46,9 @@
             <tr><td width="20%">Catatan</td><td><b><input type="text" name="catatan" id="catatan" required value="<?php echo $kendaraan['catatan']; ?>" style="width: 300px" class="form-control" readonly></b></td></tr>
             <tr><td width="20%">Pelapor</td><td><b><input type="text" name="last_update" id="last_update" required value="<?php echo $kendaraan['post_by']; ?>" style="width: 300px" class="form-control" readonly></b></td></tr>
             <tr><td width="20%">Tanggal</td><td><b><input type="text" name="post_by" id="post_by" required value="<?php echo $kendaraan['last_update']; ?>" style="width: 300px" class="form-control" readonly></b></td></tr>
-            <tr><td width="20%">Gambar</td><td><img src="<?php if (empty($$kendaraan['foto'])) {
+            <tr><td width="20%">Gambar</td><td><img src="<?php if (empty($kendaraan['foto'])) {
     echo base_url(); ?>upload/nopoto.jpg<?php } else {
-    echo 'http://integratesystem.id/wasdal/attachment/' . $kendaraan['foto'];
+    echo 'http://integratesystem.id/wasdal/attachment/medium_' . $kendaraan['foto'];
 } ?>" style="width: 250px;" /></td></tr>
         </table>	
     </div>

@@ -14,28 +14,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Kartu_pengawasan extends CI_Controller {
 
+    protected $com_user;
+
     //put your code here
 
     public function __construct() {
         parent::__construct();
+        self::check_authority();
 
         $this->load->library('ciqrcode');
         $this->load->library('fpdf');
+    }
 
-
-        $this->load->model('m_kendaraan');
-        $this->load->model('m_perusahaan');
-        $this->load->model('m_trayek');
-        $this->load->model('m_kartu_pengawas');
+    private function check_authority() {
+        $this->com_user = $this->session->userdata('session_admin');
+        if (!empty($this->com_user)) {
+            $this->load->model('m_kendaraan');
+            $this->load->model('m_perusahaan');
+            $this->load->model('m_trayek');
+            $this->load->model('m_kartu_pengawas');
+        } else {
+            redirect("admin/login");
+        }
     }
 
     public function trayek() {
-        if ($this->session->userdata('admin_valid') == FALSE && $this->session->userdata('admin_user') == "") {
-            redirect("admin/login");
-        }
+
 
         /* pagination */
-        $total_row = $this->db->query("SELECT * FROM tbl_kendaraan where no_uji LIKE 'SIMAU%'")->num_rows();
+        $total_row = $this->db->query("SELECT a.* , b.* FROM tbl_kendaraan a join tbl_kartu_pengawasan b "
+                        . " ON a.no_uji = b.id_kendaraan WHERE b.id_kp LIKE 'KPIT%' ")->num_rows();
         $per_page = 10;
 
         $awal = $this->uri->segment(4);
@@ -55,9 +63,7 @@ class Kartu_pengawasan extends CI_Controller {
         //upload config 
         $config['upload_path'] = 'upload/kartu_pengawas/';
         $config['allowed_types'] = 'gif|jpg|png';
-        $config['max_size'] = '2000';
-        $config['max_width'] = '3000';
-        $config['max_height'] = '3000';
+        $config['max_size'] = '20000';
 
         $this->load->library('upload', $config);
 
@@ -128,22 +134,27 @@ class Kartu_pengawasan extends CI_Controller {
                     $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Gagal!, KTP Sudah digunakan </div>");
                 } else {
                     $data['create_date'] = date("Y-m-d");
-                    
 
-                    if ($this->upload->do_upload('foto')) {
-                        $up_data = $this->upload->data();
+                    if (isset($_FILES['foto']['tmp_name']) && !empty($_FILES['foto']['tmp_name'])) {
+                        if (isset($_FILES['foto']['size']) > 20000) {
+                            $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Upload Gagal, Maximal 20MB </div>");
+                        } else {
+                            if ($this->upload->do_upload('foto')) {
+                                $up_data = $this->upload->data();
 
-                        $data['foto'] = $up_data['file_name'];
+                                $data['foto'] = $up_data['file_name'];
 
-                        $save_data = $this->m_kartu_pengawas->insert($data);
+                                $save_data = $this->m_kartu_pengawas->insert($data);
+                            }
+
+                            if ($save_data) {
+                                $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been added. </div>");
+                            } else {
+                                $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Upload Gagal, Maximal 2MB </div>");
+                            }
+                        }
                     } else {
-                        $save_data = $this->m_kartu_pengawas->insert($data);
-                    }
-
-                    if ($save_data) {
-                        $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been added. </div>");
-                    } else {
-                        $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Data failed. </div>");
+                        $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Foto tidak boleh kosong </div>");
                     }
                 }
             }
@@ -211,10 +222,6 @@ class Kartu_pengawasan extends CI_Controller {
     }
 
     public function operasi() {
-        if ($this->session->userdata('admin_valid') == FALSE && $this->session->userdata('admin_user') == "") {
-            redirect("admin/login");
-        }
-
         /* pagination */
         $total_row = $this->db->query("SELECT * FROM tbl_kendaraan where no_uji LIKE 'SIMAU%'")->num_rows();
         $per_page = 10;
@@ -379,9 +386,9 @@ class Kartu_pengawasan extends CI_Controller {
         $a['datpil'] = $this->db->query($SQL)->row();
 
         $data_gambar = $a['datpil']->foto;
-        if ($data_gambar==null) {
+        if ($data_gambar == null) {
 //            $a['poto_sopir'] = getcwd() . '/upload/noimage.jpg';
-             $a['poto_sopir'] = base_url() . 'upload/noimage.jpg';
+            $a['poto_sopir'] = base_url() . 'upload/noimage.jpg';
         } else {
             $foto_trim = trim($data_gambar);
 //            $a['poto_sopir'] = getcwd() . "/upload/kartu_pengawas/" . $foto_trim;
@@ -399,9 +406,9 @@ class Kartu_pengawasan extends CI_Controller {
         $qr['savename'] = FCPATH . 'qr.png';
         $this->ciqrcode->generate($qr);
 
-        $this->load->view('admin/cetak/kartu_pengemudi/print_v2.php', $a);
+        $this->load->view('admin/cetak/kartu_pengemudi/print.php', $a);
     }
-    
+
     public function scan_kp() {
         $this->load->view('admin/scan/scan_kp.php');
     }

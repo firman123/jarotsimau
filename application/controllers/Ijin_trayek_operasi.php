@@ -15,27 +15,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author Ihtiyar
  */
 class ijin_trayek_operasi extends CI_Controller {
-
+    protected $com_user;
     //put your code here
 
     public function __construct() {
         parent::__construct();
+        self::check_authority();
+    }
 
-        $this->load->model('m_ijin_trayek');
-        $this->load->model('m_ijin_operasi');
-        $this->load->model('m_ijin_usaha');
-        $this->load->model('m_trayek');
-        $this->load->model('m_perusahaan');
-        $this->load->model('m_kendaraan');
+    private function check_authority() {
+        $this->com_user = $this->session->userdata('session_admin');
+        if (!empty($this->com_user)) {
+            $this->load->model('m_ijin_trayek');
+            $this->load->model('m_ijin_operasi');
+            $this->load->model('m_ijin_usaha');
+            $this->load->model('m_trayek');
+            $this->load->model('m_perusahaan');
+            $this->load->model('m_kendaraan');
+        } else {
+            redirect("admin/login");
+        }
     }
 
     public function ijin_operasi() {
-        if ($this->session->userdata('admin_valid') == FALSE && $this->session->userdata('admin_user') == "") {
-            redirect("admin/login");
-        }
-
         /* pagination */
-        $total_row = $this->db->query("select a.*, b.* from tbl_ijin_operasi a join tbl_kendaraan b on a.id_kendaraan = b.no_uji")->num_rows();
+        $date_now = date('Y-m-d');
+        $total_row = $this->db->query("select a.*, b.* from tbl_ijin_operasi a join tbl_kendaraan b on a.id_kendaraan = b.no_uji "
+                        . " WHERE a.tanggal_input = '$date_now'")->num_rows();
         $per_page = 10;
 
         $awal = $this->uri->segment(4);
@@ -167,6 +173,7 @@ class ijin_trayek_operasi extends CI_Controller {
             $a['datpil'] = $this->m_ijin_operasi->get_detail_ijin_operasi($idu);
             $a['page'] = "ijin_operasi/view_ijin_operasi";
         } else if ($mau_ke == "act_add") {
+            $data['tanggal_input'] = date('Y-m-d');
             $id_perusahaan = $this->input->post("id_perusahaan");
             $cari_ijin_trayek = $this->db->query("SELECT * FROM tbl_ijin_operasi WHERE id_perusahaan = '$id_perusahaan'")->num_rows();
             if ($cari_ijin_trayek == 0) {
@@ -213,10 +220,12 @@ class ijin_trayek_operasi extends CI_Controller {
 //            $a['datpil2'] = $this->db->query("SELECT * FROM t_disposisi WHERE id = '$idu'")->result();
             $this->load->view('admin/cetak/ijin_usaha');
         } else {
+            $date_now = date('Y-m-d');
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
             $a['data'] = $this->db->query("select a.*, b.*, c.* from tbl_ijin_operasi a join tbl_perusahaan b on a.id_perusahaan = b.id "
                             . " JOIN tbl_kendaraan c ON c.id_perusahaan = b.id "
                             . " WHERE c.kp_ijin_operasi != '' "
+                            . " AND a.tanggal_input = '$date_now' "
                             . " ORDER BY a.id_ijin_operasi DESC "
                             . " LIMIT $akhir OFFSET $awal ")->result();
             $a['page'] = "ijin_operasi/list";
@@ -226,14 +235,11 @@ class ijin_trayek_operasi extends CI_Controller {
     }
 
     public function ijin_trayek() {
-        if ($this->session->userdata('admin_valid') == FALSE && $this->session->userdata('admin_user') == "") {
-            redirect("admin/login");
-        }
-
         /* pagination */
+        $date_now = date('Y-m-d');
         $total_row = $this->db->query("select a.*, b.*, c.* from tbl_ijin_trayek a join tbl_kendaraan b on a.id_perusahaan = b.id_perusahaan"
                         . " JOIN tbl_trayek c ON b.id_trayek = c.id_trayek "
-                        . " WHERE b.kp_ijin_trayek != ''")->num_rows();
+                        . " WHERE b.kp_ijin_trayek != '' AND a.tanggal_input = '$date_now'")->num_rows();
         $per_page = 10;
 
         $awal = $this->uri->segment(4);
@@ -374,6 +380,7 @@ class ijin_trayek_operasi extends CI_Controller {
             $a['datpil'] = $this->m_ijin_trayek->get_detail_ijin_trayek($idu);
             $a['page'] = "ijin_trayek/view_ijin_trayek";
         } else if ($mau_ke == "act_add") {
+            $data['tanggal_input'] = date('Y-m-d');
             $id_perusahaan = $this->input->post("id_perusahaan");
             $cari_ijin_trayek = $this->db->query("SELECT * FROM tbl_ijin_trayek WHERE id_perusahaan = '$id_perusahaan'")->num_rows();
             if ($cari_ijin_trayek == 0) {
@@ -416,6 +423,7 @@ class ijin_trayek_operasi extends CI_Controller {
 //            $a['datpil2'] = $this->db->query("SELECT * FROM t_disposisi WHERE id = '$idu'")->result();
             $this->load->view('admin/cetak/ijin_usaha');
         } else {
+            $date_now = date('Y-m-d');
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
 //            $a['data'] = $this->db->query("select a.*, b.*, c.* from tbl_ijin_trayek a join tbl_kendaraan b on a.id_perusahaan = b.id_perusahaan"
 //                            . " JOIN tbl_trayek c ON b.id_trayek = c.id_trayek "
@@ -428,6 +436,7 @@ class ijin_trayek_operasi extends CI_Controller {
                             . " JOIN tbl_kendaraan c ON c.id_perusahaan = b.id "
                             . " JOIN tbl_trayek d ON d.id_trayek = c.id_trayek "
                             . " WHERE c.kp_ijin_trayek != '' "
+                            . " AND a.tanggal_input = '$date_now' "
                             . " ORDER BY a.id_ijin_trayek DESC "
                             . " LIMIT $akhir OFFSET $awal ")->result();
 

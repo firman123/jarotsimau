@@ -15,20 +15,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author Ihtiyar
  */
 class Pemeriksaan extends CI_Controller {
-
+     protected $com_user;
     //put your code here
 
     public function __construct() {
         parent::__construct();
-
-        if ($this->session->userdata('admin_valid') == FALSE && $this->session->userdata('admin_user') == "") {
-            redirect("admin/login");
-        }
-
+        self::check_authority();
+       
         $this->load->library("datetimemanipulation");
         $this->load->library('ciqrcode');
 
-        $this->load->model('m_pemeriksaan');
+        
+    }
+    
+     private function check_authority() {
+        $this->com_user = $this->session->userdata('session_admin');
+        if (!empty($this->com_user)) {
+            $this->load->model('m_pemeriksaan');
+        } else {
+            redirect("admin/login");
+        }
     }
 
     public function index_trayek() {
@@ -106,10 +112,14 @@ class Pemeriksaan extends CI_Controller {
 
         $data = array(
             "id_kendaraan" => $this->input->post("no_uji"),
-            "masa_berlaku" => $this->input->post("masa_berlaku_ijin_trayek"),
             "tanggal" => date("Y-m-d"),
             "jenis" => $jenis
         );
+        
+        $tgl_berlaku = $this->input->post('masa_berlaku_ijin_traye');
+        if(!empty($tgl_berlaku)) {
+            $data['masa_berlaku'] = $this->input->post('masa_berlaku_ijin_trayek');
+        }
 
         if ($this->m_pemeriksaan->insert($data)) {
             $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been added. </div>");

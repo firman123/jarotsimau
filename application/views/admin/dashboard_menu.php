@@ -271,32 +271,32 @@
 
                 <div class="tile-container">
 
-                    <a href="<?php echo site_url('master_data/perusahaan') ?>" class="tile-wide fg-white" data-role="tile">
-                        <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
-                        <div class="tile-content bg-cyan">
-                            <h2 style="text-align: center; margin-top: 50px;">Perusahaan</h2>
-                        </div>
+                    <?php if ($data_user['perusahaan'] == 1) { ?>
+                        <a href="<?php echo site_url('master_data/perusahaan') ?>" class="tile-wide fg-white" data-role="tile">
+                            <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
+                            <div class="tile-content bg-cyan">
+                                <h2 style="text-align: center; margin-top: 50px;">Perusahaan</h2>
+                            </div>
+                        </a>
+                    <?php } ?>
 
-                        <!--</div>-->
-                    </a>
+                    <?php if ($data_user['kendaraan'] == 1) { ?>
+                        <a href="<?php echo site_url('master_data/kendaraan') ?>" class="tile-wide fg-white" data-role="tile">
+                            <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
+                            <div class="tile-content bg-orange">
+                                <h2 style="text-align: center; margin-top: 50px;">Kendaraan</h2>
+                            </div>
+                        </a>
+                    <?php } ?>
 
-                    <a href="<?php echo site_url('master_data/kendaraan') ?>" class="tile-wide fg-white" data-role="tile">
-                        <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
-                        <div class="tile-content bg-orange">
-                            <h2 style="text-align: center; margin-top: 50px;">Kendaraan</h2>
-                        </div>
-
-                        <!--</div>-->
-                    </a>
-                    <a href="<?php echo site_url('master_data/trayek') ?>" class="tile-wide fg-white" data-role="tile">
-                        <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
-                        <div class="tile-content bg-green">
-                            <h2 style="text-align: center; margin-top: 50px;">Trayek</h2>
-                        </div>
-
-                        <!--</div>-->
-                    </a>
-
+                    <?php if ($data_user['trayek'] == 1) { ?>
+                        <a href="<?php echo site_url('master_data/trayek') ?>" class="tile-wide fg-white" data-role="tile">
+                            <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
+                            <div class="tile-content bg-green">
+                                <h2 style="text-align: center; margin-top: 50px;">Trayek</h2>
+                            </div>
+                        </a>
+                    <?php } ?>
 
                 </div>
             </div>
@@ -307,42 +307,53 @@
 
                     <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
 
+                    <?php if ($data_user['ijin_operasi'] == 1) { ?>
+                        <a href="<?php echo site_url('ijin_trayek_operasi/ijin_operasi') ?>" class="tile bg-green fg-white" data-role="tile">
+                            <div class="tile-content">
+                                <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>Ijin Operasi</h4></div>
+                            </div>
+                        </a>
+                    <?php } ?>
 
-                    <a href="<?php echo site_url('ijin_trayek_operasi/ijin_operasi') ?>" class="tile bg-green fg-white" data-role="tile">
-                        <div class="tile-content">
-                            <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>Ijin Operasi</h4></div>
-                        </div>
-                    </a>
+                    <?php if ($data_user['ijin_trayek'] == 1) { ?>
+                        <a href="<?php echo site_url('ijin_trayek_operasi/ijin_trayek') ?>" class="tile bg-magenta fg-white" data-role="tile">
+                            <div class="tile-content">
+                                <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>Ijin Trayek</h4></div>
+                            </div>
+                        </a>
+                    <?php } ?>
 
-                    <a href="<?php echo site_url('ijin_trayek_operasi/ijin_trayek') ?>" class="tile bg-magenta fg-white" data-role="tile">
-                        <div class="tile-content">
-                            <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>Ijin Trayek</h4></div>
-                        </div>
-                    </a>
+                    <?php if ($data_user['pengemudi'] == 1) { ?>
+                        <a href="<?php echo site_url('kartu_pengawasan/trayek') ?>" class="tile bg-yellow fg-white" data-role="tile">
+                            <div class="tile-content">
+                                <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>Pengemudi</h4></div>
+                            </div>
+                        </a>
+                    <?php } ?>
 
-                    <a href="<?php echo site_url('kartu_pengawasan/trayek') ?>" class="tile bg-yellow fg-white" data-role="tile">
-                        <div class="tile-content">
-                            <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>Pengemudi</h4></div>
-                        </div>
-                    </a>
+                    <?php if ($data_user['verifikasi'] == 1) { ?>
+                        <a href="<?php echo site_url('hasil_pemeriksaan') ?>" class="tile bg-orange fg-white" data-role="tile">
+                            <div class="tile-content">
+                                <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>Verifikasi</h4></div>
+                            </div>
+                        </a>
+                    <?php } ?>
 
-                    <a href="<?php echo site_url('hasil_pemeriksaan') ?>" class="tile bg-orange fg-white" data-role="tile">
-                        <div class="tile-content">
-                            <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>Verifikasi</h4></div>
-                        </div>
-                    </a>
+                    <?php if ($data_user['kp_ijin_trayek'] == 1) { ?>
+                        <a href="<?php echo site_url('pemeriksaan/index_trayek') ?>" class="tile bg-orange fg-white" data-role="tile">
+                            <div class="tile-content">
+                                <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>KP Ijin Trayek</h4></div>
+                            </div>
+                        </a>
+                    <?php } ?>
 
-                    <a href="<?php echo site_url('pemeriksaan/index_trayek') ?>" class="tile bg-orange fg-white" data-role="tile">
-                        <div class="tile-content">
-                            <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>KP Ijin Trayek</h4></div>
-                        </div>
-                    </a>
-
-                    <a href="<?php echo site_url('pemeriksaan/index_operasi') ?>" class="tile bg-blue fg-white" data-role="tile">
-                        <div class="tile-content">
-                            <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>KP Ijin Operasi</h4></div>
-                        </div>
-                    </a>
+                    <?php if ($data_user['kp_ijin_operasi'] == 1) { ?>
+                        <a href="<?php echo site_url('pemeriksaan/index_operasi') ?>" class="tile bg-blue fg-white" data-role="tile">
+                            <div class="tile-content">
+                                <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>KP Ijin Operasi</h4></div>
+                            </div>
+                        </a>
+                    <?php } ?>
 
 <!--                    <a href="<?php echo site_url('pemeriksaan/index') ?>" class="tile bg-magenta fg-white" data-role="tile">
     <div class="tile-content">
@@ -359,35 +370,39 @@
             <div class="tile-group double">
                 <span class="tile-group-title"></span>
                 <div class="tile-container">
-                    <a href="<?php echo site_url('rubahsifat') ?>" class="tile-wide fg-white" data-role="tile">
-                        <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
-                        <div class="tile-content bg-yellow">
-                            <h3 style="text-align: center; margin-top: 50px;">Rubah Sifat Kendaraan</h2>
-                        </div>
+                    <?php if ($data_user['rubah_sifat'] == 1) { ?>
+                        <a href="<?php echo site_url('rubahsifat') ?>" class="tile-wide fg-white" data-role="tile">
+                            <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
+                            <div class="tile-content bg-yellow">
+                                <h3 style="text-align: center; margin-top: 50px;">Rubah Sifat Kendaraan</h2>
+                            </div>
+                        </a>
+                    <?php } ?>
 
-                        <!--</div>-->
-                    </a>
+                    <?php if ($data_user['checklist_trayek'] == 1) { ?>
+                        <a href="<?php echo site_url('pemeriksaan/input_checklist/trayek') ?>" class="tile bg-magenta fg-white" data-role="tile">
+                            <div class="tile-content">
+                                <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>Checklist Kendaraan 1 <br> ( Trayek )</h4></div>
+                            </div>
+                        </a>
+                    <?php } ?>
 
-                    <a href="<?php echo site_url('pemeriksaan/input_checklist/trayek') ?>" class="tile bg-magenta fg-white" data-role="tile">
-                        <div class="tile-content">
-                            <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>Checklist Kendaraan 1 <br> ( Trayek )</h4></div>
-                        </div>
-                    </a>
+                    <?php if ($data_user['checklist_operasi'] == 1) { ?>
+                        <a href="<?php echo site_url('pemeriksaan/input_checklist/operasi') ?>" class="tile bg-green fg-white" data-role="tile">
+                            <div class="tile-content">
+                                <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>Checklist Kendaraan 2 <br> ( Operasi )</h4></div>
+                            </div>
+                        </a>
+                    <?php } ?>
 
-                    <a href="<?php echo site_url('pemeriksaan/input_checklist/operasi') ?>" class="tile bg-green fg-white" data-role="tile">
-                        <div class="tile-content">
-                            <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>Checklist Kendaraan 2 <br> ( Operasi )</h4></div>
-                        </div>
-                    </a>
-
-<!--                    <a href="<?php echo site_url('verifikasi') ?>" class="tile-wide fg-white" data-role="tile">
-                        <div class="tile-wide" data-role="tile" data-effect="slideLeft">
-                        <div class="tile-content bg-yellow">
-                            <h3 style="text-align: center; margin-top: 50px;">Verifikasi</h2>
-                        </div>
-
-                        </div>
-                    </a>-->
+                    <?php if (trim($data_user['otoritas']) == 'Super Admin') { ?>
+                        <a href="<?php echo site_url('admin/manage_admin') ?>" class="tile-wide fg-white" data-role="tile">
+                            <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
+                            <div class="tile-content bg-yellow">
+                                <h3 style="text-align: center; margin-top: 50px;">Pengaturan Admin</h2>
+                            </div>
+                        </a>
+                    <?php } ?>
                 </div>
             </div>
 
