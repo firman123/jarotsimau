@@ -15,12 +15,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author Ihtiyar
  */
 class ijin_trayek_operasi extends CI_Controller {
+
     protected $com_user;
+
     //put your code here
 
     public function __construct() {
         parent::__construct();
         self::check_authority();
+
+        $this->load->library('fpdf');
+        $this->load->library("datetimemanipulation");
     }
 
     private function check_authority() {
@@ -40,8 +45,13 @@ class ijin_trayek_operasi extends CI_Controller {
     public function ijin_operasi() {
         /* pagination */
         $date_now = date('Y-m-d');
-        $total_row = $this->db->query("select a.*, b.* from tbl_ijin_operasi a join tbl_kendaraan b on a.id_kendaraan = b.no_uji "
-                        . " WHERE a.tanggal_input = '$date_now'")->num_rows();
+//        $total_row = $this->db->query("select a.*, b.* from tbl_ijin_operasi a join tbl_kendaraan b on a.id_kendaraan = b.no_uji "
+//                        . " WHERE a.tanggal_input = '$date_now'")->num_rows();
+        $total_row = $this->db->query("select a.*, b.*, c.* from tbl_ijin_operasi a join tbl_perusahaan b on a.id_perusahaan = b.id "
+                            . " JOIN tbl_kendaraan c ON c.id_perusahaan = b.id "
+                            . " WHERE c.kp_ijin_operasi != '' "
+                            . " AND a.tanggal_input = '$date_now' ")->num_rows();
+        
         $per_page = 10;
 
         $awal = $this->uri->segment(4);
@@ -50,7 +60,7 @@ class ijin_trayek_operasi extends CI_Controller {
         //if (empty($awal) || $awal == 1) { $awal = 0; } { $awal = $awal; }
         $akhir = $per_page;
 
-        $a['pagi'] = _page($total_row, $per_page, 4, site_url('ijin_trayek_operasi/i/p'));
+        $a['pagi'] = _page($total_row, $per_page, 4, site_url('ijin_trayek_operasi/ijin_operasi/p'));
 
         //ambil variabel URL
         $mau_ke = $this->uri->segment(3);
@@ -232,6 +242,11 @@ class ijin_trayek_operasi extends CI_Controller {
         }
 
         $this->load->view('admin/dashboard', $a);
+    }
+
+    public function cetak() {
+
+        $this->load->view('admin/cetak/surat_ijin_usaha/ijin_usaha');
     }
 
     public function ijin_trayek() {
@@ -664,6 +679,33 @@ class ijin_trayek_operasi extends CI_Controller {
         $data = "<tr><td width='60%'>Nama Perusahaan</td><td><b><input type='text' value='$perusahaan[nama_perusahaan]' style='width: 300px' class='form-control' readonly></b></td></tr>";
         $data .= "<tr><td width='60%'>Alamat Perusahaan</td><td><b><input type='text' value='$perusahaan[alamat_perusahaan]' style='width: 300px' class='form-control' readonly></b></td></tr>";
         echo $data;
+    }
+
+    function daftar_surat_ijin() {
+        $total_row = $this->m_ijin_operasi->total_ijin_operasi_now();
+//        print_r($total_row);
+        $per_page = 10;
+
+        $awal = $this->uri->segment(4);
+        $awal = (empty($awal) || $awal == 1) ? 0 : $awal;
+
+        //if (empty($awal) || $awal == 1) { $awal = 0; } { $awal = $awal; }
+        $akhir = $per_page;
+
+        $a['pagi'] = _page($total_row, $per_page, 4, site_url('ijin_trayek_operasi/daftar_surat_ijin/p'));
+
+        $a['data'] = $this->m_ijin_operasi->get_all_ijin_operasi_limits(array($akhir, $awal));
+        $a['page'] = "ijin_operasi/list_surat_ijin";
+
+        $this->load->view('admin/dashboard', $a);
+    }
+
+    function cetak_ijin_operasi($id) {
+        define('FPDF_FONTPATH', $this->config->item('fonts_path'));
+        $a['data'] = $this->m_ijin_operasi->detail_cetak_operasi($id);
+        $a['total_kendaraan'] = $this->m_ijin_operasi->get_total_kendaraan($id);
+        $a['date_manipulation'] = $this->datetimemanipulation;
+        $this->load->view('admin/cetak/surat_ijin_operasi/print.php' ,$a);
     }
 
 }

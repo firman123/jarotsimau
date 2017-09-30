@@ -88,8 +88,8 @@ class m_ijin_operasi extends CI_Model {
         $kodejadi = "KPIO" . $subtanggal . $kodemax;
         return $kodejadi;
     }
-    
-     function kode_ijin_operasi() {
+
+    function kode_ijin_operasi() {
         $this->db->select('RIGHT(tbl_ijin_operasi.id_ijin_operasi,6) as kode', FALSE);
         $this->db->order_by('id_ijin_operasi', 'DESC');
         $this->db->limit(1);
@@ -120,11 +120,63 @@ class m_ijin_operasi extends CI_Model {
         }
     }
 
+    public function detail_cetak_operasi($id) {
+        $sql = "SELECT a.*, b.* from tbl_perusahaan a JOIN tbl_ijin_operasi b "
+                . " ON a.id = b.id_perusahaan "
+                . " WHERE a.id = ? ";
+        $query = $this->db->query($sql, $id);
+        if ($query->num_rows() > 0) {
+            $result = $query->row_array();
+            $query->free_result();
+            return $result;
+        } else {
+            return array();
+        }
+    }
+    
+     public function get_total_kendaraan($id) {
+        $sql = "SELECT a.* FROM tbl_ijin_operasi a join tbl_kendaraan b on a.id_perusahaan = b.id_perusahaan "
+                . " JOIN tbl_perusahaan c ON c.id = a.id_perusahaan  WHERE c.id = ? ";
+        $query = $this->db->query($sql, $id);
+        if ($query->num_rows() > 0) {
+            return $query->num_rows();
+            $query->free_result();
+            return $result;
+        } else {
+            return array();
+        }
+    }
+
     public function get_all_ijin_operasi() {
         $sql = "SELECT * FROM tbl_ijin_operasi";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             $result = $query->result_array();
+            $query->free_result();
+            return $result;
+        } else {
+            return array();
+        }
+    }
+
+    public function total_ijin_operasi_now() {
+        $date_now = date('Y-m-d');
+        $sql = "SELECT a.*, b.* from tbl_perusahaan a JOIN tbl_ijin_operasi b "
+                . " ON a.id = b.id_perusahaan "
+                . " WHERE b.tanggal_input = '$date_now' ";
+        $query = $this->db->query($sql);
+        return $query->num_rows();
+    }
+
+    public function get_all_ijin_operasi_limits($params) {
+        $date_now = date('Y-m-d');
+        $sql = "SELECT a.*, b.* from tbl_perusahaan a JOIN tbl_ijin_operasi b "
+                . " ON a.id = b.id_perusahaan "
+                . " WHERE b.tanggal_input = '$date_now' "
+                . " ORDER BY b.id_ijin_operasi DESC LIMIT ? OFFSET ? ";
+        $query = $this->db->query($sql, $params);
+        if ($query->num_rows() > 0) {
+            $result = $query->result();
             $query->free_result();
             return $result;
         } else {

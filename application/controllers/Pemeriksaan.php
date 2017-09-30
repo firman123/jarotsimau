@@ -116,7 +116,7 @@ class Pemeriksaan extends CI_Controller {
             "jenis" => $jenis
         );
         
-        $tgl_berlaku = $this->input->post('masa_berlaku_ijin_traye');
+        $tgl_berlaku = $this->input->post('masa_berlaku_ijin_trayek');
         if(!empty($tgl_berlaku)) {
             $data['masa_berlaku'] = $this->input->post('masa_berlaku_ijin_trayek');
         }

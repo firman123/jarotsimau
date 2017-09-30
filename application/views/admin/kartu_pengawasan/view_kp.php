@@ -86,7 +86,7 @@ if ($mode == "edt" || $mode == "act_edt") {
                 <tr><td>Nama Pengemudi</td><td><b><input type="text" name="nama_pengemudi" required value="<?php echo $nama_pengemudi; ?>" style="width: 300px" class="form-control" readonly=""></b></td></tr>
                 <tr><td width="20%">Nomor KTP</td><td><b><input type="text" name="no_ktp" id="kode_surat" required value="<?php echo $no_ktp; ?>" style="width: 300px" class="form-control" readonly=""></b></td></tr>
                 <tr><td width="20%">Alamat</td><td><b><input type="text" name="alamat" required value="<?php echo $alamat_pengemudi; ?>" style="width: 300px" class="form-control" readonly=""></b></td></tr>
-                <tr><td width="20%">Foto</td><td><b> <img src="<?php echo base_url()?>upload/kartu_pengawas/<?php echo $datpil['foto']; ?>" style="width: 200px;"></b></td></tr>
+                <tr><td width="20%">Foto</td><td><b> <img src="<?php echo base_url()?>upload/kartu_pengawas/<?php echo $datpil['foto']; ?>" style="height: 400px;"></b></td></tr>
                 <tr><td colspan="2"><hr style="border-width: 1px; border-style: inset; display: block; margin-bottom: -10px;"></td></tr>
                 <tr><td colspan="2"><b>Catatan Pelanggaran</td></tr>
                 <tr><td width="20%">Catatan</td><td><b><input type="text" name="catatan" id="catatan" required value="<?php echo $catatan; ?>" style="width: 300px" class="form-control" readonly></b></td></tr>

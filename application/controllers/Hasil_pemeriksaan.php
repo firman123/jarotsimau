@@ -7,17 +7,19 @@
  */
 
 class Hasil_pemeriksaan extends CI_Controller {
+
     protected $com_user;
+
     public function __construct() {
         parent::__construct();
         self::check_authority();
-        
+
         $this->load->library('ciqrcode');
         $this->load->library("datetimemanipulation");
         $this->load->library('fpdf');
     }
-    
-     private function check_authority() {
+
+    private function check_authority() {
         $this->com_user = $this->session->userdata('session_admin');
         if (!empty($this->com_user)) {
             $this->load->model('m_pemeriksaan');
@@ -224,16 +226,18 @@ class Hasil_pemeriksaan extends CI_Controller {
         $a['datpil'] = $this->db->query($SQL)->row();
         $a['date_manipulation'] = $this->datetimemanipulation;
 
-        $data_qr = "http://integratesystem.id/display/info_stiker.php?no_uji=" . $a['datpil']->no_uji;
-        $qr['data'] = $data_qr;
-        $qr['level'] = 'H';
-        $qr['size'] = 10;
-        $qr['savename'] = FCPATH . 'qr.png';
-        $this->ciqrcode->generate($qr);
+        if (!empty($a['datpil']->no_uji)) {
+            $data_qr = "http://integratesystem.id/display/info_stiker.php?no_uji=" . $a['datpil']->no_uji;
+            $qr['data'] = $data_qr;
+            $qr['level'] = 'H';
+            $qr['size'] = 10;
+            $qr['savename'] = FCPATH . 'qr.png';
+            $this->ciqrcode->generate($qr);
 
 
 //        echo '<img src="' . base_url() . 'qr.png" />';
-        $this->load->view('admin/cetak/stiker/print.php', $a);
+            $this->load->view('admin/cetak/stiker/print.php', $a);
+        }
     }
 
     public function cetak_stiker_operasi($id) {
@@ -246,16 +250,17 @@ class Hasil_pemeriksaan extends CI_Controller {
         $a['datpil'] = $this->db->query($SQL)->row();
         $a['date_manipulation'] = $this->datetimemanipulation;
 
-        $data_qr = "http://integratesystem.id/display/info_stiker.php?no_uji=" . $a['datpil']->no_uji;
-        $qr['data'] = $data_qr;
-        $qr['level'] = 'H';
-        $qr['size'] = 10;
-        $qr['savename'] = FCPATH . 'qr.png';
-        $this->ciqrcode->generate($qr);
-
+        if (!empty($a['datpil']->no_uji)) {
+            $data_qr = "http://integratesystem.id/display/info_stiker.php?no_uji=" . $a['datpil']->no_uji;
+            $qr['data'] = $data_qr;
+            $qr['level'] = 'H';
+            $qr['size'] = 10;
+            $qr['savename'] = FCPATH . 'qr.png';
+            $this->ciqrcode->generate($qr);
 
 //        echo '<img src="' . base_url() . 'qr.png" />';
-        $this->load->view('admin/cetak/stiker/print_operasi.php', $a);
+            $this->load->view('admin/cetak/stiker/print_operasi.php', $a);
+        }
     }
 
     public function update_verifikasi() {
