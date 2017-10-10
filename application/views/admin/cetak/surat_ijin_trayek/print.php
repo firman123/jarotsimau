@@ -27,7 +27,7 @@ $this->fpdf->Line(1.2, 6.7, 19.8, 6.7);
 
 $this->fpdf->ln(1);
 $this->fpdf->SetFont('Arial', 'BU', 16);
-$this->fpdf->Cell(19, 0.5, 'IZIN OPERASI TAKSI', 0, 0, 'C');
+$this->fpdf->Cell(19, 0.5, 'IZIN TRAYEK ANGKUTAN UMUM', 0, 0, 'C');
 $this->fpdf->ln();
 $this->fpdf->SetFont('Arial', '', 12);
 $this->fpdf->Cell(19, 0.5, 'Nomor : 551.2.07/'.$data['id'].'/'.  date('Y'), 0, 0, 'C');
@@ -35,7 +35,7 @@ $this->fpdf->Cell(19, 0.5, 'Nomor : 551.2.07/'.$data['id'].'/'.  date('Y'), 0, 0
 $this->fpdf->ln(1);
 $this->fpdf->Cell(1, 0.5, '', 0, 0);
 $this->fpdf->Cell(4.5, 0.5, '1.   Memperhatikan', 0, 0);
-$this->fpdf->Cell(17, 0.5, ': Surat Permohonan Izin Operasi Taksi dari  :', 0, 0, 'L');
+$this->fpdf->Cell(17, 0.5, ': Surat Permohonan Izin Trayek Angkuran Umum Dari  :', 0, 0, 'L');
 $this->fpdf->ln(1);
 $this->fpdf->Cell(1, 0.5, '', 0, 0);
 $this->fpdf->Cell(4.5, 0.5, '', 0, 0);
@@ -69,7 +69,7 @@ $this->fpdf->MultiCell(12, 0.5, 'Peraturan Daerah Kota Balikpapan Nomor 7 Tahun 
 
 $this->fpdf->ln();
 $this->fpdf->Cell(1, 0.5, '', 0, 0);
-$this->fpdf->Cell(17, 0.5, '3.   Memberikan Izin Operasi Taksi kepada :', 0, 0, 'L');
+$this->fpdf->Cell(17, 0.5, '3.   Memberikan Izin Trayek Angkutan Umum kepada :', 0, 0, 'L');
 $this->fpdf->ln(1);
 $this->fpdf->Cell(3, 0.5, '', 0, 0);
 $this->fpdf->Cell(1.5, 0.5, '3.1', 0, 0);
@@ -101,24 +101,20 @@ $this->fpdf->Cell(1.5, 0.5, '3.6', 0, 0);
 $this->fpdf->Cell(4.5, 0.5, 'N P W P D', 0, 0, 'L');
 $this->fpdf->Cell(17, 0.5, ':    '.$data['npwp'], 0, 0, 'L');
 $this->fpdf->ln();
-$this->fpdf->Cell(3, 0.5, '', 0, 0);
-$this->fpdf->Cell(1.5, 0.5, '3.7', 0, 0);
-$this->fpdf->Cell(4.5, 0.5, 'Wilayah Operasi', 0, 0, 'L');
-$this->fpdf->Cell(17, 0.5, ':    Wilayah Dalam Kota Balikpapan', 0, 0, 'L');
 $this->fpdf->ln(1);
 $this->fpdf->Cell(1.7, 0.5, '', 0, 0);
-$this->fpdf->MultiCell(17, 0.5, 'Untuk mengoperasikan taksi sebanyak '.$total_kendaraan.' unit, dengan jenis, merk, tahun pembuatan dan nomor kendaraan sebagaimana terlampir.', 0, 'J');
+$this->fpdf->MultiCell(17, 0.5, 'Untuk mengoperasikan angkutan umum sebanyak '.$total_kendaraan.' unit, dengan jenis, merk, tahun pembuatan dan nomor kendaraan sebagaimana terlampir.', 0, 'J');
 
 $this->fpdf->ln();
 $this->fpdf->Cell(1, 0.5, '', 0, 0);
-$this->fpdf->Cell(17, 0.5, '4.   Izin Operasi Taksi berlaku dari tanggal '.$date_manipulation->get_full_date($data['tanggal_input']).' s/d '.$date_manipulation->get_full_date($data['masa_berakhir']), 0, 0, 'L');
+$this->fpdf->Cell(17, 0.5, '4.   Izin Trayek Angkutan Umum berlaku dari tanggal '.$date_manipulation->get_full_date($data['tanggal_input']).' s/d '.$date_manipulation->get_full_date($data['masa_berakhir']), 0, 0, 'L');
 $this->fpdf->ln(1);
 $this->fpdf->Cell(1, 0.5, '', 0, 0);
 $this->fpdf->Cell(0.7, 0.5, '5.', 0, 0, 'L');
-$this->fpdf->MultiCell(15, 0.5, 'Ketentuan yang harus diperhatikan dan ditaati sebagaimana tersebut pada halaman belakang izin Operasi Taksi ini.', 0, 'J');
+$this->fpdf->MultiCell(15, 0.5, 'Ketentuan yang harus diperhatikan dan ditaati sebagaimana tersebut pada halaman belakang izin trayek angkutan umum ini.', 0, 'J');
 $this->fpdf->ln();
 $this->fpdf->Cell(2, 0.5, '', 0, 0);
-$this->fpdf->Cell(15, 0.5, 'Demikian Izin Operasi Taksi  ini dikeluarkan untuk dipergunakan sebagaimana mestinya.', 0, 0, 'L');
+$this->fpdf->Cell(15, 0.5, 'Demikian Izin Trayek Angkutan Umum ini dikeluarkan untuk dipergunakan sebagaimana mestinya.', 0, 0, 'L');
 
 $this->fpdf->ln(1);
 $this->fpdf->Cell(2, 0.5, '', 0, 0);
@@ -143,7 +139,7 @@ $this->fpdf->setFont('Arial', '');
 $this->fpdf->ln(1.5);
 
 $this->fpdf->Cell(1, 0.5, '', 0, 0);
-$this->fpdf->Cell(17, 0.5, 'Pengusaha Angkutan Taksi yang telah mendapatkan Izin Operasi diwajibkan untuk :', 0, 0, 'L');
+$this->fpdf->Cell(17, 0.5, 'Pengusaha Angkutan Umum yang telah mendapatkan Izin Trayek diwajibkan untuk :', 0, 0, 'L');
 $this->fpdf->ln(1.5);
 $this->fpdf->Cell(1, 0.5, '', 0, 0);
 $this->fpdf->Cell(1, 0.5, '1.', 0, 0);
@@ -218,7 +214,7 @@ $y= $this->fpdf->GetY();
 $this->fpdf->Rect(1,1,$WIDTH - 2,$HEIGHT - 2);
 $this->fpdf->ln();
 $this->fpdf->SetFont('Arial', 'BU', 16);
-$this->fpdf->Cell(19, 0.5, 'LAMPIRAN IZIN OPERASI TAKSI', 0, 1, 'C');
+$this->fpdf->Cell(19, 0.5, 'LAMPIRAN IZIN TRAYEK ANGKUTAN UMUM', 0, 1, 'C');
 $this->fpdf->SetFont('Arial', '', 12);
 $this->fpdf->Cell(19, 0.5, 'Nomor  : '.$data['id'].'/551.21/07/Dishub-Bpp/'.date('Y'), 0, 1, 'C');
 $this->fpdf->ln(4);
