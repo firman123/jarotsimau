@@ -106,6 +106,7 @@ class Admin extends CI_Controller {
 
         //ambil variabel Postingan
         $idp = addslashes($this->input->post('idp'));
+        $name = $this->input->post('name');
         $username = addslashes($this->input->post('username'));
         $user_pass = $this->input->post('password');
         $nama = addslashes($this->input->post('nama'));
@@ -140,6 +141,7 @@ class Admin extends CI_Controller {
             $check_user = $this->db->query("SELECT * FROM tbl_user_simau WHERE user_name = '$username'")->row();
             if ($check_user == NULL) {
                 $data = array(
+                    "name" => $name,
                     "user_name" => $username,
                     "user_pass" => $user_pass,
                     "otoritas" => $level,

@@ -2,7 +2,7 @@
     <tr>
         <td style="width: 50%">
             <div style="font-size: 20px; background-color: #ccccff; padding: 5px; float: right; height: 10px; width: 200px;">
-                <b>Rp. 17.500,-</b>
+                <b>Rp. <?php echo $kuitansi->harga;?>,-</b>
             </div>
         </td>
         

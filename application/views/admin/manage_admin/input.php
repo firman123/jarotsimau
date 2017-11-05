@@ -4,6 +4,7 @@ $mode = $this->uri->segment(3);
 if ($mode == "edt" || $mode == "act_edt") {
     $act = "act_edt";
     $id_user = $datpil->user_name;
+     $name = $datpil->name;
     $username = $datpil->user_name;
     $password = $datpil->user_pass;
     $nama = '';
@@ -12,6 +13,7 @@ if ($mode == "edt" || $mode == "act_edt") {
 } else {
     $act = "act_add";
     $id_user = "";
+    $name ="";
     $username = "";
     $password = "";
     $nama = "";
@@ -35,14 +37,16 @@ if ($mode == "edt" || $mode == "act_edt") {
         <div class="row">
         <div class="col-lg-6">
             <table width="100%" class="table-form">
-                <tr><td width="20%">Username</td><td><b><input type="text" name="username" required value="<?php echo $username; ?>" style="width: 300px" class="form-control"></b></td></tr>
-                 <tr><td width="20%">Password</td><td><b><input type="password" name="password" required value="<?php echo $password; ?>" id="dari" style="width: 300px" class="form-control"></b></td></tr>
-                 <input type="hidden" name='aa'/>
+                  
+                <tr><td width="20%">Username</td><td><b><input type="text" name="username" required  style="width: 300px" class="form-control" /></b></td></tr>
+                 <tr><td width="20%">Password</td><td><b><input type="password" name="password" required style="width: 300px" class="form-control" /></b></td></tr>
+
             </table>
         </div>
 
         <div class="col-lg-6">	
             <table width="100%" class="table-form">
+                <tr><td width="20%">Name Admin</td><td><b><input type="text" name="name" required value="<?php echo $name; ?>" style="width: 300px" class="form-control"></b></td></tr>
                 <tr><td width="20%">Level</td><td><b>
                             <select name="level" class="form-control" style="width: 200px" required><option value=""> - Level - </option>
                                 <?php

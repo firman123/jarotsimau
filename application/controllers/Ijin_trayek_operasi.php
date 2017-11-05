@@ -736,5 +736,5 @@ class ijin_trayek_operasi extends CI_Controller {
         $a['date_manipulation'] = $this->datetimemanipulation;
         $this->load->view('admin/cetak/surat_ijin_trayek/print.php', $a);
     }
-
+    
 }

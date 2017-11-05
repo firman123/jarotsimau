@@ -28,11 +28,10 @@ class M_pemeriksaan extends CI_Model {
         }
 
         if ($jenis == 'trayek') {
-            $sql .= "WHERE a.kp_ijin_trayek!='' " . $tanggal_pemeriksaan . " ORDER BY b.id_pemeriksaan DESC LIMIT $limit OFFSET $offset";
+            $sql .= "WHERE a.kp_ijin_trayek!='' AND b.jenis = 'Trayek' " . $tanggal_pemeriksaan . " ORDER BY b.id_pemeriksaan DESC LIMIT $limit OFFSET $offset";
         } else {
-            $sql .= "WHERE a.kp_ijin_operasi!='' " . $tanggal_pemeriksaan . " ORDER BY b.id_pemeriksaan DESC LIMIT $limit OFFSET $offset";
+            $sql .= "WHERE a.kp_ijin_operasi!='' AND b.jenis = 'Operasi' " . $tanggal_pemeriksaan . " ORDER BY b.id_pemeriksaan DESC LIMIT $limit OFFSET $offset";
         }
-
 
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
@@ -52,13 +51,13 @@ class M_pemeriksaan extends CI_Model {
                     . " ON b.id_kendaraan = a.no_uji "
                     . " JOIN tbl_checklist_kendaraan c ON b.id_pemeriksaan = c.id_pemeriksaan "
                     . " JOIN tbl_trayek d ON a.id_trayek = d.id_trayek "
-                    . " WHERE a.kp_ijin_trayek!='' AND b.tanggal = '$tanggal'  ORDER BY b.id_pemeriksaan DESC LIMIT $limit OFFSET $offset";
+                    . " WHERE a.kp_ijin_trayek!='' AND b.jenis = 'Trayek' AND b.tanggal = '$tanggal'  ORDER BY b.id_pemeriksaan DESC LIMIT $limit OFFSET $offset";
         } else if ($jenis == 'operasi') {
             $sql = "SELECT a.*, b.*, c.*, d.* FROM tbl_kendaraan a join tbl_pemeriksaan b "
                     . " ON b.id_kendaraan = a.no_uji "
                     . " JOIN tbl_checklist_kendaraan c ON b.id_pemeriksaan = c.id_pemeriksaan "
                     . " LEFT JOIN tbl_trayek d ON a.id_trayek = d.id_trayek "
-                    . " WHERE a.kp_ijin_operasi!='' AND b.tanggal = '$tanggal'  ORDER BY b.id_pemeriksaan DESC LIMIT $limit OFFSET $offset";
+                    . " WHERE a.kp_ijin_operasi!='' AND b.jenis = 'Operasi' AND b.tanggal = '$tanggal'  ORDER BY b.id_pemeriksaan DESC LIMIT $limit OFFSET $offset";
         } else {
             $sql = "SELECT a.*, b.*, c.*, d.* FROM tbl_kendaraan a join tbl_pemeriksaan b "
                     . " ON b.id_kendaraan = a.no_uji "
@@ -137,9 +136,9 @@ class M_pemeriksaan extends CI_Model {
                 . " ON b.id_kendaraan = a.no_uji ";
 
         if ($jenis == 'trayek') {
-            $sql .= " WHERE a.kp_ijin_trayek!=''";
+            $sql .= " WHERE a.kp_ijin_trayek!='' AND b.jenis = 'Trayek' ";
         } else {
-            $sql .= " WHERE a.kp_ijin_operasi!=''";
+            $sql .= " WHERE a.kp_ijin_operasi!='' AND b.jenis = 'Operasi' ";
         }
 
         if ($tanggal != null) {
@@ -207,6 +206,38 @@ class M_pemeriksaan extends CI_Model {
             return $result['total'];
         } else {
             return 0;
+        }
+    }
+    
+function no_kwitansi() {
+        $this->db->select('RIGHT(tbl_cetak_kuitansi.id_kwitansi,6) as kode', FALSE);
+        $this->db->order_by('id_kwitansi', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get('tbl_cetak_kuitansi');      //cek dulu apakah ada sudah ada kode di tabel.    
+        if ($query->num_rows() <> 0) {
+            //jika kode ternyata sudah ada.      
+            $data = $query->row();
+            $kode = intval($data->kode) + 1;
+        } else {
+            //jika kode belum ada      
+            $kode = 1;
+        }
+        $kodemax = str_pad($kode, 6, "0", STR_PAD_LEFT);
+        $kodejadi = "KWT" . $kodemax;
+        return $kodejadi;
+    }
+    
+    public function get_data_laporan($params) {
+        $sql = "select a.no_kendaraan , c.*, d.name as nama_petugas, e.harga from tbl_kendaraan a JOIN tbl_cetak_kuitansi c"
+                . " ON a.id_kendaraan = c.id_kendaraan JOIN tbl_user_simau d "
+                . " ON d.id = c.id_admin LEFT JOIN tbl_kuitansi e ON e.id_kwitansi = c.id_biaya_kwitansi  WHERE c.tanggal = ? ";
+        $query = $this->db->query($sql, $params);
+        if ($query->num_rows() > 0) {
+            $result = $query->result();
+            $query->free_result();
+            return $result;
+        } else {
+            return array();
         }
     }
 

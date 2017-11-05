@@ -13,6 +13,7 @@
         <script src="<?php echo base_url(); ?>aset/js/bootswatch.js"></script>
         <script src="<?php echo base_url(); ?>aset/js/jquery/jquery-ui.js"></script>
         <script src="<?php echo base_url(); ?>aset/js/jquery.autocomplete.js"></script>
+        <script src="<?php echo base_url(); ?>aset/js/jquery.maskMoney.min.js"></script>
         <script type="text/javascript">
             // <![CDATA[
             $(document).ready(function() {
@@ -28,6 +29,7 @@
                     })
                 })
                 
+                $('#biaya_kwitansi').maskMoney({prefix:'Rp. ', thousands:'.', decimal:',', precision:0});
                 
                 $("#search_kendaraan_button").click(function() {
                     var id_kendaraan = $("#id_kendaraan").val();
@@ -314,7 +316,7 @@
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes"><i class="icon-user icon-white"></i> Administrator <span class="caret"></span></a>
                             <ul class="dropdown-menu" aria-labelledby="themes">
-                                <!--<li><a tabindex="-1" href="<?php echo base_url(); ?>index.php/admin/manage_admin">Manage Admin</a></li>-->
+                                <li><a tabindex="-1" href="<?php echo base_url(); ?>index.php/kuitansi">Atur Kwitansi</a></li>
                                 <li><a tabindex="-1" href="<?php echo base_url(); ?>index.php/admin/logout">Logout</a></li>
 
                             </ul>

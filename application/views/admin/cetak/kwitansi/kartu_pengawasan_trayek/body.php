@@ -15,7 +15,7 @@
     <u>Sejumlah Uang</u>
         </td>
         <td>:</td>
-        <td><b>Lima belas ribu rupiah</b></td>
+        <td><b><?php echo $kuitansi->keterangan;?></b></td>
     </tr>
     <tr>
         <td colspan="3"><i>Amount receif</i></td>

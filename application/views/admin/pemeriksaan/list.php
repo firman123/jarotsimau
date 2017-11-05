@@ -11,6 +11,8 @@
 			<ul class="nav navbar-nav">
                             <li><a href="<?php echo site_url("pemeriksaan/input/$path"); ?>" class="btn-info"><i class="icon-plus-sign icon-white"> </i> Daftar</a></li>
                             <li><a href="<?php echo site_url("hasil_pemeriksaan/index_$path"); ?>" class="btn-info"><i class="icon-print icon-white"> </i> Cetak</a></li>
+                            
+                            <li><a href="<?php echo site_url("pemeriksaan/cetak_laporan_harian"); ?>" class="btn-info" target="_blank"><i class="icon-print icon-white"> </i> Cetak Rekap Harian</a></li>
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right">

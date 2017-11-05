@@ -22,6 +22,7 @@ class Pemeriksaan extends CI_Controller {
         parent::__construct();
         self::check_authority();
        
+        $this->load->library('fpdf');
         $this->load->library("datetimemanipulation");
         $this->load->library('ciqrcode');
 
@@ -84,10 +85,16 @@ class Pemeriksaan extends CI_Controller {
         $trim_nokendaraan = trim($no_kendaraan);
         $rawl_nokendaraan = rawurldecode($trim_nokendaraan);
 
-        $SQL = "SELECT A.*, A.tgl_mati_uji as berlaku_kp,  B.*, C.*, D.* "
+//        $SQL = "SELECT A.*, A.tgl_mati_uji as berlaku_kp,  B.*, C.*, D.* "
+//                . " FROM tbl_kendaraan A LEFT JOIN tbl_perusahaan B ON A.id_perusahaan = B.id "
+//                . "  LEFT JOIN tb_note_kendaraan C ON a.no_uji=c.id_kendaraan"
+//                . " LEFT JOIN tbl_trayek D ON A.id_trayek = D.id_trayek  WHERE ";
+
+          $SQL = "SELECT A.*, E.tgl_uji as berlaku_kp,  B.*, C.*, D.* "
                 . " FROM tbl_kendaraan A LEFT JOIN tbl_perusahaan B ON A.id_perusahaan = B.id "
                 . "  LEFT JOIN tb_note_kendaraan C ON a.no_uji=c.id_kendaraan"
-                . " LEFT JOIN tbl_trayek D ON A.id_trayek = D.id_trayek  WHERE ";
+                . " LEFT JOIN tbl_trayek D ON A.id_trayek = D.id_trayek "
+                  . " LEFT JOIN tbl_riwayat E on A.id_kendaraan = E.id_kendaraan WHERE ";
 
         if ($jenis == 'trayek') {
             $SQL.= " A.kp_ijin_trayek != '' ";
@@ -109,7 +116,7 @@ class Pemeriksaan extends CI_Controller {
 
     public function act_add() {
         $jenis = $this->input->post("jenis");
-
+        $no_nota = $this->m_pemeriksaan->no_kwitansi();
         $data = array(
             "id_kendaraan" => $this->input->post("no_uji"),
             "tanggal" => date("Y-m-d"),
@@ -117,6 +124,20 @@ class Pemeriksaan extends CI_Controller {
         );
         
         $tgl_berlaku = $this->input->post('masa_berlaku_ijin_trayek');
+//        $new_thn = strtotime($tgl_berlaku);
+//        $thn = substr($tgl_berlaku, 0, 4);
+//        $bln = date("m", $new_thn) + 6;
+//        $day = substr($tgl_berlaku, 8, 2);
+        
+//        $bln = $bln + 6;
+//        if ($bln > 12) {
+//            $bln = $bln - 12;
+//            if ($bln < 10) {
+//                $bln =
+//            }
+//            $thn = $thn + 1;
+//        }
+//        print_r($tgl_berlaku);
         if(!empty($tgl_berlaku)) {
             $data['masa_berlaku'] = $this->input->post('masa_berlaku_ijin_trayek');
         }
@@ -234,6 +255,16 @@ class Pemeriksaan extends CI_Controller {
 
 //        echo '<img src="' . base_url() . 'qr.png" />';
         $this->load->view('admin/cetak/stiker/print.php');
+    }
+    
+     function cetak_laporan_harian() {
+        $date = date("Y-m-d");
+        define('FPDF_FONTPATH', $this->config->item('fonts_path'));
+        $a['data'] = $this->m_pemeriksaan->get_data_laporan($date);
+//        $a['total_kendaraan'] = $this->m_ijin_operasi->get_total_kendaraan_trayek($id);
+//        $a['data_kendaraan'] = $this->m_ijin_operasi->get_all_kendaraan_by_id_perusahaan_trayek($id);
+        $a['date_manipulation'] = $this->datetimemanipulation;
+        $this->load->view('admin/cetak/laporan_pengujian/print.php', $a);
     }
 
 }

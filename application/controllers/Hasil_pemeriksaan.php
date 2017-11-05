@@ -23,6 +23,7 @@ class Hasil_pemeriksaan extends CI_Controller {
         $this->com_user = $this->session->userdata('session_admin');
         if (!empty($this->com_user)) {
             $this->load->model('m_pemeriksaan');
+            $this->load->model('m_kuitansi');
         } else {
             redirect("admin/login");
         }
@@ -127,18 +128,45 @@ class Hasil_pemeriksaan extends CI_Controller {
         $this->load->view('admin/dashboard', $a);
     }
 
+    public function insertKwitansi($idKp, $id_kendaraan, $idBiaya) {
+        $data_kuitansi = $this->m_kuitansi->cek_kuitansi_available($idKp);
+        if (empty($data_kuitansi)) {
+            $admin_id = $this->com_user['admin_id'];
+
+            $no_nota = $this->m_pemeriksaan->no_kwitansi();
+            $data = array(
+                "kp_ijin" => $idKp,
+                "tanggal" => date("Y-m-d"),
+                "id_admin" => $admin_id,
+                "id_kwitansi" => $no_nota,
+                "id_kendaraan" => $id_kendaraan,
+                "id_biaya_kwitansi" => $idBiaya
+            );
+
+            $save_kuitansi = $this->m_kuitansi->insertCetak($data);
+        }
+    }
+
     public function print_kwitansi_trayek($id) {
+
+
         ob_start();
 
-        $SQL = "SELECT b.* FROM tbl_checklist_kendaraan c "
+        $SQL = "SELECT b.*, a.kp_ijin_trayek as kp_ijin_trayek, a.id_kendaraan as id_kendaraan FROM tbl_checklist_kendaraan c "
                 . " join tbl_pemeriksaan d ON c.id_pemeriksaan = d.id_pemeriksaan "
                 . " join tbl_kendaraan a ON a.no_uji = d.id_kendaraan  "
                 . " LEFT JOIN tbl_perusahaan b ON a.id_perusahaan = b.id "
                 . " WHERE c.id_checklist = $id";
 
+        $SQL2 = "SELECT * FROM tbl_kuitansi where id_kwitansi = 1";
         $a['datpil'] = $this->db->query($SQL)->row();
+        $a['kuitansi'] = $this->db->query($SQL2)->row();
         $a['tanggal_cetak'] = date("Y-m-d");
         $a['date_manipulation'] = $this->datetimemanipulation;
+
+        $no_kp = $a['datpil']->kp_ijin_trayek;
+        $id_kendaraan = $a['datpil']->id_kendaraan;
+        $this->insertKwitansi($no_kp, $id_kendaraan, 1);
 
         $this->load->view('admin/cetak/kwitansi/kartu_pengawasan_trayek/print', $a);
         $html = ob_get_contents();
@@ -153,15 +181,21 @@ class Hasil_pemeriksaan extends CI_Controller {
     public function print_kwitansi_operasi($id) {
         ob_start();
 
-        $SQL = "SELECT b.* FROM tbl_checklist_kendaraan c "
+        $SQL = "SELECT b.*, a.kp_ijin_operasi as kp_ijin_operasi, a.id_kendaraan as id_kendaraan FROM tbl_checklist_kendaraan c "
                 . " join tbl_pemeriksaan d ON c.id_pemeriksaan = d.id_pemeriksaan "
                 . " join tbl_kendaraan a ON a.no_uji = d.id_kendaraan  "
                 . " LEFT JOIN tbl_perusahaan b ON a.id_perusahaan = b.id "
                 . " WHERE c.id_checklist = $id";
 
+        $SQL2 = "SELECT * FROM tbl_kuitansi where id_kwitansi = 2";
         $a['datpil'] = $this->db->query($SQL)->row();
+        $a['kuitansi'] = $this->db->query($SQL2)->row();
         $a['tanggal_cetak'] = date("Y-m-d");
         $a['date_manipulation'] = $this->datetimemanipulation;
+        
+        $no_kp = $a['datpil']->kp_ijin_operasi;
+        $id_kendaraan = $a['datpil']->id_kendaraan;
+        $this->insertKwitansi($no_kp, $id_kendaraan, 2);
 
         $this->load->view('admin/cetak/kwitansi/kartu_pengawasan_operasi/print', $a);
         $html = ob_get_contents();
