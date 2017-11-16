@@ -210,7 +210,10 @@ class M_pemeriksaan extends CI_Model {
     }
     
 function no_kwitansi() {
+        $tahun = date('Y');
+        $subsTahun = substr($tahun, 2, 2);
         $this->db->select('RIGHT(tbl_cetak_kuitansi.id_kwitansi,6) as kode', FALSE);
+        $this->db->like('id_kwitansi', $subsTahun. '.', 'after');
         $this->db->order_by('id_kwitansi', 'DESC');
         $this->db->limit(1);
         $query = $this->db->get('tbl_cetak_kuitansi');      //cek dulu apakah ada sudah ada kode di tabel.    
@@ -223,14 +226,16 @@ function no_kwitansi() {
             $kode = 1;
         }
         $kodemax = str_pad($kode, 6, "0", STR_PAD_LEFT);
-        $kodejadi = "KWT" . $kodemax;
+        $kodejadi = $subsTahun .  "." . $kodemax;
         return $kodejadi;
     }
     
     public function get_data_laporan($params) {
-        $sql = "select a.no_kendaraan , c.*, d.name as nama_petugas, e.harga from tbl_kendaraan a JOIN tbl_cetak_kuitansi c"
+        $sql = "select a.no_kendaraan, a.nama_pemilik, f.nama_perusahaan as perusahaan_name, c.*, d.name as nama_petugas, e.harga from tbl_kendaraan a JOIN tbl_cetak_kuitansi c"
                 . " ON a.id_kendaraan = c.id_kendaraan JOIN tbl_user_simau d "
-                . " ON d.id = c.id_admin LEFT JOIN tbl_kuitansi e ON e.id_kwitansi = c.id_biaya_kwitansi  WHERE c.tanggal = ? ";
+                . " ON d.id = c.id_admin LEFT JOIN tbl_kuitansi e "
+                . " ON e.id_kwitansi = c.id_biaya_kwitansi JOIN tbl_perusahaan f"
+                . " ON a.id_perusahaan = f.id  WHERE c.tanggal = ? ";
         $query = $this->db->query($sql, $params);
         if ($query->num_rows() > 0) {
             $result = $query->result();
