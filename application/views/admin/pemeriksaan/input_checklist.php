@@ -41,40 +41,44 @@
                         } else {
                             $no = ($this->uri->segment(4) + 1);
                             foreach ($data as $b) {
-                                ?>
+                                if (empty($b->tanggal_pemeriksaan)) {
+                                    ?>
 
-                                <tr style="background-color: #fff;">
-                                    <td><center><?php echo $no; ?></center></td>
-                            <td><?php if ($path == 'trayek')
-                            echo $b->kp_ijin_trayek;
-                        else
-                            echo $b->kp_ijin_operasi;
-                        ?></td>
-                            <td><?php echo $b->no_kendaraan; ?></td>
-                            <td><?php echo $b->no_uji; ?></td>
-        <?php if ($path == 'trayek') echo '<td>' . $b->kd_trayek . '</td>'; ?>
+                                    <tr style="background-color: #fff;">
+                                        <td><center><?php echo $no; ?></center></td>
+                                <td><?php
+                                    if ($path == 'trayek')
+                                        echo $b->kp_ijin_trayek;
+                                    else
+                                        echo $b->kp_ijin_operasi;
+                                    ?></td>
+                                <td><?php echo $b->no_kendaraan; ?></td>
+                                <td><?php echo $b->no_uji; ?></td>
+            <?php if ($path == 'trayek') echo '<td>' . $b->kd_trayek . '</td>'; ?>
 
-                            <td><?php echo $b->no_chasis; ?></td>
-                            <td><?php echo $b->no_mesin; ?></td>
-                            <td><input type="hidden" name="tanggal_periksa" value="<?php echo $b->tanggal_pemeriksaan; ?>"><?php if (empty($b->tanggal_pemeriksaan))
-                            echo 'Belum Diperiksa';
-                        else
-                            echo $date_manipulation->get_full_date($b->tanggal_pemeriksaan);
-                        ?></td>
+                                <td><?php echo $b->no_chasis; ?></td>
+                                <td><?php echo $b->no_mesin; ?></td>
+                                <td><input type="hidden" name="tanggal_periksa" value="<?php echo $b->tanggal_pemeriksaan; ?>"><?php
+                                    if (empty($b->tanggal_pemeriksaan))
+                                        echo 'Belum Diperiksa';
+                                    else
+                                        echo $date_manipulation->get_full_date($b->tanggal_pemeriksaan);
+                                    ?></td>
 
-                            <td class="ctr">
-                                <div class="btn-group">
+                                <td class="ctr">
+                                    <div class="btn-group">
 
-                                    <input type="radio" name="id_pemeriksaan" value="<?php echo $b->id_tbl_pemeriksaan; ?>" required>
-                                </div>	
+                                        <input type="radio" name="id_pemeriksaan" value="<?php echo $b->id_tbl_pemeriksaan; ?>" required>
+                                    </div>	
 
-                            </td>
-                            </tr>
-        <?php
-        $no++;
-    }
-}
-?>
+                                </td>
+                                </tr>
+                                <?php
+                                $no++;
+                            }
+                        }
+                    }
+                    ?>
                     </tbody>
                 </table>
                 <center><ul class="pagination"><?php echo $pagi; ?></ul></center>

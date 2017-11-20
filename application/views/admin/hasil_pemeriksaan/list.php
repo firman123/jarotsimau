@@ -57,30 +57,33 @@
             } else {
                 $no = ($this->uri->segment(4) + 1);
                 foreach ($data as $b) {
-                    ?>
+                    if ($b->status_verifikasi != 1) {
+                        ?>
 
-                    <tr style="background-color: #fff;">
-                        <td><center><?php echo $no; ?></center></td>
-                <td><?php echo $b->kp_ijin_trayek; ?></td>
-                <td><?php echo $b->kp_ijin_operasi; ?></td>
-                <td><?php echo $b->no_kendaraan; ?></td>
-                <?php if ($path == 'trayek') echo '<td>' . $b->kd_trayek . '</td>'; ?>
+                        <tr style="background-color: #fff;">
+                            <td><center><?php echo $no; ?></center></td>
+                    <td><?php echo $b->kp_ijin_trayek; ?></td>
+                    <td><?php echo $b->kp_ijin_operasi; ?></td>
+                    <td><?php echo $b->no_kendaraan; ?></td>
+                    <?php if ($path == 'trayek') echo '<td>' . $b->kd_trayek . '</td>'; ?>
 
-                <td><?php echo $b->no_chasis; ?></td>
-                <td><?php echo $b->no_mesin; ?></td>
-                <th><?php if($b->status_verifikasi==1) echo 'Setuju'; else if($b->status_verifikasi==2) echo 'Tidak Setuju'; else echo 'Belum Diverifikasi'; ?></th>
-                <td class="ctr">
-                    <div class="btn-group">
-                        <!--<a href="<?php echo base_URL() ?>index.php/hasil_pemeriksaan/view_print_<?php echo $path; ?>/<?php echo $b->id_checklist; ?>" class="btn btn-info btn-sm"><i class="icon-print icon-white">  </i> Print</a>-->	
-                        <a href="<?php echo base_URL() ?>index.php/hasil_pemeriksaan/view_<?php echo $path; ?>/<?php echo $b->id_checklist; ?>" class="btn btn-success btn-sm" title="View"><i class="icon-edit icon-white"> </i> View</a>		
-                        <a href="<?php echo base_URL() ?>index.php/hasil_pemeriksaan/del_<?php echo $path; ?>/<?php echo $b->id_checklist; ?>" class="btn btn-warning btn-sm" title="Hapus Data" onclick="return confirm('Anda Yakin..?')"><i class="icon-trash icon-remove">  </i> Del</a>	
-                    </div>	
+                    <td><?php echo $b->no_chasis; ?></td>
+                    <td><?php echo $b->no_mesin; ?></td>
+                    <th><?php if ($b->status_verifikasi == 1) echo 'Setuju'; else if ($b->status_verifikasi == 2) echo 'Tidak Setuju';
+            else echo 'Belum Diverifikasi'; ?></th>
+                    <td class="ctr">
+                        <div class="btn-group">
+                            <!--<a href="<?php echo base_URL() ?>index.php/hasil_pemeriksaan/view_print_<?php echo $path; ?>/<?php echo $b->id_checklist; ?>" class="btn btn-info btn-sm"><i class="icon-print icon-white">  </i> Print</a>-->	
+                            <a href="<?php echo base_URL() ?>index.php/hasil_pemeriksaan/view_<?php echo $path; ?>/<?php echo $b->id_checklist; ?>" class="btn btn-success btn-sm" title="View"><i class="icon-edit icon-white"> </i> View</a>		
+                            <a href="<?php echo base_URL() ?>index.php/hasil_pemeriksaan/del_<?php echo $path; ?>/<?php echo $b->id_checklist; ?>" class="btn btn-warning btn-sm" title="Hapus Data" onclick="return confirm('Anda Yakin..?')"><i class="icon-trash icon-remove">  </i> Del</a>	
+                        </div>	
 
-                </td>
+                    </td>
 
-                </tr>
-                <?php
-                $no++;
+                    </tr>
+                    <?php
+                    $no++;
+                }
             }
         }
         ?>
