@@ -15,18 +15,27 @@
                         <ul class="nav navbar-nav navbar-right">
                             <a class="navbar-brand" href="#">Cari Kendaraan</a>
                             <form class="navbar-form navbar-left" method="post" action="<?php echo base_URL(); ?>index.php/ijin_trayek_operasi/ijin_operasi/cari_kendaraan">
-                                <select name="id_perusahaan" class="form-control" id="id_perusahaan" required style="width: 70%">
-                                    <option></option>
-                                    <?php
-                                    foreach ($list_perusahaan as $value) {
-                                        ?>
-                                        <option value="<?php echo $value->id; ?>"><?php echo $value->nama_perusahaan; ?></option>
-                                        <!--echo '<option value='.$value.' if('.$value.'=='.$sifat_select.'){selected="selected">}'.$value.'</option>';-->
-                                        <?php
-                                    }
-                                    ?>
-                                </select>
-                                <button type="submit" class="btn btn-danger"><i class="icon-search icon-white"> </i> Cari</button>
+                                <div class="row">
+                                    <div class="nav navbar-header navbar-form">
+
+                                        <input type="text" name="no_kendaraan" id="kendaraan" style="width: 150px; margin-right: -20px;" class="form-control" placeholder="No Kendaraan">
+                                    </div>
+                                    <div class="navbar-header navbar-form">
+
+                                        <select name="id_perusahaan" class="form-control" id="id_perusahaan" required style="width: 70%">
+                                            <option value="0">Nama Perusahaan</option>
+                                            <?php
+                                            foreach ($list_perusahaan as $value) {
+                                                ?>
+                                                <option value="<?php echo $value->id; ?>"><?php echo $value->nama_perusahaan; ?></option>
+                                                <!--echo '<option value='.$value.' if('.$value.'=='.$sifat_select.'){selected="selected">}'.$value.'</option>';-->
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                        <button type="submit" class="btn btn-danger"><i class="icon-search icon-white"> </i> Cari</button>
+                                    </div>
+                                </div>
                             </form>
                         </ul>
                     </div><!-- /.nav-collapse -->
@@ -90,11 +99,11 @@
 
                 </td>
                 </tr>
-        <?php
-        $no++;
-    }
-}
-?>
+                <?php
+                $no++;
+            }
+        }
+        ?>
         <tr>
             <td colspan="8"></td>
             <td class="ctr">

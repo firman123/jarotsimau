@@ -14,20 +14,29 @@
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
-                                <a class="navbar-brand" href="#">Cari Kendaraan</a>
-                            <form class="navbar-form navbar-left" method="post" action="<?php echo base_URL(); ?>index.php/ijin_trayek_operasi/ijin_operasi/cari_kendaraan">
-                                <select name="id_perusahaan" class="form-control" id="id_perusahaan" required style="width: 70%">
-                                    <option></option>
-                                    <?php
-                                    foreach ($list_perusahaan as $value) {
-                                        ?>
-                                        <option value="<?php echo $value->id; ?>"><?php echo $value->nama_perusahaan; ?></option>
-                                        <!--echo '<option value='.$value.' if('.$value.'=='.$sifat_select.'){selected="selected">}'.$value.'</option>';-->
-                                        <?php
-                                    }
-                                    ?>
-                                </select>
-                                <button type="submit" class="btn btn-danger"><i class="icon-search icon-white"> </i> Cari</button>
+                            <a class="navbar-brand" href="#">Cari Kendaraan</a>
+                            <form class="nav navbar-form navbar-left" method="post" action="<?php echo base_URL(); ?>index.php/ijin_trayek_operasi/ijin_operasi/cari_kendaraan">
+                                <div class="row">
+                                    <div class="nav navbar-header navbar-form">
+                        
+                                        <input type="text" name="no_kendaraan" id="kendaraan" style="width: 150px; margin-right: -20px;" class="form-control" placeholder="No Kendaraan">
+                                    </div>
+                                    <div class="navbar-header navbar-form">
+
+                                        <select name="id_perusahaan" class="form-control" id="id_perusahaan" required style="width: 70%">
+                                             <option value="0">Nama Perusahaan</option>
+                                            <?php
+                                            foreach ($list_perusahaan as $value) {
+                                                ?>
+                                                <option value="<?php echo $value->id; ?>"><?php echo $value->nama_perusahaan; ?></option>
+                                                <!--echo '<option value='.$value.' if('.$value.'=='.$sifat_select.'){selected="selected">}'.$value.'</option>';-->
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                        <button type="submit" class="btn btn-danger"><i class="icon-search icon-white"> </i> Cari</button>
+                                    </div>
+                                </div>
                             </form>
                         </ul>
                     </div><!-- /.nav-collapse -->
@@ -54,11 +63,11 @@
         <thead>
             <tr>
                 <th width="5%">Nomor</th>
-                 <th width="10%">No. Ijin Operasi</th>
-                 <th width="10%">No. KP</th>
+                <th width="10%">No. Ijin Operasi</th>
+                <th width="10%">No. KP</th>
                 <th width="10%">No. Kendaraan</th>
                 <th width="17%">Nama Pemilik</th>
-    
+
                 <th>No. Uji</th>
                 <th width="15%"></th>
             </tr>
@@ -75,13 +84,13 @@
 
                     <tr style="background-color: #fff;">
                         <td><center><?php echo $no; ?></center></td>
-                        <td><?php echo $b->id_ijin_operasi; ?></td>
-                        <td><?php echo $b->kp_ijin_operasi; ?></td>
-                        <td><?php echo $b->no_kendaraan; ?></td>
-                        <td><?php echo $b->nama_pemilik; ?></td>
-     
-                        <td><?php echo $b->no_uji; ?></td>
-                         
+                <td><?php echo $b->id_ijin_operasi; ?></td>
+                <td><?php echo $b->kp_ijin_operasi; ?></td>
+                <td><?php echo $b->no_kendaraan; ?></td>
+                <td><?php echo $b->nama_pemilik; ?></td>
+
+                <td><?php echo $b->no_uji; ?></td>
+
                 <td class="ctr">
                     <div class="btn-group">
                         <a href="<?php echo base_URL() ?>index.php/ijin_trayek_operasi/ijin_operasi/edt/<?php echo $b->no_uji; ?>" class="btn btn-success btn-sm" title="Edit Data"><i class="icon-edit icon-white"> </i> View</a>		
@@ -97,7 +106,7 @@
         ?>
         </tbody>
     </table>
-<center><ul class="pagination"><?php echo $pagi; ?></ul></center>
+    <center><ul class="pagination"><?php echo $pagi; ?></ul></center>
 </div>
 
 

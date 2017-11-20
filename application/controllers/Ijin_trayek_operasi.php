@@ -50,7 +50,7 @@ class ijin_trayek_operasi extends CI_Controller {
         $total_row = $this->db->query("select a.*, b.*, c.* from tbl_ijin_operasi a join tbl_perusahaan b on a.id_perusahaan = b.id "
                         . " JOIN tbl_kendaraan c ON c.id_perusahaan = b.id "
                         . " WHERE c.kp_ijin_operasi != '' "
-                        . " AND a.tanggal_input = '$date_now' ")->num_rows();
+                        . " AND c.tgl_input_ijin_operasi = '$date_now' ")->num_rows();
 
         $per_page = 10;
 
@@ -146,9 +146,29 @@ class ijin_trayek_operasi extends CI_Controller {
         } else if ($mau_ke == "cari_kendaraan") {
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
             $id_perusahaan = $this->input->post('id_perusahaan');
-            $a['data'] = $this->db->query("SELECT a.*, c.* FROM tbl_kendaraan a JOIN tbl_perusahaan b "
-                            . " ON a.id_perusahaan = b.id JOIN tbl_ijin_operasi c ON b.id = c.id_perusahaan WHERE a.id_perusahaan = $id_perusahaan AND LENGTH(a.kp_ijin_operasi) > 0")->result();
-            $a['page'] = "ijin_operasi/list_kendaraan_perusahaan";
+            $kendaraan = $this->input->post('no_kendaraan');
+            $kategory;
+            
+//            print_r($kendaraan);
+//            print_r($id_perusahaan);
+
+            if (empty($id_perusahaan) && empty($kendaraan)) {
+                $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Pencarian belum diisi. </div>");
+            }  else {
+                
+                if ($id_perusahaan !== 0) {
+                    $kategory = "a.id_perusahaan = $id_perusahaan";
+                }
+
+                if (!empty($kendaraan)) {
+                    $trim_nokendaraan = trim($kendaraan);
+                    $kategory = "a.no_kendaraan = '$trim_nokendaraan' ";
+                }
+                
+                $a['data'] = $this->db->query("SELECT a.*, c.* FROM tbl_kendaraan a JOIN tbl_perusahaan b "
+                                . " ON a.id_perusahaan = b.id JOIN tbl_ijin_operasi c ON b.id = c.id_perusahaan WHERE " . $kategory . " AND LENGTH(a.kp_ijin_operasi) > 0")->result();
+            }
+             $a['page'] = "ijin_operasi/list_kendaraan_perusahaan";
         } else if ($mau_ke == "cari_nomer_kendaraan") {
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
             $a['kode'] = $this->m_ijin_operasi->buat_kode();
@@ -196,6 +216,7 @@ class ijin_trayek_operasi extends CI_Controller {
             if ($total_kendaraan == 0) {
                 $data_kendaraan['id_perusahaan'] = $id_perusahaan;
             }
+            $data_kendaraan['tgl_input_ijin_operasi'] =  date('Y-m-d');
             $save_data = $this->m_kendaraan->update($data_kendaraan, $this->input->post("id_kendaraan"));
             if ($save_data) {
                 $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been added. </div>");
@@ -235,7 +256,7 @@ class ijin_trayek_operasi extends CI_Controller {
             $a['data'] = $this->db->query("select a.*, b.*, c.* from tbl_ijin_operasi a join tbl_perusahaan b on a.id_perusahaan = b.id "
                             . " JOIN tbl_kendaraan c ON c.id_perusahaan = b.id "
                             . " WHERE c.kp_ijin_operasi != '' "
-                            . " AND a.tanggal_input = '$date_now' "
+                            . " AND c.tgl_input_ijin_operasi = '$date_now' "
                             . " ORDER BY a.id_ijin_operasi DESC "
                             . " LIMIT $akhir OFFSET $awal ")->result();
             $a['page'] = "ijin_operasi/list";
@@ -254,7 +275,7 @@ class ijin_trayek_operasi extends CI_Controller {
         $date_now = date('Y-m-d');
         $total_row = $this->db->query("select a.*, b.*, c.* from tbl_ijin_trayek a join tbl_kendaraan b on a.id_perusahaan = b.id_perusahaan"
                         . " JOIN tbl_trayek c ON b.id_trayek = c.id_trayek "
-                        . " WHERE b.kp_ijin_trayek != '' AND a.tanggal_input = '$date_now'")->num_rows();
+                        . " WHERE b.kp_ijin_trayek != '' AND b.tgl_input_ijin_trayek = '$date_now'")->num_rows();
         $per_page = 10;
 
         $awal = $this->uri->segment(4);
@@ -350,11 +371,27 @@ class ijin_trayek_operasi extends CI_Controller {
         } else if ($mau_ke == "cari_kendaraan") {
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
             $id_perusahaan = $this->input->post('id_perusahaan');
-//            $a['data'] = $this->db->query("SELECT * from tbl_kendaraan where kp_ijin_trayek != '' AND id_perusahaan = $id_perusahaan")->result();
+            $kendaraan = $this->input->post('no_kendaraan');
+            $kategory;
+            
+//            print_r($kendaraan);
+//            print_r($id_perusahaan);
 
-            $a['data'] = $this->db->query("SELECT a.*, c.* FROM tbl_kendaraan a JOIN tbl_perusahaan b "
-                            . " ON a.id_perusahaan = b.id JOIN tbl_ijin_trayek c ON b.id = c.id_perusahaan WHERE a.id_perusahaan = $id_perusahaan AND LENGTH(a.kp_ijin_trayek) > 0")->result();
+            if (empty($id_perusahaan) && empty($kendaraan)) {
+                $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Pencarian belum diisi. </div>");
+            } else {
+                if ($id_perusahaan!== 0) {
+                    $kategory = "a.id_perusahaan = $id_perusahaan";
+                }
 
+                if (!empty($kendaraan)) {
+                    $trim_nokendaraan = trim($kendaraan);
+                    $kategory = "a.no_kendaraan = '$trim_nokendaraan' ";
+                }
+
+                $a['data'] = $this->db->query("SELECT a.*, c.* FROM tbl_kendaraan a JOIN tbl_perusahaan b "
+                                . " ON a.id_perusahaan = b.id JOIN tbl_ijin_trayek c ON b.id = c.id_perusahaan WHERE ". $kategory." AND LENGTH(a.kp_ijin_trayek) > 0")->result();
+            }
             $a['page'] = "ijin_trayek/list_kendaraan_perusahaan";
         } else if ($mau_ke == "cari_nomer_kendaraan") {
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
@@ -402,7 +439,7 @@ class ijin_trayek_operasi extends CI_Controller {
                 $save_data = $this->m_ijin_trayek->insert($data);
             }
 
-
+            $data_kendaraan['tgl_input_ijin_trayek'] =  date('Y-m-d');
             $save_data = $this->m_kendaraan->update($data_kendaraan, $this->input->post("id_kendaraan"));
             if ($save_data) {
                 $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been added. </div>");
@@ -451,7 +488,7 @@ class ijin_trayek_operasi extends CI_Controller {
                             . " JOIN tbl_kendaraan c ON c.id_perusahaan = b.id "
                             . " JOIN tbl_trayek d ON d.id_trayek = c.id_trayek "
                             . " WHERE c.kp_ijin_trayek != '' "
-                            . " AND a.tanggal_input = '$date_now' "
+                            . " AND c.tgl_input_ijin_trayek = '$date_now' "
                             . " ORDER BY a.id_ijin_trayek DESC "
                             . " LIMIT $akhir OFFSET $awal ")->result();
 
@@ -736,5 +773,5 @@ class ijin_trayek_operasi extends CI_Controller {
         $a['date_manipulation'] = $this->datetimemanipulation;
         $this->load->view('admin/cetak/surat_ijin_trayek/print.php', $a);
     }
-    
+
 }
