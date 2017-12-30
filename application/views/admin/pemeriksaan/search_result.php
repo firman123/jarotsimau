@@ -25,13 +25,13 @@
                 <input type="hidden" name="no_kendaraan"  required value="<?php echo $kendaraan['no_kendaraan']; ?>" style="width: 400px" id="no_kendaraan" class="form-control"  />
                 <tr><td style="width: 50%;">NO. KP</td><td style="width: 50%;"><b><input type="text" name="no_kp" required value="<?php if($path=='trayek') echo $kendaraan['kp_ijin_trayek']; else echo $kendaraan['kp_ijin_operasi'];?>" id="kartu_pengawasan" style="width: 300px" class="form-control" readonly=""/></b></td></tr>
 
-                <tr><td width="20%">Masa Belaku KP</td><td><b><input type="text" name="masa_berlaku" required value="<?php echo $kendaraan['berlaku_kp']; ?>" id="masa_berlaku" style="width: 300px" class="form-control" readonly /></td></tr>	
+                <tr><td width="20%">Masa Belaku KP</td><td><b><input type="text" name="masa_berlaku" required value="<?php echo $tanggal_pemeriksaan['masa_berlaku_kp']; ?>" id="masa_berlaku" style="width: 300px" class="form-control" readonly /></td></tr>	
                 <input type="hidden" name="no_trayek" required value="<?php echo $kendaraan['id_trayek']; ?>"
                 <tr><td width="20%">No. Trayek</td><td><b><input type="text" required value="<?php echo $kendaraan['kd_trayek']; ?>" id="no_trayek" style="width: 300px" class="form-control" readonly /></td></tr>		
                 <tr><td width="20%">Nama Pemilik</td><td><b><input type="text" name="nama_pemilik" required value="<?php echo $kendaraan['nama_pemilik']; ?>" id="nama_pemilik" style="width: 300px" class="form-control" readonly /></td></tr>	
                 <tr><td width="20%">Alamat</td><td><b><input type="text" name="alamat_pemilik" required value="<?php echo $kendaraan['alamat']; ?>" id="alamat_pemilik" style="width: 300px" class="form-control" readonly/></td></tr>	
                 <tr><td width="20%">Nama Perusahaan</td><td><b><input type="text" name="nama_perusahaan" required value="<?php echo $kendaraan['nama_perusahaan']; ?>" id="nama_perusahaan" style="width: 300px" class="form-control" readonly/></td></tr>	
-                <tr><td width="20%">Masa Berlaku Ijin Trayek</td><td><b><input type="text" name="masa_berlaku_ijin_trayek" required value="<?php echo $kendaraan['berlaku_kp']; ?>" style="width: 300px" id="masa_berlaku_ijin_trayek" class="form-control" readonly /></td></tr>	
+                <tr><td width="20%">Masa Berlaku Ijin Trayek</td><td><b><input type="text" name="masa_berlaku_ijin_trayek" required value="<?php echo $tanggal_pemeriksaan['masa_berlaku_ijin_trayek']; ?>" style="width: 300px" id="masa_berlaku_ijin_trayek" class="form-control" readonly /></td></tr>	
 
                 <tr><td colspan="2">
                         <br><button type="submit" class="btn btn-success" <?php if(empty($kendaraan['no_uji'])) {?> disabled="" <?php }?>>Simpan</button>
