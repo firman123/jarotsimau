@@ -270,6 +270,71 @@
                         dateFormat: 'yy-mm-dd'
                     });
                 });
+               
+                   $(function() {
+                    $("#tanggal_awal").datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: 'yy-mm-dd'
+                    });
+                });
+                
+                    $(function() {
+                    $("#tanggal_akhir").datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: 'yy-mm-dd'
+                    });
+                });
+                
+                  $(function() {
+                    $("#angkot_tanggal_awal").datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: 'yy-mm-dd'
+                    });
+                });
+                
+                  $(function() {
+                    $("#angkot_tanggal_akhir").datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: 'yy-mm-dd'
+                    });
+                });
+                
+                  $(function() {
+                    $("#perusahaan_tanggal_awal").datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: 'yy-mm-dd'
+                    });
+                });
+                
+                  $(function() {
+                    $("#perusahaan_tanggal_akhir").datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: 'yy-mm-dd'
+                    });
+                });
+                
+                  $(function() {
+                    $("#pad_tanggal_awal").datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: 'yy-mm-dd'
+                    });
+                });
+                
+                  $(function() {
+                    $("#pad_tanggal_akhir").datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: 'yy-mm-dd'
+                    });
+                });
+
 
             });
             // ]]>

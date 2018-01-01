@@ -166,7 +166,7 @@ class Hasil_pemeriksaan extends CI_Controller {
 
         $no_kp = $a['datpil']->kp_ijin_trayek;
         $id_kendaraan = $a['datpil']->id_kendaraan;
-        $this->insertKwitansi($no_kp, $id_kendaraan, 1);
+//        $this->insertKwitansi($no_kp, $id_kendaraan, 1);
 
         $this->load->view('admin/cetak/kwitansi/kartu_pengawasan_trayek/print', $a);
         $html = ob_get_contents();
@@ -195,7 +195,7 @@ class Hasil_pemeriksaan extends CI_Controller {
         
         $no_kp = $a['datpil']->kp_ijin_operasi;
         $id_kendaraan = $a['datpil']->id_kendaraan;
-        $this->insertKwitansi($no_kp, $id_kendaraan, 2);
+//        $this->insertKwitansi($no_kp, $id_kendaraan, 2);
 
         $this->load->view('admin/cetak/kwitansi/kartu_pengawasan_operasi/print', $a);
         $html = ob_get_contents();
@@ -301,7 +301,10 @@ class Hasil_pemeriksaan extends CI_Controller {
         $data = array(
             "status_verifikasi" => $this->input->post("verifikasi")
         );
+        
+        $data_pemeriksaan['masa_berlaku'] = $this->input->post('tgl_mati_uji');
 
+        $update_pemeriksaan = $this->m_pemeriksaan->update($data_pemeriksaan, $this->input->post("id_update_pemeriksaan"));
         $save_data = $this->m_pemeriksaan->update_checklist($data, $this->input->post("id_pemeriksaan"));
         if ($save_data) {
             $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data Berhasil diverifikasi. </div>");

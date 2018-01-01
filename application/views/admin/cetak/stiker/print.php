@@ -69,7 +69,7 @@
 
             <tr>
                 <td colspan="2">
-                    <div class="font_setting text_padding" style=" vertical-align: bottom; height: 100%; padding-top: 0.1cm;"><br><?php echo $date_manipulation->get_full_date($datpil->masa_berlaku_kp); ?></div>
+                    <div class="font_setting text_padding" style=" vertical-align: bottom; height: 100%; padding-top: 0.1cm;"><br><?php echo $date_manipulation->get_full_date($datpil->tgl_mati_uji); ?></div>
                 </td>
             </tr>
 

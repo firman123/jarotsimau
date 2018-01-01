@@ -3,6 +3,10 @@
 <?php
 $mode = $this->uri->segment(3);
 
+if (!empty($kendaraan['kp_ijin_trayek'])) {
+//    echo "<script>alert('Kendaraan sudah dimiliki kp operasi!');window.location='".site_url('ijin_trayek_operasi/ijin_trayek/add')."';</script>";
+    echo "<script>alert('Kendaraan sudah dimiliki kp trayek!');window.location='".site_url('ijin_trayek_operasi/ijin_operasi/add')."';</script>";
+}
 
 if ($mode == "edt" || $mode == "act_edt") {
     $act = "act_edt";
@@ -54,7 +58,6 @@ if ($mode == "edt" || $mode == "act_edt") {
                     </td><td><button type=submit class="btn btn-danger" id="search_kendaraan_button"><i class="icon-search icon-white"> </i> Cari</button></td></tr>		
                 </form>
                 <form action="<?php echo site_url("ijin_trayek_operasi/ijin_operasi/" . $act); ?>" method="post" accept-charset="utf-8">
-
 
                 <input type="hidden" name="id_ijin_operasi" required value="<?php echo $id_ijin_operasi; ?>" style="width: 200px" class="form-control" readonly>
                 <!--</b></td></tr>-->

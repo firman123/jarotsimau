@@ -396,10 +396,18 @@
                     <?php } ?>
 
                     <?php if (trim($data_user['otoritas']) == 'Super Admin') { ?>
-                        <a href="<?php echo site_url('admin/manage_admin') ?>" class="tile-wide fg-white" data-role="tile">
+                        <a href="<?php echo site_url('admin/manage_admin') ?>" class="tile fg-white" data-role="tile">
                             <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
                             <div class="tile-content bg-yellow">
                                 <h3 style="text-align: center; margin-top: 50px;">Pengaturan Admin</h2>
+                            </div>
+                        </a>
+                    <?php } ?>
+                    
+                                        <?php if ($data_user['checklist_trayek'] == 1) { ?>
+                        <a href="<?php echo site_url('laporan/setting_laporan') ?>" class="tile bg-magenta fg-white" data-role="tile">
+                            <div class="tile-content">
+                                <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>Laporan</h4></div>
                             </div>
                         </a>
                     <?php } ?>

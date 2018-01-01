@@ -8,7 +8,6 @@
 
 <?php echo $this->session->flashdata("message_cari"); ?>
 
-
 <div class="row-fluid well" style="overflow: hidden">
 
     <div class="col-lg-6">
@@ -23,6 +22,7 @@
                  <input type="hidden" name="no_uji" value="<?php echo $kendaraan['no_uji']; ?>" id="no_uji" />
                 <input type="hidden" name="no_ktp_lama" value="<?php echo $kendaraan['no_ktp']; ?>" id="no_uji" />
                 <input type="hidden" name="no_kendaraan"  required value="<?php echo $kendaraan['no_kendaraan']; ?>" style="width: 400px" id="no_kendaraan" class="form-control"  />
+                <input type="hidden" name="id_kendaraan" value="<?php echo trim($kendaraan['kendaraan_id']); ?>" />
                 <tr><td style="width: 50%;">NO. KP</td><td style="width: 50%;"><b><input type="text" name="no_kp" required value="<?php if($path=='trayek') echo $kendaraan['kp_ijin_trayek']; else echo $kendaraan['kp_ijin_operasi'];?>" id="kartu_pengawasan" style="width: 300px" class="form-control" readonly=""/></b></td></tr>
 
                 <tr><td width="20%">Masa Belaku KP</td><td><b><input type="text" name="masa_berlaku" required value="<?php echo $tanggal_pemeriksaan['masa_berlaku_kp']; ?>" id="masa_berlaku" style="width: 300px" class="form-control" readonly /></td></tr>	
