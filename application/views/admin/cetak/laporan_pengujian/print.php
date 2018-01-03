@@ -21,7 +21,7 @@ $this->fpdf->Cell(28.5, 1, 'PENGUJIAN KENDARAAN BERMOTOR', 0, 1, 'C');
 $this->fpdf->Cell(28.5, 0.5, 'DINAS PERHUBUNGAN KOTA BALIKPAPAN', 0, 1, 'C');
 $this->fpdf->SetFont('Arial', 'B', 12);
 $tgl = date('Y-m-d');
-$this->fpdf->Cell(27.5, 1, 'Tanggal Retribusi ' . $date_manipulation->get_full_date($tgl), 0, 0, 'C');
+$this->fpdf->Cell(27.5, 1, 'Tanggal Retribusi ' . $date_manipulation->get_full_date($tanggal), 0, 0, 'C');
 
 $this->fpdf->ln(4);
 $this->fpdf->SetFont('Arial', 'B', 10);

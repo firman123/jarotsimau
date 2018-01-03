@@ -371,10 +371,18 @@
                 <span class="tile-group-title"></span>
                 <div class="tile-container">
                     <?php if ($data_user['rubah_sifat'] == 1) { ?>
-                        <a href="<?php echo site_url('rubahsifat') ?>" class="tile-wide fg-white" data-role="tile">
+                        <a href="<?php echo site_url('rubahsifat') ?>" class="tile fg-white" data-role="tile">
                             <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
                             <div class="tile-content bg-yellow">
                                 <h3 style="text-align: center; margin-top: 50px;">Rubah Sifat Kendaraan</h2>
+                            </div>
+                        </a>
+                    <?php } ?>
+                      <?php if ($data_user['rubah_sifat'] == 1) { ?>
+                        <a href="<?php echo site_url('peremajaan') ?>" class="tile fg-white" data-role="tile">
+                            <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
+                            <div class="tile-content bg-cyan">
+                                <h3 style="text-align: center; margin-top: 50px;">Peremajaan</h2>
                             </div>
                         </a>
                     <?php } ?>

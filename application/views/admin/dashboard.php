@@ -334,6 +334,14 @@
                         dateFormat: 'yy-mm-dd'
                     });
                 });
+                
+                $(function() {
+                    $("#tanggal_report").datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: 'yy-mm-dd'
+                    });
+                });
 
 
             });

@@ -15,6 +15,17 @@ class Laporan extends CI_Controller {
         self::check_authority();
     }
 
+    function cetak_laporan_harian() {
+        $date = $this->input->post("tanggal_report");
+        define('FPDF_FONTPATH', $this->config->item('fonts_path'));
+        $a['data'] = $this->m_pemeriksaan->get_data_laporan($date);
+//        $a['total_kendaraan'] = $this->m_ijin_operasi->get_total_kendaraan_trayek($id);
+//        $a['data_kendaraan'] = $this->m_ijin_operasi->get_all_kendaraan_by_id_perusahaan_trayek($id);
+        $a['date_manipulation'] = $this->datetimemanipulation;
+        $a['tanggal'] = $date;
+        $this->load->view('admin/cetak/laporan_pengujian/print.php', $a);
+    }
+
     function cetak_laporan_layanan() {
         $tgl_awal = $this->input->post("tanggal_awal");
         $tgl_akhir = $this->input->post("tanggal_akhir");

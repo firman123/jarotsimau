@@ -11,8 +11,31 @@
 
 <?php echo $this->session->flashdata("message_cari"); ?>
 <div class="row-fluid well" style="overflow: hidden">
+    
+     <div class="col-lg-12">
+         <div class="row">
+             <div class="col-lg-6">
+                 <table  class="table-form">
+<!--                <tr><td width="20%">No. Ijin Trayek</td><td><b>-->
+            <h5><b>Rekap Harian</b> </h5>
+            <form action="<?php echo site_url("laporan/cetak_laporan_harian"); ?>" method="post" accept-charset="utf-8">
 
-    <div class="col-lg-12">
+                <tr style="width: 100%;">
+                    <td style="width: 10%">Pilih Tanggal</td>
+                    <td style="width: 20%"><b><input type="text" name="tanggal_report" required value="" id="tanggal_report" style="width: 200px;" class="form-control"></b></td>
+                   
+                    <td style="width: 10%"><button type=submit class="btn btn-success" id="search_kendaraan_button" style="margin-left: -50px;"><i class="icon-print icon-white"> </i> Print</button></td>
+                </tr>		
+            </form>
+
+
+        </table>
+             </div>
+         </div>
+        
+    </div>
+
+    <div class="col-lg-12"  style="margin-top: 40px">
         <table  class="table-form">
 <!--                <tr><td width="20%">No. Ijin Trayek</td><td><b>-->
             <h5><b>Laporan Kegiatan</b> </h5>

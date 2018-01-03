@@ -9,11 +9,8 @@
 			</div>
 		<div class="navbar-collapse collapse navbar-inverse-collapse" style="margin-right: -20px">
 			<ul class="nav navbar-nav">
-                            <li><a href="<?php echo site_url("pemeriksaan/input/$path"); ?>" class="btn-info"><i class="icon-plus-sign icon-white"> </i> Daftar</a></li>
-                            <li><a href="<?php echo site_url("hasil_pemeriksaan/index_$path"); ?>" class="btn-info"><i class="icon-print icon-white"> </i> Cetak</a></li>
-                            
-                           
-			</ul>
+                            <li><a href="<?php echo site_url("peremajaan/input"); ?>" class="btn-info"><i class="icon-plus-sign icon-white"> </i> Daftar</a></li>
+                      	</ul>
 			
 			<ul class="nav navbar-nav navbar-right">
 <!--                            <form class="navbar-form navbar-left" method="post" action="<?php echo base_URL(); ?>index.php/master_data/kendaraan/cari">
@@ -46,13 +43,9 @@
 	<thead>
 		<tr>
 			<th width="5%">No</th>
-			<th width="10%">Nomor Uji</th>
-                        <th width="10%">Nomor Kendaraan</th>
-                        <th>NO. KP</th>
-			<th width="10%">Nama Pemilik</th>
-			<th>Nomor Rangka</th>
-                        <th>Nomor Mesin</th>
-			<th width="15%">Sifat</th>
+                        <th width="10%">Nomor KP</th>
+			<th width="10%">Nomor Kendaraan Lama</th>
+                        <th width="10%">Nomor Kendaraan Baru</th>
                         <th width="10%"></th>
 		</tr>
 	</thead>
@@ -70,17 +63,12 @@
 		
 			<tr style="background-color: #fff;">
 			<td><center><?php echo $no; ?></center></td>
-			<td><?php echo $b->no_uji; ?></td>
-                        <td><?php echo $b->no_kendaraan; ?></td>
-                        <td><?php if($path=='trayek') echo $b->kp_ijin_trayek; else echo $b->kp_ijin_operasi; ?></td>
-			<td><?php echo $b->nama_pemilik;?></td>
-                        
-                        <td><?php echo $b->no_chasis; ?></td>
-                        <td><?php echo $b->no_mesin;?></td>
-                        <td><?php echo $b->sifat; ?></td>
+			<td><?php echo $b->kp_ijin_trayek; ?></td>
+                        <td><?php echo $b->no_kendaraan_lama; ?></td>
+                        <td><?php echo $b->no_kendaraan_baru; ?></td>
 			<td class="ctr">
 				<div class="btn-group">
-                                    <a href="<?php echo base_URL()?>index.php/pemeriksaan/act_delete_<?php echo $path; ?>/<?php echo $b->id_pemeriksaan; ?>" class="btn btn-warning btn-sm" title="Hapus Data" onclick="return confirm('Anda Yakin..?')"><i class="icon-trash icon-remove">  </i> Del</a>	
+                                    <a href="<?php echo base_URL()?>index.php/peremajaan/act_delete/<?php echo $b->id_peremajaan; ?>" class="btn btn-warning btn-sm" title="Hapus Data" onclick="return confirm('Anda Yakin..?')"><i class="icon-trash icon-remove">  </i> Del</a>	
                                	</div>	
 				
 			</td>
