@@ -2,10 +2,13 @@
 
 <?php
 $mode = $this->uri->segment(3);
-
 if (!empty($kendaraan['kp_ijin_trayek'])) {
 //    echo "<script>alert('Kendaraan sudah dimiliki kp operasi!');window.location='".site_url('ijin_trayek_operasi/ijin_trayek/add')."';</script>";
     echo "<script>alert('Kendaraan sudah dimiliki kp trayek!');window.location='".site_url('ijin_trayek_operasi/ijin_operasi/add')."';</script>";
+}
+
+if (!empty(trim($kendaraan['kp_ijin_operasi']))) {
+    echo "<script>alert('Kendaraan sudah memiliki ijin operasi!');window.location='".site_url('ijin_trayek_operasi/ijin_operasi/add')."';</script>";
 }
 
 if ($mode == "edt" || $mode == "act_edt") {

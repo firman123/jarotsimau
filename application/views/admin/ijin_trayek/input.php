@@ -6,6 +6,12 @@ if (!empty($kendaraan['kp_ijin_operasi'])) {
     echo "<script>alert('Kendaraan sudah dimiliki kp operasi!');window.location='".site_url('ijin_trayek_operasi/ijin_trayek/add')."';</script>";
 }
 
+if (!empty($kendaraan['kp_ijin_trayek'])) {
+    echo "<script>alert('Kendaraan sudah memiliki ijin trayek!');window.location='".site_url('ijin_trayek_operasi/ijin_trayek/add')."';</script>";
+}
+
+
+
 if ($mode == "edt" || $mode == "act_edt") {
     $act = "act_edt";
     $id_perusahaan = $datpil['id_perusahaan'];

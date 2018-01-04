@@ -91,7 +91,7 @@ class Pemeriksaan extends CI_Controller {
 //                . "  LEFT JOIN tb_note_kendaraan C ON a.no_uji=c.id_kendaraan"
 //                . " LEFT JOIN tbl_trayek D ON A.id_trayek = D.id_trayek  WHERE ";
 
-        $SQL = "SELECT A.*, A.id_kendaraan as kendaraan_id, A.tgl_mati_uji as berlaku_kp,  B.*, C.*, D.* "
+        $SQL = "SELECT A.*, A.kp_ijin_trayek as trayek_kp, A.kp_ijin_operasi as operasi_kp, A.id_kendaraan as kendaraan_id, A.tgl_mati_uji as berlaku_kp,  B.*, C.*, D.* "
                 . " FROM tbl_kendaraan A LEFT JOIN tbl_perusahaan B ON A.id_perusahaan = B.id "
                 . "  LEFT JOIN tb_note_kendaraan C ON a.no_uji=c.id_kendaraan"
                 . " LEFT JOIN tbl_trayek D ON A.id_trayek = D.id_trayek "
@@ -99,13 +99,13 @@ class Pemeriksaan extends CI_Controller {
 
         $SQL_TANGGAL = "SELECT A.masa_berakhir as masa_berlaku_ijin_trayek, B.masa_berlaku as masa_berlaku_kp ";
         if ($jenis == 'trayek') {
-            $SQL.= " A.kp_ijin_trayek != '' ";
+//            $SQL.= " A.kp_ijin_trayek != '' ";
             $SQL_TANGGAL .= "FROM tbl_ijin_trayek A ";
         } else {
-            $SQL.= " A.kp_ijin_operasi != '' ";
+//            $SQL.= " A.kp_ijin_operasi != '' ";
              $SQL_TANGGAL .= "FROM tbl_ijin_operasi A ";
         }
-        $SQL.= " AND A.no_kendaraan = '$rawl_nokendaraan'  ORDER BY E.tgl_uji DESC LIMIT 1";
+        $SQL.= " A.no_kendaraan = '$rawl_nokendaraan'  ORDER BY E.tgl_uji DESC LIMIT 1";
         $SQL_TANGGAL.= " LEFT JOIN tbl_perusahaan C on C.id = A.id_perusahaan "
                         . " LEFT JOIN tbl_kendaraan D on D.id_perusahaan= C.id "
                         . " LEFT JOIN tbl_pemeriksaan B on B.id_kendaraan = D.no_uji "

@@ -94,7 +94,7 @@ class ijin_trayek_operasi extends CI_Controller {
 
         if ($mau_ke == "del") {
             $data_kendaraan_del = array(
-                "kp_ijin_operasi" => ""
+                "kp_ijin_operasi" => ''
             );
 
             $id_ijin_operasi = $this->uri->segment(5);
@@ -177,11 +177,11 @@ class ijin_trayek_operasi extends CI_Controller {
             $no_kendaraan = $this->input->post("no_kendaraan");
             $trim_nokendaraan = trim($no_kendaraan);
             $rawl_nokendaraan = rawurldecode($trim_nokendaraan);
-            $a['kendaraan'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji = '$rawl_nokendaraan' AND (LENGTH(kp_ijin_operasi) = 0 OR kp_ijin_operasi = '' OR kp_ijin_operasi isnull) ")->row_array();
+            $a['kendaraan'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji = '$rawl_nokendaraan'")->row_array();
 
-            if (empty($a['kendaraan'])) {
-                $this->session->set_flashdata("message_cari", "<div class=\"alert alert-error\" id=\"alert\">Data Tidak ditemukan</div>");
-            }
+//            if (empty($a['kendaraan'])) {
+//                $this->session->set_flashdata("message_cari", "<div class=\"alert alert-error\" id=\"alert\">Data Tidak ditemukan</div>");
+//            }
             $a['page'] = "ijin_operasi/search_result";
         } else if ($mau_ke == "add") {
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
@@ -318,7 +318,7 @@ class ijin_trayek_operasi extends CI_Controller {
         if ($mau_ke == "del") {
             $data_kendaraan_del = array(
                 "id_trayek" => 0,
-                "kp_ijin_trayek" => ""
+                "kp_ijin_trayek" => ''
             );
 
             $id_ijin_trayek = $this->uri->segment(5);
@@ -403,10 +403,10 @@ class ijin_trayek_operasi extends CI_Controller {
             $no_kendaraan = $this->input->post("no_kendaraan");
             $trim_nokendaraan = trim($no_kendaraan);
             $rawl_nokendaraan = rawurldecode($trim_nokendaraan);
-            $a['kendaraan'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE RTRIM(no_uji) = '$rawl_nokendaraan' AND (LENGTH(kp_ijin_trayek) = 0 OR kp_ijin_trayek = '' OR kp_ijin_trayek isnull)")->row_array();
-            if (empty($a['kendaraan'])) {
-                $this->session->set_flashdata("message_cari", "<div class=\"alert alert-error\" id=\"alert\">Data Tidak ditemukan</div>");
-            }
+            $a['kendaraan'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji = '$rawl_nokendaraan' ")->row_array();
+//            if (empty($a['kendaraan'])) {
+//                $this->session->set_flashdata("message_cari", "<div class=\"alert alert-error\" id=\"alert\">Data Tidak ditemukan</div>");
+//            }
             $a['page'] = "ijin_trayek/input";
         } else if ($mau_ke == "add") {
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
