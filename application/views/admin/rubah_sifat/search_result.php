@@ -49,12 +49,12 @@ if ($mode == "edt" || $mode == "act_edt") {
     <div class="col-lg-12">
         <table  class="table-form">
             <!--<tr><td width="20%">No. Ijin Operasi</td><td><b>-->
-            <form action="<?php echo site_url("rubahsifat/cari_nomer_kendaraan"); ?>" method="post" accept-charset="utf-8">
+            <form action="<?php echo site_url("rubahsifat/cari_nomer_kendaraan/$jenis"); ?>" method="post" accept-charset="utf-8">
 
                 <tr><td width="20%">No. Uji</td><td><b><input type="text" name="no_kendaraan" required value="<?php echo $id_kendaraan; ?>"  style="width: 300px" class="form-control" placeholder="contoh  : BK 8640 CG"></b>
                     </td><td><button type=submit class="btn btn-danger" id="search_kendaraan_button"><i class="icon-search icon-white"> </i> Cari</button></td></tr>		
             </form>
-            <form action="<?php echo site_url("rubahsifat/act_save"); ?>" method="post" accept-charset="utf-8">
+            <form action="<?php echo site_url("rubahsifat/act_save/$jenis"); ?>" method="post" accept-charset="utf-8">
                 <input type="hidden" name="sifat_lama" value="<?php echo $kendaraan['sifat']; ?>" />
                 <tr><td width="20%">Id. Kendaraan</td><td><b><input type="text" name="id_kendaraan" required value="<?php echo $kendaraan['no_uji']; ?>" id="kendaraan" style="width: 300px" class="form-control" readonly=""></b>
                 <tr><td>Sifat</td><td><b>                                
@@ -99,7 +99,7 @@ if ($mode == "edt" || $mode == "act_edt") {
                 <input type="hidden" name="verifikasi" value="<?php echo $verifikasi; ?>" />
                 <tr><td colspan="2">
                         <br><button type="submit" class="btn btn-success">Simpan</button>
-                        <a href="<?php echo base_URL(); ?>index.php/rubahsifat" class="btn btn-primary">Kembali</a>
+                        <a href="<?php echo base_URL(); ?>index.php/rubahsifat/index/<?php echo $jenis; ?>" class="btn btn-primary">Kembali</a>
                     </td></tr>
         </table>
     </div>

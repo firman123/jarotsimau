@@ -41,12 +41,8 @@ class Laporan extends CI_Controller {
     }
 
     function cetak_laporan_angkutan() {
-        $tgl_awal = $this->input->post("tanggal_awal");
-        $tgl_akhir = $this->input->post("tanggal_akhir");
         define('FPDF_FONTPATH', $this->config->item('fonts_path'));
-        $a['data'] = $this->m_laporan->total_angkot($tgl_awal, $tgl_akhir);
-        $a['tanggal_awal'] = $this->datetimemanipulation->get_full_date($tgl_awal);
-        $a['tanggal_akhir'] = $this->datetimemanipulation->get_full_date($tgl_akhir);
+        $a['data'] = $this->m_laporan->total_angkot();
         $this->load->view('admin/cetak/laporan_jml_angkot/print.php', $a);
     }
 

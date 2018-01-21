@@ -53,7 +53,7 @@
         <tbody>
             <?php
             if (empty($data)) {
-                echo "<tr><td colspan='5'  style='text-align: center; font-weight: bold'>--Data tidak ditemukan--</td></tr>";
+                echo "<tr><td colspan='9'  style='text-align: center; font-weight: bold'>--Data tidak ditemukan--</td></tr>";
             } else {
                 $no = ($this->uri->segment(4) + 1);
                 foreach ($data as $b) {

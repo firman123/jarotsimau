@@ -179,9 +179,9 @@ class ijin_trayek_operasi extends CI_Controller {
             $rawl_nokendaraan = rawurldecode($trim_nokendaraan);
             $a['kendaraan'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji = '$rawl_nokendaraan'")->row_array();
 
-//            if (empty($a['kendaraan'])) {
-//                $this->session->set_flashdata("message_cari", "<div class=\"alert alert-error\" id=\"alert\">Data Tidak ditemukan</div>");
-//            }
+            if (empty($a['kendaraan'])) {
+                $this->session->set_flashdata("message_cari", "<div class=\"alert alert-error\" id=\"alert\">Data Tidak ditemukan</div>");
+            }
             $a['page'] = "ijin_operasi/search_result";
         } else if ($mau_ke == "add") {
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
@@ -404,9 +404,9 @@ class ijin_trayek_operasi extends CI_Controller {
             $trim_nokendaraan = trim($no_kendaraan);
             $rawl_nokendaraan = rawurldecode($trim_nokendaraan);
             $a['kendaraan'] = $this->db->query("SELECT * FROM tbl_kendaraan WHERE no_uji = '$rawl_nokendaraan' ")->row_array();
-//            if (empty($a['kendaraan'])) {
-//                $this->session->set_flashdata("message_cari", "<div class=\"alert alert-error\" id=\"alert\">Data Tidak ditemukan</div>");
-//            }
+            if (empty($a['kendaraan'])) {
+                $this->session->set_flashdata("message_cari", "<div class=\"alert alert-error\" id=\"alert\">Data Tidak ditemukan</div>");
+            }
             $a['page'] = "ijin_trayek/input";
         } else if ($mau_ke == "add") {
             $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();

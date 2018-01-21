@@ -16,7 +16,7 @@ $this->fpdf->Image(base_url() . 'aset/img/kartu_pengemudi.jpg', 0, 0, 5.5, 8.6, 
 // Setting Font : String Family, String Style, Font size
 $this->fpdf->SetFont('Arial', 'B', 7);
 
-$this->fpdf->Image($poto_sopir, $poto_sopir.getWidth / 2, 1.3, 0, 2.5);
+$this->fpdf->Image($poto_sopir, 4, 1.3, 0, 2.5);
 
 //$this->fpdf->SetMargins(0, 4, 0);
 $this->fpdf->SetFont('Arial', 'B', 9);

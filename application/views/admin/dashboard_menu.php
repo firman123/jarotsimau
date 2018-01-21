@@ -334,7 +334,7 @@
                     <?php if ($data_user['verifikasi'] == 1) { ?>
                         <a href="<?php echo site_url('hasil_pemeriksaan') ?>" class="tile bg-orange fg-white" data-role="tile">
                             <div class="tile-content">
-                                <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>Verifikasi</h4></div>
+                                <div style="width: 100%; height: 100%; line-height: 50px; padding: 10px; text-align: center; margin-top: 40px;"><h4>Verifikasi 1 <br/> ( Penumpang )</h4></div>
                             </div>
                         </a>
                     <?php } ?>
@@ -371,18 +371,18 @@
                 <span class="tile-group-title"></span>
                 <div class="tile-container">
                     <?php if ($data_user['rubah_sifat'] == 1) { ?>
-                        <a href="<?php echo site_url('rubahsifat') ?>" class="tile fg-white" data-role="tile">
+                        <a href="<?php echo site_url('rubahsifat/index/Penumpang') ?>" class="tile fg-white" data-role="tile">
                             <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
                             <div class="tile-content bg-yellow">
-                                <h3 style="text-align: center; margin-top: 50px;">Rubah Sifat Kendaraan</h2>
+                                <h4 style="text-align: center; margin-top: 50px;">Rubah Sifat 1 <br/> ( Penumpang )</h4>
                             </div>
                         </a>
                     <?php } ?>
                       <?php if ($data_user['rubah_sifat'] == 1) { ?>
-                        <a href="<?php echo site_url('peremajaan') ?>" class="tile fg-white" data-role="tile">
+                        <a href="<?php echo site_url('rubahsifat/index/Barang') ?>" class="tile fg-white" data-role="tile">
                             <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
                             <div class="tile-content bg-cyan">
-                                <h3 style="text-align: center; margin-top: 50px;">Peremajaan</h2>
+                                <h4 style="text-align: center; margin-top: 50px;">Ribah Sifat 2 <br/> ( Barang )</h4>
                             </div>
                         </a>
                     <?php } ?>
@@ -421,6 +421,31 @@
                     <?php } ?>
                 </div>
             </div>
+            
+               <div class="tile-group double">
+                <span class="tile-group-title"></span>
+                <div class="tile-container">
+
+                    <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
+
+                    <?php if ($data_user['rubah_sifat'] == 1) { ?>
+                        <a href="<?php echo site_url('peremajaan') ?>" class="tile fg-white" data-role="tile">
+                            <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
+                            <div class="tile-content bg-darkOrange">
+                                <h3 style="text-align: center; margin-top: 50px;">Peremajaan</h2>
+                            </div>
+                        </a>
+                    <?php } ?>
+                        <?php if ($data_user['rubah_sifat'] == 1) { ?>
+                        <a href="<?php echo site_url('verifikasi_barang') ?>" class="tile fg-white" data-role="tile">
+                            <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
+                            <div class="tile-content bg-green">
+                                <h4 style="text-align: center; margin-top: 50px;">Verifikasi 2 <br/> ( Penumpang ) </h4>
+                            </div>
+                        </a>
+                    <?php } ?>
+                </div>
+               </div>
 
         </div>
     </body>

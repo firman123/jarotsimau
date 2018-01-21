@@ -22,12 +22,14 @@ class m_kendaraan extends CI_Model {
         return $this->db->insert_id();
     }
     
-    public function total_kendaraan_rubah_sifat() {
-        $SQL = "SELECT count(*) as total from tbl_kendaraan "
-                . " where verifikasi_rubah_sifat = 1 OR  "
-                . " verifikasi_rubah_sifat = 2 ";
+    public function total_kendaraan_rubah_sifat($jenis) {
+        $tanggal = date("Y-m-d");
+         $SQL = "SELECT count(A.*) as total from tbl_kendaraan A join tbl_perusahaan B "
+                . " ON A.id_perusahaan = B.id "
+                . " where A.verifikasi_rubah_sifat = 0 AND A.tanggal = '$tanggal' AND B.jenis = ? ";  
+//        print_r($SQL);
         
-        $query = $this->db->query($SQL);
+        $query = $this->db->query($SQL, $jenis);
         if($query->num_rows() > 0) {
             $result = $query->row_array();
             $query->free_result();
@@ -37,11 +39,13 @@ class m_kendaraan extends CI_Model {
         }
     }
     
-    public function get_all_kendaraan_rubah_sifat($limit, $offset) {
+    public function get_all_kendaraan_rubah_sifat($limit, $offset, $jenis) {
         $tanggal = date("Y-m-d");
-        $SQL = "SELECT * FROM tbl_kendaraan WHERE ( verifikasi_rubah_sifat = 1 "
-                . " OR verifikasi_rubah_sifat = 2 ) AND tanggal = '$tanggal' ORDER BY tanggal DESC "
+        $SQL = "SELECT A.* FROM tbl_kendaraan A JOIN tbl_perusahaan B ON A.id_perusahaan = B.id "
+                . " WHERE A.verifikasi_rubah_sifat = 0 AND A.tanggal = '$tanggal' AND B.jenis = '$jenis' ORDER BY A.tanggal DESC "
                 . " LIMIT $limit OFFSET $offset ";
+
+//        print_r($SQL);
         $query = $this->db->query($SQL);
         if($query->num_rows() > 0) {
             $result = $query->result();

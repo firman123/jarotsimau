@@ -45,19 +45,27 @@ class Peremajaan extends CI_Controller {
             "no_kendaraan_lama" => $this->input->post("no_kendaraan_lama"),
             "no_kendaraan_baru" => $this->input->post("no_kendaraan_baru"),
             "id_kendaraan" => $this->input->post("id_kendaraan"),
-            "tanggal" => date("Y-m-d")
+            "tanggal" => date("Y-m-d"),
+            "verifikasi" => 0
         );
 
-        if ($this->m_peremajaan->insert($data)) {
-            $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been added. </div>");
+        $a['data'] = $this->m_peremajaan->cek_kendaraan_available($this->input->post("no_kendaraan_lama"));
+        if (empty($a['data'])) {
+            if ($this->m_peremajaan->insert($data)) {
+                $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been added. </div>");
+            } else {
+                $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Data failed. </div>");
+            }
         } else {
-            $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Data failed. </div>");
+             echo "<script>alert('Gagal! data kendaraan sudah ada!');</script>";
         }
+
+
 
         $a['page'] = "peremajaan/input";
         $this->load->view('admin/dashboard', $a);
     }
-    
+
     public function act_delete($id_peremajaan) {
         if ($this->m_peremajaan->delete($id_peremajaan)) {
             $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been deleted </div>");
@@ -73,18 +81,16 @@ class Peremajaan extends CI_Controller {
         $trim_nokendaraan = trim($no_kendaraan);
         $rawl_nokendaraan = rawurldecode($trim_nokendaraan);
 
-        $SQL = "SELECT A.*, A.id_kendaraan AS kendaraan_id,  A.tgl_mati_uji as berlaku_kp,  B.*, C.*, D.* "
+        $SQL = "SELECT A.*, A.id_kendaraan AS kendaraan_id,  A.tgl_mati_uji as berlaku_kp,  B.*, D.* "
                 . " FROM tbl_kendaraan A LEFT JOIN tbl_perusahaan B ON A.id_perusahaan = B.id "
-                . "  LEFT JOIN tb_note_kendaraan C ON a.no_uji=c.id_kendaraan"
-                . " LEFT JOIN tbl_trayek D ON A.id_trayek = D.id_trayek  WHERE A.kp_ijin_trayek != '' ";
-
-        $SQL.= " AND A.no_kendaraan = '$rawl_nokendaraan'  ORDER BY C.id_data DESC LIMIT 1";
+                . " LEFT JOIN tbl_trayek D ON A.id_trayek = D.id_trayek  "
+                . " WHERE  A.no_uji = '$rawl_nokendaraan' ";
 
         $a['kendaraan'] = $this->db->query($SQL)->row_array();
-        if (empty($a['kendaraan'])) {
-
-            $this->session->set_flashdata("message_cari", "<div class=\"alert alert-error\" id=\"alert\">Data Tidak ditemukan</div>");
-        }
+//        if (empty($a['kendaraan'])) {
+//
+//            $this->session->set_flashdata("message_cari", "<div class=\"alert alert-error\" id=\"alert\">Data Tidak ditemukan</div>");
+//        }
 
         $a['page'] = "peremajaan/search_result";
         $this->load->view('admin/dashboard', $a);

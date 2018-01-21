@@ -9,6 +9,7 @@
 class Hasil_pemeriksaan extends CI_Controller {
 
     protected $com_user;
+    private $param_data;
 
     public function __construct() {
         parent::__construct();
@@ -24,12 +25,15 @@ class Hasil_pemeriksaan extends CI_Controller {
         if (!empty($this->com_user)) {
             $this->load->model('m_pemeriksaan');
             $this->load->model('m_kuitansi');
+            $this->load->model('m_kendaraan');
         } else {
             redirect("admin/login");
         }
     }
 
     public function index() {
+        $this->rubah_sifat_penumpang();
+        
         $total_row = $this->m_pemeriksaan->get_total_hasil_pemeriksaan(NULL);
         $per_page = 10;
 
@@ -37,13 +41,32 @@ class Hasil_pemeriksaan extends CI_Controller {
         $awal = (empty($awal) || $awal == 1) ? 0 : $awal;
         $akhir = $per_page;
 
-        $a['date_manipulation'] = $this->datetimemanipulation;
-        $a['pagi'] = _page($total_row, $per_page, 4, site_url('hasil_pemeriksaan/index_trayek/p'));
-        $a['path'] = "trayek";
-        $a['data'] = $this->m_pemeriksaan->get_hasil_pemeriksaan_all(NULL, $akhir, $awal);
-        $a['page'] = "hasil_pemeriksaan/list";
+        $this->param_data['date_manipulation'] = $this->datetimemanipulation;
+        $this->param_data['pagi'] = _page($total_row, $per_page, 4, site_url('hasil_pemeriksaan/index/p'));
+        $this->param_data['path'] = "trayek";
+        $this->param_data['data'] = $this->m_pemeriksaan->get_hasil_pemeriksaan_all(NULL, $akhir, $awal);
+        $this->param_data['page'] = "hasil_pemeriksaan/list";
 
-        $this->load->view('admin/dashboard', $a);
+        $this->load->view('admin/dashboard', $this->param_data);
+        
+//        $this->rubah_sifat_penumpang();
+    }
+    
+       public function rubah_sifat_penumpang() {
+//        $mode = $this->uri->segment(3);
+        $jenis = 'Penumpang';
+        $total_row = $this->m_kendaraan->total_kendaraan_rubah_sifat($jenis);
+        $per_page = 2;
+
+        $awal = $this->uri->segment(4);
+        $awal = (empty($awal) || $awal == 1) ? 0 : $awal;
+        $akhir = $per_page;
+
+        $this->param_data['pagi2'] = _page($total_row, $per_page, 4, site_url('hasil_pemeriksaan/index/p'));
+        $this->param_data['data_sifat_penumpang'] = $this->m_kendaraan->get_all_kendaraan_rubah_sifat($akhir, $awal, $jenis);
+//        print_r($this->param_data['data_sifat_penumpang']);
+        $this->param_data['jenis'] = $jenis;
+        $this->param_data['page2'] = "hasil_pemeriksaan/list_rubahsifat_penumpang";
     }
 
     public function index_trayek() {

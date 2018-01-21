@@ -24,13 +24,13 @@
                         url: "<?php echo site_url('ijin_trayek_operasi/perusahaan_combo'); ?>",
                         data: "id=" + id_perusahaan,
                         success: function(data) {
-                            $("#nama_perusahaan").html(data)    
+                            $("#nama_perusahaan").html(data)
                         }
                     })
                 })
-                
-                $('#biaya_kwitansi').maskMoney({prefix:'Rp. ', thousands:'.', decimal:',', precision:0});
-                
+
+                $('#biaya_kwitansi').maskMoney({prefix: 'Rp. ', thousands: '.', decimal: ',', precision: 0});
+
                 $("#search_kendaraan_button").click(function() {
                     var id_kendaraan = $("#id_kendaraan").val();
                     $.ajax({
@@ -38,7 +38,7 @@
                         url: "<?php echo site_url('ijin_trayek_operasi/perusahaan_combo'); ?>",
                         data: "id=" + id_perusahaan,
                         success: function(data) {
-                            $("#nama_perusahaan").html(data)    
+                            $("#nama_perusahaan").html(data)
                         }
                     })
                 })
@@ -71,8 +71,8 @@
                         }
                     });
                 });
-                
-                 $(function() {
+
+                $(function() {
                     $('#kartu_pengawasan').autocomplete({
                         // serviceUrl berisi URL ke controller/fungsi yang menangani request kita
                         serviceUrl: site + "/ijin_trayek_operasi/cari_kendaraan_kp",
@@ -94,8 +94,8 @@
                         }
                     });
                 });
-                
-                  $(function() {
+
+                $(function() {
                     $('#no_kendaraan').autocomplete({
                         // serviceUrl berisi URL ke controller/fungsi yang menangani request kita
                         serviceUrl: site + "/ijin_trayek_operasi/cari_kendaraan_kp",
@@ -118,8 +118,8 @@
                         }
                     });
                 });
-                
-                 $(function() {
+
+                $(function() {
                     $('#no_kendaraan_operasi').autocomplete({
                         // serviceUrl berisi URL ke controller/fungsi yang menangani request kita
                         serviceUrl: site + "/ijin_trayek_operasi/cari_kendaraan_kp",
@@ -142,7 +142,7 @@
                         }
                     });
                 });
-                
+
                 $(function() {
                     $('#kartu_pengawasan_operasi').autocomplete({
                         // serviceUrl berisi URL ke controller/fungsi yang menangani request kita
@@ -270,71 +270,71 @@
                         dateFormat: 'yy-mm-dd'
                     });
                 });
-               
-                   $(function() {
+
+                $(function() {
                     $("#tanggal_awal").datepicker({
                         changeMonth: true,
                         changeYear: true,
                         dateFormat: 'yy-mm-dd'
                     });
                 });
-                
-                    $(function() {
+
+                $(function() {
                     $("#tanggal_akhir").datepicker({
                         changeMonth: true,
                         changeYear: true,
                         dateFormat: 'yy-mm-dd'
                     });
                 });
-                
-                  $(function() {
+
+                $(function() {
                     $("#angkot_tanggal_awal").datepicker({
                         changeMonth: true,
                         changeYear: true,
                         dateFormat: 'yy-mm-dd'
                     });
                 });
-                
-                  $(function() {
+
+                $(function() {
                     $("#angkot_tanggal_akhir").datepicker({
                         changeMonth: true,
                         changeYear: true,
                         dateFormat: 'yy-mm-dd'
                     });
                 });
-                
-                  $(function() {
+
+                $(function() {
                     $("#perusahaan_tanggal_awal").datepicker({
                         changeMonth: true,
                         changeYear: true,
                         dateFormat: 'yy-mm-dd'
                     });
                 });
-                
-                  $(function() {
+
+                $(function() {
                     $("#perusahaan_tanggal_akhir").datepicker({
                         changeMonth: true,
                         changeYear: true,
                         dateFormat: 'yy-mm-dd'
                     });
                 });
-                
-                  $(function() {
+
+                $(function() {
                     $("#pad_tanggal_awal").datepicker({
                         changeMonth: true,
                         changeYear: true,
                         dateFormat: 'yy-mm-dd'
                     });
                 });
-                
-                  $(function() {
+
+                $(function() {
                     $("#pad_tanggal_akhir").datepicker({
                         changeMonth: true,
                         changeYear: true,
                         dateFormat: 'yy-mm-dd'
                     });
                 });
-                
+
                 $(function() {
                     $("#tanggal_report").datepicker({
                         changeMonth: true,
@@ -418,7 +418,17 @@
                 </div>
             </div>
 
-            <?php $this->load->view('admin/' . $page); ?>
+
+            <?php
+            $this->load->view('admin/' . $page);
+            if (isset($page2)) {
+                $this->load->view('admin/' . $page2);
+            }
+
+            if (isset($page3)) {
+                $this->load->view('admin/' . $page3);
+            }
+            ?>
 
             <div class="span12 well well-sm">
                 <h4 style="font-weight: bold">SISTEM INFORMASI MANAJEMEN ANGKUTAN </a></h4>

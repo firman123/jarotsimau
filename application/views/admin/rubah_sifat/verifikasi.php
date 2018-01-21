@@ -14,7 +14,7 @@
     <div class="col-lg-12">
         <table  class="table-form">
             <!--<tr><td width="20%">No. Ijin Operasi</td><td><b>-->
-            <form action="<?php echo site_url("rubahsifat/verifikasi_act"); ?>" method="post" accept-charset="utf-8">
+            <form action="<?php echo site_url("rubahsifat/verifikasi_act/$jenis"); ?>" method="post" accept-charset="utf-8">
                 <!--</b></td></tr>-->
 
                 <tr><td width="20%">Id. Kendaraan</td><td><b><input type="text" name="id_kendaraan" required value="<?php echo $kendaraan['no_uji']; ?>" id="kendaraan" style="width: 300px" class="form-control" readonly=""></b>
@@ -56,7 +56,7 @@
 
                 <tr><td colspan="2">
                         <br><button type="submit" class="btn btn-success">Simpan</button>
-                        <a href="<?php echo base_URL(); ?>index.php/rubahsifat" class="btn btn-primary">Kembali</a>
+                        <!--<a href="<?php echo base_URL(); ?>index.php" class="btn btn-primary">Kembali</a>-->
                     </td></tr>
         </table>
     </div>

@@ -33,18 +33,18 @@ class Rubahsifat extends CI_Controller {
         }
     }
 
-    public function index() {
-        $total_row = $this->m_kendaraan->total_kendaraan_rubah_sifat();
+    public function index($jenis) {
+        $total_row = $this->m_kendaraan->total_kendaraan_rubah_sifat($jenis);
         $per_page = 10;
 
-        $awal = $this->uri->segment(3);
+        $awal = $this->uri->segment(4);
         $awal = (empty($awal) || $awal == 1) ? 0 : $awal;
         $akhir = $per_page;
 
-        $a['pagi'] = _page($total_row, $per_page, 4, site_url('rubahsifat/index'));
-        $a['data'] = $this->m_kendaraan->get_all_kendaraan_rubah_sifat($akhir, $awal);
+        $a['pagi'] = _page($total_row, $per_page, 4, site_url('rubahsifat/index/'.$jenis));
+        $a['data'] = $this->m_kendaraan->get_all_kendaraan_rubah_sifat($akhir, $awal, $jenis);
         $a['page'] = "rubah_sifat/list";
-
+        $a['jenis'] = $jenis;
         $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
         $this->load->view('admin/dashboard', $a);
     }
@@ -58,8 +58,8 @@ class Rubahsifat extends CI_Controller {
         $this->load->view('admin/dashboard', $a);
     }
 
-    public function cari_nomer_kendaraan() {
-        $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
+    public function cari_nomer_kendaraan($jenis) {
+        $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan WHERE jenis = '$jenis' ")->result();
         $a['data_sifat'] = array("UMUM", "TIDAK UMUM", "COBA JALAN");
         $no_kendaraan = $this->input->post("no_kendaraan");
         $trim_nokendaraan = trim($no_kendaraan);
@@ -69,32 +69,36 @@ class Rubahsifat extends CI_Controller {
         if (empty($a['kendaraan'])) {
             $this->session->set_flashdata("message_cari", "<div class=\"alert alert-error\" id=\"alert\">Data Tidak ditemukan</div>");
         }
+        $a['jenis'] = $jenis;
         $a['page'] = "rubah_sifat/search_result";
         $this->load->view('admin/dashboard', $a);
     }
 
-    public function add() {
+    public function add($jenis) {
         $a['data_sifat'] = array("UMUM", "TIDAK UMUM", "COBA JALAN");
-        $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan")->result();
+        $a['list_perusahaan'] = $this->db->query("select * from tbl_perusahaan Where jenis = '$jenis' ")->result();
         $a['page'] = "rubah_sifat/input";
+        $a['jenis'] = $jenis;
         $this->load->view('admin/dashboard', $a);
     }
 
-    public function view($id_kendaraan) {
+    public function view($jenis) {
+        $id_kendaraan = $this->uri->segment(4);
         $trim_nokendaraan = trim($id_kendaraan);
         $rawl_nokendaraan = rawurldecode($trim_nokendaraan);
         $a['kendaraan'] = $this->db->query("SELECT a.* , b.* FROM tbl_kendaraan a left join tbl_perusahaan b "
                 . " ON a.id_perusahaan = b.id WHERE a.no_uji = '$rawl_nokendaraan'")->row_array();
-        $a['value_validasi'] = array(2, 3);
+        $a['value_validasi'] = array(1, 2);
         $a['page'] = "rubah_sifat/verifikasi";
+        $a['jenis'] = $jenis;
         $this->load->view('admin/dashboard', $a);
     }
 
-    public function act_save() {
+    public function act_save($jenis) {
         $data = array(
             "id_perusahaan" => $this->input->post("id_perusahaan"),
             "tanggal" => date("Y-m-d"),
-            "verifikasi_rubah_sifat" => 1,
+            "verifikasi_rubah_sifat" => 0,
             "sifat" => $this->input->post("sifat"),
             "sifat_lama" => $this->input->post("sifat_lama")
         );
@@ -105,10 +109,10 @@ class Rubahsifat extends CI_Controller {
         } else {
             $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Data failed. </div>");
         }
-        redirect('rubahsifat/add');
+        redirect('rubahsifat/add/'.$jenis);
     }
     
-    public function verifikasi_act() {
+    public function verifikasi_act($jenis) {
         $data = array(
             "tanggal" => date("Y-m-d"),
             "verifikasi_rubah_sifat" => $this->input->post("verifikasi")
@@ -120,7 +124,12 @@ class Rubahsifat extends CI_Controller {
         } else {
             $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Data failed. </div>");
         }
-        redirect('rubahsifat/add');
+        
+        if ($jenis == 'barang' || $jenis == 'Barang')  {
+         redirect('verifikasi_barang');
+        } else {
+            redirect('hasil_pemeriksaan');
+        }
     }
     
    public function print_kwitansi($id) {

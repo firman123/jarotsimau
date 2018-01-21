@@ -115,6 +115,19 @@ class M_pemeriksaan extends CI_Model {
             return array();
         }
     }
+    
+     public function check_available_kendaraan($params) {
+        $date = date('Y-m-d');
+        $sql = "SELECT * FROM tbl_pemeriksaan WHERE id_kendaraan = ? AND jenis = ? AND tanggal = '$date' ";
+        $query = $this->db->query($sql, $params);
+        if ($query->num_rows() > 0) {
+            $result = $query->row_array();
+            $query->free_result();
+            return $result;
+        } else {
+            return array();
+        }
+    }
 
     public function get_detail_hasil_pemeriksaan($params) {
         $sql = "SELECT a.*, b.* FROM tbl_checklist_kendaraan a "

@@ -103,18 +103,17 @@ class Pemeriksaan extends CI_Controller {
             $SQL_TANGGAL .= "FROM tbl_ijin_trayek A ";
         } else {
 //            $SQL.= " A.kp_ijin_operasi != '' ";
-             $SQL_TANGGAL .= "FROM tbl_ijin_operasi A ";
+            $SQL_TANGGAL .= "FROM tbl_ijin_operasi A ";
         }
-        $SQL.= " A.no_kendaraan = '$rawl_nokendaraan'  ORDER BY E.tgl_uji DESC LIMIT 1";
+        $SQL.= " A.no_uji = '$rawl_nokendaraan'  ORDER BY E.tgl_uji DESC LIMIT 1";
         $SQL_TANGGAL.= " LEFT JOIN tbl_perusahaan C on C.id = A.id_perusahaan "
-                        . " LEFT JOIN tbl_kendaraan D on D.id_perusahaan= C.id "
-                        . " LEFT JOIN tbl_pemeriksaan B on B.id_kendaraan = D.no_uji "
-                        . " WHERE D.no_kendaraan = '$rawl_nokendaraan' ORDER BY B.id_pemeriksaan DESC LIMIT 1 ";
-        
+                . " LEFT JOIN tbl_kendaraan D on D.id_perusahaan= C.id "
+                . " LEFT JOIN tbl_pemeriksaan B on B.id_kendaraan = D.no_uji "
+                . " WHERE D.no_uji = '$rawl_nokendaraan' ORDER BY B.id_pemeriksaan DESC LIMIT 1 ";
+
         $a['kendaraan'] = $this->db->query($SQL)->row_array();
         $a['tanggal_pemeriksaan'] = $this->db->query($SQL_TANGGAL)->row_array();
         if (empty($a['kendaraan'])) {
-
             $this->session->set_flashdata("message_cari", "<div class=\"alert alert-error\" id=\"alert\">Data Tidak ditemukan</div>");
         }
 
@@ -134,36 +133,22 @@ class Pemeriksaan extends CI_Controller {
             "jenis" => $jenis,
             "masa_berlaku" => $this->input->post("masa_berlaku_kp")
         );
-        
-        if ($jenis == 'Trayek') {
-            $this->insert_kwitansi($id_kp, $id_kendaraan, 1);
-        } else {
-            $this->insert_kwitansi($id_kp, $id_kendaraan, 2);
-        }
-        
 
-//        $tgl_berlaku = $this->input->post('masa_berlaku_ijin_trayek');
-//        $new_thn = strtotime($tgl_berlaku);
-//        $thn = substr($tgl_berlaku, 0, 4);
-//        $bln = date("m", $new_thn) + 6;
-//        $day = substr($tgl_berlaku, 8, 2);
-//        $bln = $bln + 6;
-//        if ($bln > 12) {
-//            $bln = $bln - 12;
-//            if ($bln < 10) {
-//                $bln =
-//            }
-//            $thn = $thn + 1;
-//        }
-//        print_r($tgl_berlaku);
-//        if (!empty($tgl_berlaku)) {
-//            $data['masa_berlaku'] = $this->input->post('masa_berlaku_ijin_trayek');
-//        }
-        
-        if ($this->m_pemeriksaan->insert($data)) {
-            $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been added. </div>");
+        $available_kendaraan['data'] = $this->m_pemeriksaan->check_available_kendaraan(array($this->input->post("no_uji"), $jenis));
+        if (empty($available_kendaraan['data'])) {
+            if ($jenis == 'Trayek') {
+                $this->insert_kwitansi($id_kp, $id_kendaraan, 1);
+            } else {
+                $this->insert_kwitansi($id_kp, $id_kendaraan, 2);
+            }
+
+            if ($this->m_pemeriksaan->insert($data)) {
+                $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been added. </div>");
+            } else {
+                $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Data failed. </div>");
+            }
         } else {
-            $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Data failed. </div>");
+            $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Data sudah diinputkan sebelumnya. </div>");
         }
 
         if ($jenis == 'Trayek') {
@@ -175,7 +160,6 @@ class Pemeriksaan extends CI_Controller {
         $this->load->view('admin/dashboard', $a);
     }
 
-    
     public function insert_kwitansi($idKp, $id_kendaraan, $idBiaya) {
         $data_kuitansi = $this->m_kuitansi->cek_kuitansi_available($idKp);
         if (empty($data_kuitansi)) {

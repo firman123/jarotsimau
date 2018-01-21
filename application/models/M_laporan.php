@@ -53,14 +53,14 @@ class M_laporan extends CI_Model {
         }
     }
 
-    public function total_angkot($tgl_awal, $tgl_akhir) {
-        $sql = "SELECT d.id_trayek, d.kd_trayek, d.lintasan_trayek, count(a.no_uji) FROM tbl_kendaraan a join tbl_pemeriksaan b 
-                ON b.id_kendaraan = a.no_uji
-                JOIN tbl_checklist_kendaraan c ON b.id_pemeriksaan = c.id_pemeriksaan 
-                JOIN tbl_trayek d ON a.id_trayek = d.id_trayek
-                WHERE a.kp_ijin_trayek!='' AND b.jenis = 'Trayek'
-                AND b.tanggal >= '$tgl_awal' AND b.tanggal <= '$tgl_akhir'
-                GROUP BY d.id_trayek";
+    public function total_angkot() {
+      $tanggal = date("Y-m-d");
+      $sql = "SELECT a.id_trayek, a.kd_trayek, count(b.no_uji) as count
+                FROM tbl_kendaraan b 
+                JOIN tbl_trayek a ON a.id_trayek = b.id_trayek
+                JOIN tbl_pemeriksaan c ON c.id_kendaraan = b.no_uji
+                WHERE c.masa_berlaku is NOT NULL AND (DATE_PART('year', c.masa_berlaku::date) - DATE_PART('year', '$tanggal'::date)) >= -1
+                Group by a.id_trayek";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             $result = $query->result_array();

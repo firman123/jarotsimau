@@ -9,10 +9,10 @@ $this->fpdf->setAutoPageBreak(true);
 $this->fpdf->AddPage();
 $this->fpdf->SetFont('Arial', 'B', 16);
 
-$this->fpdf->Cell(28.5, 1, 'LAPORAN JUMLAH PERPANJANGAN KP TRAYEK', 0, 1, 'C');
+$this->fpdf->Cell(28.5, 1, 'LAPORAN JUMLAH ANGKOT PER TRAYEK', 0, 1, 'C');
 $this->fpdf->Cell(28.5, 0.5, 'DINAS PERHUBUNGAN KOTA BALIKPAPAN', 0, 1, 'C');
 $this->fpdf->SetFont('Arial', 'B', 12);
-$this->fpdf->Cell(28.5, 1, 'Tanggal : ' . $tanggal_awal. " - " . $tanggal_akhir, 0, 1, 'C');
+//$this->fpdf->Cell(28.5, 1, 'Tanggal : ' . $tanggal_awal. " - " . $tanggal_akhir, 0, 1, 'C');
 $this->fpdf->ln();
 
 $this->fpdf->SetFont('Arial', 'B', 10);

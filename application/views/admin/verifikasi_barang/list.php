@@ -5,11 +5,11 @@
 	<div class="navbar navbar-inverse">
 		<div class="container">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Daftar Peremajaan Kendaraan</a>
+				<a class="navbar-brand" href="#">Verifikasi Peremajaan</a>
 			</div>
 		<div class="navbar-collapse collapse navbar-inverse-collapse" style="margin-right: -20px">
 			<ul class="nav navbar-nav">
-                            <li><a href="<?php echo site_url("peremajaan/input"); ?>" class="btn-info"><i class="icon-plus-sign icon-white"> </i> Daftar</a></li>
+                           
                       	</ul>
 			
 			<ul class="nav navbar-nav navbar-right">
@@ -52,11 +52,11 @@
 	
 	<tbody>
 		<?php 
-		if (empty($data)) {
+		if (empty($peremajaan)) {
 			echo "<tr><td colspan='9'  style='text-align: center; font-weight: bold'>--Data tidak ditemukan--</td></tr>";
 		} else {
 			$no 	= ($this->uri->segment(4) + 1);
-			foreach ($data as $b) {
+			foreach ($peremajaan as $b) {
 			
 
 		?>
@@ -68,7 +68,8 @@
                         <td><?php echo $b->no_kendaraan_baru; ?></td>
 			<td class="ctr">
 				<div class="btn-group">
-                                    <a href="<?php echo base_URL()?>index.php/peremajaan/act_delete/<?php echo $b->id_peremajaan; ?>" class="btn btn-warning btn-sm" title="Hapus Data" onclick="return confirm('Anda Yakin..?')"><i class="icon-trash icon-remove">  </i> Del</a>	
+                                    <a href="<?php echo base_URL()?>index.php/verifikasi_barang/detail_verifikasi/<?php echo $b->id_peremajaan; ?>" class="btn btn-success btn-sm" title="Verifikasi"><i class="icon-trash icon-edit">  </i> Verfikasi</a>
+                                    <!--<a href="<?php echo base_URL()?>index.php/verifikasi_barang/act_delete/<?php echo $b->id_peremajaan; ?>" class="btn btn-warning btn-sm" title="Hapus Data" onclick="return confirm('Anda Yakin..?')"><i class="icon-trash icon-remove">  </i> Del</a>-->	
                                	</div>	
 				
 			</td>
@@ -80,5 +81,4 @@
 		?>
 	</tbody>
 </table>
-<center><ul class="pagination"><?php echo $pagi; ?></ul></center>
 </div>

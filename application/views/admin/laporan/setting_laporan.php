@@ -58,16 +58,16 @@
     <div class="col-lg-12" style="margin-top: 40px">
         <table  class="table-form">
 <!--                <tr><td width="20%">No. Ijin Trayek</td><td><b>-->
-            <h5><b>Laporan Jumlah Angkot Yang Melakukan Perpanjangan KP Trayek</b> </h5>
+            <h5><b>Laporan Jumlah Angkot Per Trayek</b> </h5>
             <form action="<?php echo site_url("laporan/cetak_laporan_angkutan"); ?>" method="post" accept-charset="utf-8">
 
                 <tr style="width: 100%;">
-                    <td style="width: 10%">Tanggal Awal</td>
-                    <td style="width: 20%"><b><input type="text" name="tanggal_awal" required value="" id="angkot_tanggal_awal" style="width: 200px;" class="form-control"></b></td>
-                    <td style="width: 10%">Tanggal Akhir</td>
-                    <td style="width: 20%"><b><input type="text" name="tanggal_akhir" required value="" id="angkot_tanggal_akhir" style="width: 200px" class="form-control"></b></td>
+                    <td style="width: 10%"><button type=submit class="btn btn-success" id="search_kendaraan_button"><i class="icon-print icon-white"> </i> Print</button></td>
+                    <td style="width: 20%"><b></b></td>
+                    <td style="width: 10%"></td>
+                    <td style="width: 20%"></td>
 
-                    <td style="width: 10%"><button type=submit class="btn btn-success" id="search_kendaraan_button" style="margin-left: -50px;"><i class="icon-print icon-white"> </i> Print</button></td>
+                    <td style="width: 10%"></td>
                 </tr>		
             </form>
 

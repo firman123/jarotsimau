@@ -63,13 +63,13 @@
                 <thead>
                     <tr>
                         <th width="5%">Nomor</th>
-                        <th width="15%">No. Ijin Trayek</th>
-                        <th width="15%">No. KP</th>
+                        <th width="8%">No. KP</th>
                         <th width="15%">No. Kendaraan</th>
                         <th width="20%">Nama Pemilik</th>
+                        <th>Nama Perusahaan</th>
                         <th>No. Trayek</th>
                         <th>No. Uji</th>
-                        <th width="20%"></th>
+                        <th width="15%"></th>
                     </tr>
                 </thead>
 
@@ -84,10 +84,11 @@
 
                             <tr style="background-color: #fff;">
                                 <td><center><?php echo $no; ?></center></td>
-                        <td><?php echo $b->id_ijin_trayek; ?></td>
+                        
                         <td><?php echo $b->kp_ijin_trayek; ?></td>
                         <td><?php echo $b->no_kendaraan; ?></td>
                         <td><?php echo $b->nama_pemilik; ?></td>
+                        <td><?php echo $b->nama_perusahaan; ?></td>
                         <td><?php echo $b->kd_trayek; ?></td>
                         <td><?php echo $b->no_uji; ?></td>
 
