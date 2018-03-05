@@ -52,6 +52,18 @@ class M_kuitansi extends CI_Model{
             return array();
         }
     }
+    
+    public function  cek_kuitansi_by_tanggal($params) {
+        $sql = "SELECT id_cetak FROM tbl_cetak_kuitansi WHERE kp_ijin = ? AND tanggal = ? ";
+        $query = $this->db->query($sql, $params);
+        if ($query->num_rows() > 0) {
+            $result = $query->row_array();
+            $query->free_result();
+            return $result;
+        } else {
+            return array();
+        }
+    }
 
     // update
     public function update($data_field, $id) {

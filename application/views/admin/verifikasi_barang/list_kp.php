@@ -5,7 +5,7 @@
             <div class="navbar navbar-inverse">
                 <div class="container">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="#">Hasil Pemeriksaan Kendaraan Penumpang</a>
+                        <a class="navbar-brand" href="#">Hasil Pemeriksaan Kendaraan</a>
                     </div>
                     <div class="navbar-collapse collapse navbar-inverse-collapse" style="margin-right: -20px">
                         <ul class="nav navbar-nav">
@@ -39,30 +39,30 @@
         <thead>
             <tr>
                 <th width="5%">No</th>
-                <th width="10%">No. KP</th>
-                <th width="10%">No. Kendaraan</th>
-                <th width="5%">No. Trayek</th>
+                <th width="10%">No. KP Trayek</th>
+                <th width="10%">No. KP Operasi</th>
+                <th width="15%">No. Kendaraan</th>
+                <th width="15%">No. Trayek</th>
                 <th  width="15%">No.Chasis</th>
                 <th  width="15%">No.Mesin</th>
                 <th>Verifikasi</th>
-                <th width="20%"></th>
             </tr>
         </thead>
 
         <tbody>
             <?php
-            if (empty($data)) {
-                echo "<tr><td colspan='8'  style='text-align: center; font-weight: bold'>--Data tidak ditemukan--</td></tr>";
+            if (empty($data_kp)) {
+                echo "<tr><td colspan='9'  style='text-align: center; font-weight: bold'>--Data tidak ditemukan--</td></tr>";
             } else {
                 $no = ($this->uri->segment(4) + 1);
-                foreach ($data as $b) {
+                foreach ($data_kp as $b) {
                     if ($b->status_verifikasi != 1) {
                         ?>
 
                         <tr style="background-color: #fff;">
                             <td><center><?php echo $no; ?></center></td>
-    <td><?php  echo strlen($b->kp_ijin_trayek) > 0 ? $b->kp_ijin_trayek: $b->kp_ijin_operasi; ?></td>
-                   
+                    <td><?php echo $b->kp_ijin_trayek; ?></td>
+                    <td><?php echo $b->kp_ijin_operasi; ?></td>
                     <td><?php echo $b->no_kendaraan; ?></td>
                     <?php if ($path == 'trayek') echo '<td>' . $b->kd_trayek . '</td>'; ?>
 
@@ -73,8 +73,7 @@
                     <td class="ctr">
                         <div class="btn-group">
                             <!--<a href="<?php echo base_URL() ?>index.php/hasil_pemeriksaan/view_print_<?php echo $path; ?>/<?php echo $b->id_checklist; ?>" class="btn btn-info btn-sm"><i class="icon-print icon-white">  </i> Print</a>-->	
-                            <a href="<?php echo base_URL() ?>index.php/hasil_pemeriksaan/view_<?php echo $path; ?>/penumpang/<?php echo $b->id_checklist; ?>" class="btn btn-success btn-sm" title="View"><i class="icon-edit icon-white"> </i> Verifikasi</a>		
-                            <!--<a href="<?php echo base_URL() ?>index.php/hasil_pemeriksaan/del_<?php echo $path; ?>/<?php echo $b->id_checklist; ?>" class="btn btn-warning btn-sm" title="Hapus Data" onclick="return confirm('Anda Yakin..?')"><i class="icon-trash icon-remove">  </i> Del</a>-->	
+                            <a href="<?php echo base_URL() ?>index.php/hasil_pemeriksaan/view_<?php echo $path; ?>/barang/<?php echo $b->id_checklist; ?>" class="btn btn-success btn-sm" title="View"><i class="icon-edit icon-white"> </i> Verifikasi</a>			
                         </div>	
 
                     </td>
@@ -88,5 +87,5 @@
         ?>
         </tbody>
     </table>
-    <center><ul class="pagination"><?php echo $pagi; ?></ul></center>
+    <center><ul class="pagination"><?php echo $pagi_kp; ?></ul></center>
 </div>

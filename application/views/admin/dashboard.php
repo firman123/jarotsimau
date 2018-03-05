@@ -428,6 +428,14 @@
             if (isset($page3)) {
                 $this->load->view('admin/' . $page3);
             }
+            
+            if (isset($page4)) {
+                $this->load->view('admin/'. $page4);
+            }
+            
+            if (isset($page5)) {
+                $this->load->view('admin/'. $page5);
+            }
             ?>
 
             <div class="span12 well well-sm">

@@ -17,7 +17,7 @@
                             <form class="navbar-form navbar-left" method="post" action="<?php echo base_URL(); ?>index.php/ijin_trayek_operasi/ijin_trayek/cari_kendaraan">
                                 <div class="row">
                                     <div class="nav navbar-header navbar-form">
-                                        <input type="text" name="no_kendaraan" id="kendaraan" style="width: 150px; margin-right: -20px;" class="form-control" placeholder="No Kendaraan">
+                                        <input type="text" name="no_kendaraan" id="kendaraan" style="width: 150px; margin-right: -20px;" class="form-control" placeholder="No Uji">
                                     </div>
                                     <div class="navbar-header navbar-form">
 

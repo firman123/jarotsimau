@@ -81,7 +81,7 @@ if ($mode == "edt" || $mode == "act_edt") {
                 <tr><td width="20%"></td><td style="width: 400px"><b></b></td></tr>
                 <input type="hidden" name="verifikasi" value="<?php echo $verifikasi; ?>" />
                 <tr><td colspan="2">
-                        <br><button type="submit" class="btn btn-success">Simpan</button>
+                        <!--<br><button type="submit" class="btn btn-success">Simpan</button>-->
                         <a href="<?php echo base_URL(); ?>index.php/ijin_trayek_operasi/ijin_operasi" class="btn btn-primary">Kembali</a>
                     </td></tr>
             </table>

@@ -74,6 +74,25 @@ class M_pemeriksaan extends CI_Model {
             return array();
         }
     }
+    
+     public function get_hasil_pemeriksaan_all_by_jenis($jenis, $limit, $offset, $tanggal_search) {
+        $tanggal = empty($tanggal_search) ? date('Y-m-d') : $tanggal_search;
+         $sql = "SELECT a.*, b.*, c.*, d.* FROM tbl_kendaraan a join tbl_pemeriksaan b "
+                    . " ON b.id_kendaraan = a.no_uji "
+                    . " JOIN tbl_checklist_kendaraan c ON b.id_pemeriksaan = c.id_pemeriksaan "
+                    . " LEFT JOIN tbl_trayek d ON a.id_trayek = d.id_trayek "
+                    . " JOIN tbl_perusahaan e ON a.id_perusahaan = e.id "
+                    . " WHERE (a.kp_ijin_trayek!='' OR  a.kp_ijin_operasi!='') AND e.jenis = '$jenis'  AND b.tanggal = '$tanggal'  ORDER BY b.id_pemeriksaan DESC LIMIT $limit OFFSET $offset";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $result = $query->result();
+            $query->free_result();
+            return $result;
+        } else {
+            return array();
+        }
+    }
+
 
     public function get_checklist_pemeriksaan($jenis, $limit, $offset, $tanggal) {
         $tanggal_pemeriksaan = '';
@@ -182,6 +201,25 @@ class M_pemeriksaan extends CI_Model {
         } else {
             $sql .= " WHERE b.tanggal = '$tanggal'";
         }
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $result = $query->row_array();
+            $query->free_result();
+            return $result['total'];
+        } else {
+            return 0;
+        }
+    }
+    
+      public function get_total_hasil_pemeriksaan_by_jenis($jenis, $tanggal_search) {
+        $tanggal = empty($tanggal_search) ? date('Y-m-d') : $tanggal_search;
+        $sql = "SELECT count(a.*) as total FROM tbl_checklist_kendaraan a "
+                . " JOIN tbl_pemeriksaan b ON a.id_pemeriksaan = b.id_pemeriksaan "
+                . " JOIN tbl_kendaraan c on b.id_kendaraan = c.no_uji "
+                . " JOIN tbl_perusahaan d ON c.id_perusahaan = d.id";
+
+        $sql .= " WHERE (c.kp_ijin_trayek!='' OR c.kp_ijin_operasi!='') AND d.jenis = '$jenis' AND b.tanggal = '$tanggal' ";
 
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {

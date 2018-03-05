@@ -55,11 +55,13 @@
             } else {
                 $no = ($this->uri->segment(4) + 1);
                 foreach ($data_cetak_ulang as $b) {
+                        $kp_trayek = strlen(trim($b->kp_ijin_trayek));
+                        $kp_operasi = strlen(trim($b->kp_ijin_operasi));
                     ?>
 
                     <tr style="background-color: #fff;">
                         <td><center><?php echo $no; ?></center></td>
-                <td><?php echo $b->kp_ijin_trayek; ?></td>
+                <td><?php echo $kp_trayek!= 0 ? $b->kp_ijin_trayek : $b->kp_ijin_operasi; ?></td>
                 <td><?php echo $b->no_uji; ?></td>
                 <td><?php echo $b->no_kendaraan; ?></td>
                 <td class="ctr">

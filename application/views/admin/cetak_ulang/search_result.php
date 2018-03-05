@@ -1,7 +1,10 @@
 <?php
 if (!empty($kendaraan)) {
-    if (strlen(trim($kendaraan['kp_ijin_trayek'])) == 0) {
-        echo "<script>alert('Kendaraan belum diinputkan di menu ijin trayek!');window.location='" . site_url('cetak_ulang/input') . "';</script>";
+    $length_kp_trayek = strlen(trim($kendaraan['kp_ijin_trayek']));
+    $length_kp_operasi = strlen(trim($kendaraan['kp_ijin_operasi']));
+    
+    if($length_kp_operasi == 0 && $length_kp_trayek == 0) {
+        echo "<script>alert('Kendaraan belum memiliki ijin trayek dan ijin operasi!');window.location='" . site_url('cetak_ulang/input') . "';</script>";
     }
 } else {
     echo "<script>alert('Kendaraan belum terdaftar!');window.location='" . site_url('cetak_ulang/input') . "';</script>";
@@ -28,7 +31,7 @@ if (!empty($kendaraan)) {
                     </td><td><button type=submit class="btn btn-danger" id="search_kendaraan_button"><i class="icon-search icon-white"> </i> Cari</button></td></tr>		
             </form>
             <form action="<?php echo site_url("cetak_ulang/act_add"); ?>" method="post" accept-charset="utf-8">
-
+                <!--<input type="input" name="id_kendaraan" value="<?php echo $kendaraan['no_uji'] ;?>" />-->
                 <tr><td style="width: 50%;">NO. KP</td><td style="width: 50%;"><b><input type="text" name="no_kp" required value="<?php echo strlen(trim($kendaraan['kp_ijin_trayek'])) == 0 ? $kendaraan['kp_ijin_operasi'] : $kendaraan['kp_ijin_trayek'] ?>" id="kartu_pengawasan" style="width: 300px" class="form-control" readonly=""/></b></td></tr>
 
                 <tr><td width="20%">Nomor Kendaraan</td><td><b><input type="text" name="no_kendaraan" required value="<?php echo $kendaraan['no_kendaraan']; ?>" id="masa_berlaku" style="width: 300px" class="form-control" readonly /></td></tr>	

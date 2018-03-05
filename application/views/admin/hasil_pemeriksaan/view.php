@@ -48,12 +48,13 @@
                                         <tr><td width="20%"><input type="checkbox"  disabled="true" name="argometer" <?php if ($pemeriksaan['argometer'] == 1) echo 'checked'; ?>></td><td><b>Argometer</td></tr>
                                         <tr><td colspan="2">
                                                 <form action="<?php echo site_url("hasil_pemeriksaan/update_verifikasi"); ?>" method="post" accept-charset="utf-8">
+                                                    <input type="hidden" name="jenis" value="<?php echo $jenis; ?>" />
                                                     <input type="hidden" name="id_pemeriksaan" value="<?php echo $pemeriksaan['id_checklist']; ?>" />
                                                     <input type="hidden" name="id_update_pemeriksaan" value="<?php echo $pemeriksaan['id_pemeriksaan']; ?>" />
                                                     <input type="hidden" name="tgl_mati_uji" required value="<?php echo $pemeriksaan['tgl_mati_uji']; ?>" style="width: 300px" class="form-control">
                                                     <button type="submit" name="verifikasi" value="1" class="btn btn-primary btn-success">Setuju</button>
                                                     <button type="submit" name="verifikasi" value="2" class="btn btn-primary">Tidak Setuju</button>
-                                                    <a href="<?php echo base_url(); ?>index.php/hasil_pemeriksaan/index" class="btn btn-primary btn-warning">Kembali</a>
+                                                    <!--<a href="<?php echo base_url(); ?>index.php/hasil_pemeriksaan/index" class="btn btn-primary btn-warning">Kembali</a>-->
                                                 </form>
                                             </td></tr>
                                     </table>

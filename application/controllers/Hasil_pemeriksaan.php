@@ -7,7 +7,7 @@
  */
 
 class Hasil_pemeriksaan extends CI_Controller {
-
+ 
     protected $com_user;
     private $param_data;
 
@@ -27,6 +27,8 @@ class Hasil_pemeriksaan extends CI_Controller {
             $this->load->model('m_kuitansi');
             $this->load->model('m_kendaraan');
             $this->load->model('m_cetak_ulang');
+            $this->load->model('m_ijin_isidentil');
+            $this->load->model('m_pengantar_kir');
         } else {
             redirect("admin/login");
         }
@@ -34,10 +36,11 @@ class Hasil_pemeriksaan extends CI_Controller {
 
     public function index() {
         $this->rubah_sifat_penumpang();
-
-        $this->cetak_ulang();
-
-        $total_row = $this->m_pemeriksaan->get_total_hasil_pemeriksaan("trayek", NULL);
+        $this->cetak_ulang();   
+        $this->ijin_isidentil();
+        $this->pengantar_kir();
+        
+        $total_row = $this->m_pemeriksaan->get_total_hasil_pemeriksaan_by_jenis("Penumpang", NULL);
         $per_page = 10;
 
         $awal = $this->uri->segment(4);
@@ -47,7 +50,7 @@ class Hasil_pemeriksaan extends CI_Controller {
         $this->param_data['date_manipulation'] = $this->datetimemanipulation;
         $this->param_data['pagi'] = _page($total_row, $per_page, 4, site_url('hasil_pemeriksaan/index/p'));
         $this->param_data['path'] = "trayek";
-        $this->param_data['data'] = $this->m_pemeriksaan->get_hasil_pemeriksaan_all("trayek", $akhir, $awal, NULL);
+        $this->param_data['data'] = $this->m_pemeriksaan->get_hasil_pemeriksaan_all_by_jenis("Penumpang", $akhir, $awal, NULL);
         $this->param_data['page'] = "hasil_pemeriksaan/list";
 
         $this->load->view('admin/dashboard', $this->param_data);
@@ -82,9 +85,78 @@ class Hasil_pemeriksaan extends CI_Controller {
 
         $this->param_data['pagi_cetak_ulang'] = _page($total_row, $per_page, 4, site_url('hasil_pemeriksaan/index/p'));
         $this->param_data['data_cetak_ulang'] = $this->m_cetak_ulang->get_cetak_ulang_all(0, $akhir, $awal);
-//        print_r($this->param_data['data_cetak_ulang']);
         $this->param_data['page3'] = "hasil_pemeriksaan/list_cetak_ulang";
     }
+    
+     public function ijin_isidentil() {
+        $total_row = $this->m_ijin_isidentil->get_total_ijin_by_status(0);
+        $per_page = 10;
+
+        $awal = $this->uri->segment(4);
+        $awal = (empty($awal) || $awal == 1) ? 0 : $awal;
+        $akhir = $per_page;
+
+        $this->param_data['pagi_isidentil'] = _page($total_row, $per_page, 4, site_url('hasil_pemeriksaan/index/p'));
+        $this->param_data['data_isidentil'] = $this->m_ijin_isidentil->get_all_by_status(0, $akhir, $awal);
+        
+//        print_r($this->param_data['data_cetak_ulang']);
+        $this->param_data['page4'] = "hasil_pemeriksaan/list_isidentil";
+    }
+    
+     public function pengantar_kir() {
+        $total_row = $this->m_pengantar_kir->get_total_ijin_by_status(0);
+        $per_page = 10;
+
+        $awal = $this->uri->segment(4);
+        $awal = (empty($awal) || $awal == 1) ? 0 : $awal;
+        $akhir = $per_page;
+
+        $this->param_data['pagi_kir'] = _page($total_row, $per_page, 4, site_url('hasil_pemeriksaan/index/p'));
+        $this->param_data['data_kir'] = $this->m_pengantar_kir->get_all_by_status(0, $akhir, $awal);
+        
+//        print_r($this->param_data['data_cetak_ulang']);
+        $this->param_data['page5'] = "hasil_pemeriksaan/list_pengantar_kir";
+    }
+    
+    public function view_pengantar_kir($id) {
+        $data['kendaraan'] = $this->m_pengantar_kir->get_detail_verifikasi($id);
+        $data['page'] = "hasil_pemeriksaan/view_pengantar_kir";
+        $this->load->view('admin/dashboard', $data);
+    }
+
+
+    public function konfirmasi_isidentil() {
+        $id = $this->input->post("id_ijin");
+        $value = $this->input->post("submit");
+        $data = array(
+            "verifikasi" => $value
+        );
+
+        //jika 1 maka setuju jika 2 maka tidak
+        if ($this->m_ijin_isidentil->update($data, $id)) {
+            $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Sukses update data </div>");
+        } else {
+            $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Data failed. </div>");
+        }
+        redirect("hasil_pemeriksaan");
+    }
+    
+    
+    public function konfirmasi_pengantar_kir() {
+        $id = $this->input->post("id_pengantar");
+        $value = $this->input->post("submit");
+        $data = array(
+            "verifikasi" => $value
+        );
+
+        //jika 1 maka setuju jika 2 maka tidak
+        if ($this->m_pengantar_kir->update($data, $id)) {
+            $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Sukses update data </div>");
+        } else {
+            $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Data failed. </div>");
+        }
+        redirect("hasil_pemeriksaan");
+    } 
 
     public function index_trayek() {
         $total_row = $this->m_pemeriksaan->get_total_hasil_pemeriksaan("trayek", NULL);
@@ -186,17 +258,23 @@ class Hasil_pemeriksaan extends CI_Controller {
         redirect('hasil_pemeriksaan/index');
     }
 
-    public function view_trayek($id) {
+    public function view_trayek() {
+        $jenis = $this->uri->segment(3);
+        $id = $this->uri->segment(4);
         $a['pemeriksaan'] = $this->m_pemeriksaan->get_detail_hasil_pemeriksaan($id);
         $a['page'] = "hasil_pemeriksaan/view";
         $a['path'] = 'trayek';
+        $a['jenis'] = $jenis;
         $this->load->view('admin/dashboard', $a);
     }
 
-    public function view_operasi($id) {
+    public function view_operasi() {
+        $jenis = $this->uri->segment(3);
+        $id = $this->uri->segment(4);
         $a['pemeriksaan'] = $this->m_pemeriksaan->get_detail_hasil_pemeriksaan($id);
         $a['page'] = "hasil_pemeriksaan/view";
         $a['path'] = 'operasi';
+        $a['jenis'] = $jenis;
         $this->load->view('admin/dashboard', $a);
     }
 
@@ -232,6 +310,12 @@ class Hasil_pemeriksaan extends CI_Controller {
         $a['page'] = "hasil_pemeriksaan/view_print";
         $a['path'] = 'operasi';
         $this->load->view('admin/dashboard', $a);
+    }
+    
+      public function view_isidentil($id) {
+        $data['kendaraan'] = $this->m_ijin_isidentil->get_detail_verifikasi($id);
+        $data['page'] = "hasil_pemeriksaan/view_ijin_isidentil";
+        $this->load->view('admin/dashboard', $data);
     }
 
     public function insertKwitansi($idKp, $id_kendaraan, $idBiaya) {
@@ -433,7 +517,10 @@ class Hasil_pemeriksaan extends CI_Controller {
             $this->session->set_flashdata("message", "<div class=\"alert alert-error\" id=\"alert\">Data gagal diverifikasi. </div>");
         }
 
-        redirect('hasil_pemeriksaan/index');
+        if ($this->input->post('jenis') == 'penumpang') 
+            redirect('hasil_pemeriksaan/index');
+        else
+            redirect ('verifikasi_barang');
     }
 
 }

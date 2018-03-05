@@ -453,6 +453,22 @@
                             </div>
                         </a>
                     <?php } ?>
+                       <?php if ($data_user['rubah_sifat'] == 1) { ?>
+                        <a href="<?php echo site_url('ijin_isidentil') ?>" class="tile fg-white" data-role="tile">
+                            <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
+                            <div class="tile-content bg-darkOrange">
+                                <h3 style="text-align: center; margin-top: 50px;">Ijin Isidentil</h2>
+                            </div>
+                        </a>
+                    <?php } ?>
+                    <?php if ($data_user['rubah_sifat'] == 1) { ?>
+                        <a href="<?php echo site_url('pengantar_kir') ?>" class="tile fg-white" data-role="tile">
+                            <!--<div class="tile-wide" data-role="tile" data-effect="slideLeft">-->
+                            <div class="tile-content bg-darkOrange">
+                                <h3 style="text-align: center; margin-top: 50px;">Pengantar KIR</h2>
+                            </div>
+                        </a>
+                    <?php } ?>
                 </div>
                </div>
 
