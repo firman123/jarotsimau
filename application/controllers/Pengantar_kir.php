@@ -65,7 +65,8 @@ class Pengantar_kir extends CI_Controller {
         $data = array(
             "id_kendaraan" => $this->input->post("id_kendaraan"),
             "tanggal" => date("Y-m-d"),
-            "verifikasi" => 0
+            "verifikasi" => 0,
+            "masa_berlaku" => $this->input->post("masa_berlaku")
         );
         if ($this->m_pengantar_kir->insert($data)) {
             $this->session->set_flashdata("message", "<div class=\"alert alert-success\" id=\"alert\">Data has been added. </div>");

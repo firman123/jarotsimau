@@ -96,7 +96,7 @@ class M_ijin_isidentil extends CI_Model {
     }
     
     public function get_detail_verifikasi($id) {
-        $SQL = "SELECT A.*, A.id_kendaraan AS kendaraan_id, E.id_ijin, E.kota as kota_tujuan, A.tgl_mati_uji as berlaku_kp,  B.*, D.*, F.masa_berlaku as tgl_berlaku "
+        $SQL = "SELECT A.*, A.id_kendaraan AS kendaraan_id, E.id_ijin, E.kota as kota_tujuan, E.masa_berlaku as berlaku_tanggal, A.tgl_mati_uji as berlaku_kp,  B.*, D.*"
                 . " FROM tbl_kendaraan A LEFT JOIN tbl_perusahaan B ON A.id_perusahaan = B.id "
                 . " LEFT JOIN tbl_trayek D ON A.id_trayek = D.id_trayek "
                 . " JOIN tbl_ijin_isidentil E ON A.id_kendaraan = E.id_kendaraan "

@@ -80,7 +80,7 @@ $this->fpdf->ln(0.8);
 $this->fpdf->Cell(2, 0.5, "  ", 0,0,'L');
 $this->fpdf->Cell(6, 0.5, "Masa Berlaku ", 0 , 0, 'L');
 $this->fpdf->Cell(0.5, 0.5 , ": ", 0, 0, 'L');
-$this->fpdf->Cell(0, 0.5,$date_manipulation->get_full_date($detail['tgl_berlaku']), 0, 0, 'L');
+$this->fpdf->Cell(0, 0.5,$date_manipulation->get_full_date($detail['berlaku_masa']), 0, 0, 'L');
 $this->fpdf->ln(0.8);
 
 $this->fpdf->Cell(0, 0.5, "Demikian disampaikan, atas bantuan dan kerjasamanya kami ucapkan terima kasih ", 0 , 1, 'L');

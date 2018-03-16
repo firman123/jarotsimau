@@ -37,7 +37,7 @@ if (!empty($kendaraan)) {
                 <tr><td width="20%">Nama Pemilik</td><td><b><input type="text" name="nama_pemilik" required value="<?php echo $kendaraan['nama_pemilik']; ?>" id="nama_pemilik" style="width: 300px" class="form-control" readonly /></td></tr>	
                 <tr><td width="20%">Alamat</td><td><b><input type="text" name="alamat_pemilik" required value="<?php echo $kendaraan['alamat']; ?>" id="alamat_pemilik" style="width: 300px" class="form-control" readonly/></td></tr>	
                 <tr><td width="20%">Nama Perusahaan</td><td><b><input type="text" name="nama_perusahaan" required value="<?php echo $kendaraan['nama_perusahaan']; ?>" id="nama_perusahaan" style="width: 300px" class="form-control" readonly/></td></tr>	
-
+                 <tr><td width="20%">Masa Berlaku</td><td><b><input type="text" name="masa_berlaku" required id="tanggal_berlaku" style="width: 300px" class="form-control"/></td></tr>	  
                 <tr><td colspan="2">
                         <br><button type="submit" class="btn btn-success" <?php if (empty($kendaraan['no_uji'])) { ?> disabled="" <?php } ?>>Simpan</button>
                         <a href="<?php echo base_url(); ?>index.php/ijin_isidentil/index" class="btn btn-primary">Kembali</a>

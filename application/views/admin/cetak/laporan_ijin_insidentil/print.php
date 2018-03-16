@@ -100,7 +100,7 @@ $this->fpdf->ln(0.8);
 $this->fpdf->Cell(2, 0.5, "  ", 0,0,'L');
 $this->fpdf->Cell(6, 0.5, "6. Masa Berlaku Izin", 0 , 0, 'L');
 $this->fpdf->Cell(0.5, 0.5 , ": ", 0, 0, 'L');
-$this->fpdf->Cell(0, 0.3,$date_manipulation->get_full_date($detail['tgl_berlaku']), 0, 0, 'L');
+$this->fpdf->Cell(0, 0.3,$date_manipulation->get_full_date($detail['berlaku_tanggal']), 0, 0, 'L');
 $this->fpdf->ln(1.5);
 //
 $this->fpdf->Cell(3.5, 0.5, "4. Perhatian  ", 0,1,'L');

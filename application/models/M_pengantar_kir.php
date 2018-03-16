@@ -90,7 +90,7 @@ class M_pengantar_kir extends CI_Model {
     }
     
     public function get_detail_verifikasi($id) {
-        $SQL = "SELECT A.*, A.id_kendaraan AS kendaraan_id, E.id_pengantar,  B.*, B.masa_berlaku as tgl_berlaku, D.* "
+        $SQL = "SELECT A.*, A.id_kendaraan AS kendaraan_id, E.id_pengantar, E.masa_berlaku as berlaku_masa, B.*, B.masa_berlaku as tgl_berlaku, D.* "
                 . " FROM tbl_kendaraan A LEFT JOIN tbl_perusahaan B ON A.id_perusahaan = B.id "
                 . " LEFT JOIN tbl_trayek D ON A.id_trayek = D.id_trayek"
                 . " JOIN tbl_pengantar_kir E ON A.id_kendaraan = E.id_kendaraan "
